@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent Landscape 2026 — Reference Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --ink-2: #3a3a3a;
+    --ink-3: #7a7a7a;
+    --paper: #f7f5f0;
+    --paper-2: #eeebe3;
+    --paper-3: #e4e0d5;
+    --rule: rgba(14,14,14,0.12);
+    --rule-2: rgba(14,14,14,0.06);
+    --green: #1a7a52;
+    --green-bg: #eaf5ee;
+    --amber: #8a5a00;
+    --amber-bg: #fdf3e0;
+    --blue: #1a4a8a;
+    --blue-bg: #eaf0fb;
+    --red: #8a2020;
+    --red-bg: #faeaea;
+    --purple: #4a2a8a;
+    --purple-bg: #f0eafb;
+    --teal: #1a6a6a;
+    --teal-bg: #eaf5f5;
+    --rust: #7a3010;
+    --rust-bg: #fbede8;
+    --mono: 'DM Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'Instrument Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* ── Header ── */
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    padding: 3rem 0 2.5rem;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .masthead-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+  .masthead-kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(247,245,240,0.45);
+    margin-bottom: 1rem;
+  }
+  .masthead h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: var(--paper);
+  }
+  .masthead h1 em { font-style: italic; color: rgba(247,245,240,0.6); }
+  .masthead-meta {
+    font-size: 13px;
+    color: rgba(247,245,240,0.5);
+    font-family: var(--mono);
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ── Section dividers ── */
+  .part {
+    border-top: 2px solid var(--ink);
+    padding-top: 3rem;
+    margin-top: 4rem;
+  }
+  .part-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.5rem;
+  }
+  .part-title {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    line-height: 1.15;
+  }
+  .part-desc {
+    font-size: 14px;
+    color: var(--ink-2);
+    max-width: 680px;
+    line-height: 1.65;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── Sub-section headers ── */
+  .subsec {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding-bottom: 6px;
+    border-bottom: 0.5px solid var(--rule);
+    margin: 2rem 0 1rem;
+  }
+
+  /* ── Cards ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 12px;
+    margin-bottom: 0.5rem;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 16px 18px;
+    transition: box-shadow 0.15s;
+  }
+  .card:hover { box-shadow: 0 2px 12px rgba(14,14,14,0.08); }
+  .card.accent { border-width: 2px; }
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .card h3 {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 2px;
+    line-height: 1.2;
+  }
+  .card .maker {
+    font-size: 11px;
+    color: var(--ink-3);
+    font-family: var(--mono);
+    margin-bottom: 8px;
+  }
+  .card .desc {
+    font-size: 12px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .card .stats {
+    font-size: 10px;
+    color: var(--ink-3);
+    font-family: var(--mono);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .card .stats span {
+    background: var(--paper-2);
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+
+  /* ── Tables ── */
+  .table-wrap { overflow-x: auto; margin-top: 1.5rem; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    min-width: 700px;
+  }
+  thead th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: center;
+    padding: 8px 8px 7px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: bottom;
+    line-height: 1.3;
+    white-space: nowrap;
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+  }
+  thead th:first-child {
+    text-align: left;
+    min-width: 160px;
+    white-space: normal;
+    background: var(--paper);
+  }
+  tbody td {
+    padding: 6px 8px;
+    border-bottom: 0.5px solid var(--rule-2);
+    text-align: center;
+    vertical-align: middle;
+    color: var(--ink-2);
+  }
+  tbody td:first-child {
+    text-align: left;
+    color: var(--ink);
+    font-size: 12px;
+    padding-left: 0;
+  }
+  tbody tr:hover td { background: var(--paper-2); }
+  .row-group td {
+    background: var(--paper-2);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 6px 8px 5px;
+    font-weight: 500;
+  }
+  .row-group td:first-child { padding-left: 0; }
+
+  .y { color: #1a7a52; font-weight: 600; font-size: 13px; }
+  .n { color: var(--ink-3); font-size: 13px; }
+  .p { color: #8a5a00; font-weight: 500; font-size: 11px; line-height: 1.3; }
+  .na { color: var(--ink-3); font-size: 10px; }
+
+  /* ── Insight box ── */
+  .insight {
+    border-left: 3px solid var(--ink);
+    padding: 1rem 1.5rem;
+    margin: 2rem 0;
+    background: #fff;
+    border-radius: 0 6px 6px 0;
+  }
+  .insight p {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+  .insight strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 1rem 0 2rem;
+    padding: 0.75rem 1rem;
+    background: var(--paper-2);
+    border-radius: 4px;
+  }
+  .legend span {
+    font-size: 11px;
+    color: var(--ink-2);
+    font-family: var(--mono);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    margin-top: 5rem;
+    padding: 2rem 0;
+    background: var(--ink);
+    color: rgba(247,245,240,0.4);
+  }
+  footer .inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+  footer a { color: rgba(247,245,240,0.6); text-decoration: none; }
+  footer a:hover { color: var(--paper); }
+
+  /* ── Fade-in ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .part { animation: fadeUp 0.4s ease both; }
+  .part:nth-child(2) { animation-delay: 0.05s; }
+  .part:nth-child(3) { animation-delay: 0.1s; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="masthead-kicker">Reference Guide · Updated April 2026</p>
+    <h1>The AI Agent<br><em>Landscape</em></h1>
+    <p style="font-family:var(--serif);font-size:1.1rem;font-weight:400;color:rgba(247,245,240,0.7);margin-bottom:1.5rem;font-style:italic;">By Craig Hepburn</p>
+  <div class="masthead-meta">
+      <span>Section I — Personal &amp; Always-On Agents</span>
+      <span>Section II — Coding Agents · Platforms · Frameworks</span>
+      
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+<!-- ══════════════════════════════════════════════════
+     SECTION I — PERSONAL AGENTS
+══════════════════════════════════════════════════ -->
+
+<div class="part">
+  <p class="part-label">Section I</p>
+  <h2 class="part-title">Personal &amp; Always-On Agents</h2>
+  <p class="part-desc">Self-hosted agents that run 24/7, connect to your messaging apps, and act on your behalf. This category was created by OpenClaw in late 2025 and has spawned an entire ecosystem in under six months.</p>
+
+  <!-- The two originals -->
+  <p class="subsec">The originals — defined the category</p>
+  <div class="card-grid">
+    <div class="card accent" style="border-color:#1a7a52;">
+      <span class="tag" style="background:#eaf5ee;color:#1a7a52;">Category founder</span>
+      <h3></h3>
+      <a href="https://openclaw.ai/" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">openclaw.ai ↗</a>
+      <p class="maker">Peter Steinberger → OpenAI / Foundation</p>
+      <p class="desc">The original viral personal agent. Gateway architecture routes all messages through a central controller. 5,700+ community skills on ClawHub. Model-agnostic, 50+ integrations. Now under independent foundation with OpenAI backing after Steinberger joined OpenAI Feb 2026.</p>
+      <div class="stats"><span>345K+ stars</span><span>TypeScript</span><span>500K lines</span></div>
+    </div>
+    <div class="card accent" style="border-color:#4a2a8a;">
+      <span class="tag" style="background:#f0eafb;color:#4a2a8a;">Self-improving</span>
+      <h3></h3>
+      <a href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">github/NousResearch/hermes-agent ↗</a>
+      <p class="maker">Nous Research</p>
+      <p class="desc">Agent-loop architecture. Persistent memory, autonomous skill creation, self-improving learning loop, user modelling via Honcho. Positioned between Claude Code CLI and OpenClaw. Built-in <code style="font-size:11px;background:var(--paper-2);padding:1px 4px;border-radius:2px;">hermes claw migrate</code> command for OpenClaw users.</p>
+      <div class="stats"><span>10K+ stars</span><span>Python</span><span>Feb 2026</span></div>
+    </div>
+  </div>
+
+  <!-- Security response -->
+  <p class="subsec">The security response — built because OpenClaw's CVEs were alarming</p>
+  <div class="card-grid">
+    <div class="card accent" style="border-color:#c0392b;">
+      <span class="tag" style="background:#faeaea;color:#8a2020;">Security-first</span>
+      <h3></h3>
+      <a href="https://github.com/qwibitai/nanoclaw" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">github/qwibitai/nanoclaw ↗</a>
+      <p class="maker">Gavriel Cohen / Qwibit</p>
+      <p class="desc">~700 lines of TypeScript — auditable in 8 minutes. Every agent runs in an isolated Linux container that self-destructs after each message. Built on Claude Agent SDK. Container-per-chat-group isolation prevents data leakage between contexts.</p>
+      <div class="stats"><span>21K+ stars</span><span>TypeScript</span><span>Jan 2026</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#faeaea;color:#8a2020;">Enterprise security</span>
+      <h3></h3>
+      <a href="https://ironclaw.com/" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">ironclaw.com ↗</a>
+      <p class="maker">NEAR AI</p>
+      <p class="desc">Rebuilt from scratch in Rust. WASM sandboxing with cryptographic capability tokens per skill. TEE-backed execution, encrypted credential vaults, zero telemetry. PostgreSQL with AES-256-GCM. The only personal agent suitable for regulated industries.</p>
+      <div class="stats"><span>Rust</span><span>Enterprise</span><span>Early 2026</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#fdf3e0;color:#8a5a00;">NVIDIA-backed</span>
+      <h3></h3>
+      <a href="https://github.com/NVIDIA/NemoClaw" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">github/NVIDIA/NemoClaw ↗</a>
+      <p class="maker">NVIDIA</p>
+      <p class="desc">Not a standalone agent — a security wrapper over OpenClaw. Adds OpenShell kernel-level sandbox via Linux security modules. Policy-as-YAML. Ships with NVIDIA Nemotron open models. Announced by Jensen Huang at GTC March 2026.</p>
+      <div class="stats"><span>TS plugin + Python</span><span>Preview Mar 2026</span></div>
+    </div>
+  </div>
+
+  <!-- Minimalists -->
+  <p class="subsec">The minimalists — lighter, hackable, hardware-friendly</p>
+  <div class="card-grid">
+    <div class="card">
+      <span class="tag" style="background:#eaf5ee;color:#1a7a52;">Minimal Rust</span>
+      <h3></h3>
+      <a href="https://zeroclawlabs.ai/" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">zeroclawlabs.ai ↗</a>
+      <p class="maker">Community</p>
+      <p class="desc">Runtime rewritten in Rust. 3.4MB single binary. Zero cloud dependencies, entirely local. Ultra-low memory footprint for users who want complete data sovereignty.</p>
+      <div class="stats"><span>Rust</span><span>3.4MB binary</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eaf5ee;color:#1a7a52;">Minimal Python</span>
+      <h3></h3>
+      <a href="https://github.com/NousResearch/hermes-agent" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">github — community ↗</a>
+      <p class="maker">Community</p>
+      <p class="desc">4,000 lines of readable Python. Runs on Raspberry Pi. Supports local models via Ollama. No plugin system, no config sprawl. Built for developers who want to understand every line of their agent.</p>
+      <div class="stats"><span>Python</span><span>4K lines</span><span>Pi-ready</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eeebe3;color:#5a5a5a;">Ultra-minimal</span>
+      <h3></h3>
+      <a href="https://github.com/topics/picoclaw" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">github/topics/picoclaw ↗</a>
+      <p class="maker">Community</p>
+      <p class="desc">Runs on $10 boards. Under 10MB RAM. Designed for constrained hardware — Raspberry Pi Zero, embedded systems. Single-purpose, maximum portability.</p>
+      <div class="stats"><span>Embedded</span><span>&lt;10MB RAM</span></div>
+    </div>
+  </div>
+
+  <!-- Multi-agent variants -->
+  <p class="subsec">Multi-agent and enterprise variants</p>
+  <div class="card-grid">
+    <div class="card">
+      <span class="tag" style="background:#eaf0fb;color:#1a4a8a;">Multi-agent OS</span>
+      <h3></h3>
+      <a href="https://github.com/agentscope-ai/hiclaw" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">github/agentscope-ai/hiclaw ↗</a>
+      <p class="maker">Community</p>
+      <p class="desc">Collaborative multi-agent OS built on Matrix rooms. Transparent, human-in-the-loop task coordination. Supports OpenClaw, NanoClaw, and ZeroClaw agents as workers. MinIO shared filesystem for inter-agent exchange.</p>
+      <div class="stats"><span>Multi-agent</span><span>Matrix protocol</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#f0eafb;color:#4a2a8a;">Desktop agent</span>
+      <h3></h3>
+      <a href="https://www.eigent.ai" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">eigent.ai ↗</a>
+      <p class="maker">Eigent</p>
+      <p class="desc">Desktop multi-agent workforce. Connects to your context, controls browser and desktop apps to automate real work. Visual interface rather than messaging-native. Non-developer accessible.</p>
+      <div class="stats"><span>Desktop</span><span>Commercial</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eaf5ee;color:#1a7a52;">Dev channels</span>
+      <h3></h3>
+      <a href="https://claude.ai/download" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">claude.ai/download ↗</a>
+      <p class="maker">Anthropic</p>
+      <p class="desc">Not a full agent framework. Lets developers control local Claude Code sessions from Telegram and Discord. Specifically for developer workflows, not general personal assistant use. Launched March 2026.</p>
+      <div class="stats"><span>Dev workflow only</span><span>Mar 2026</span></div>
+    </div>
+  </div>
+
+  <!-- Personal agent comparison table -->
+  <p class="subsec" style="margin-top:2.5rem;">Head-to-head comparison</p>
+  <div class="legend">
+    <span><span class="y">Yes</span> — full native support</span>
+    <span><span class="p">~</span> — partial or conditional</span>
+    <span><span class="n">No</span> — not supported</span>
+    <span><span class="na">N/A</span> — not applicable</span>
+  </div>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>OpenClaw</th>
+        <th>Hermes</th>
+        <th>NanoClaw</th>
+        <th>IronClaw</th>
+        <th>NemoClaw</th>
+        <th>ZeroClaw</th>
+        <th>Nanobot</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-group"><td colspan="8">Architecture</td></tr>
+      <tr><td>Core design</td><td class="p">Gateway / controller</td><td class="p">Agent loop / learning</td><td class="p">Container-per-agent</td><td class="p">WASM + Rust</td><td class="p">Wrapper over OpenClaw</td><td class="p">Single binary / Rust</td><td class="p">Simple loop / Python</td></tr>
+      <tr><td>Language</td><td>TypeScript</td><td>Python</td><td>TypeScript</td><td>Rust</td><td>TS + Python</td><td>Rust</td><td>Python</td></tr>
+      <tr><td>Codebase size</td><td class="n">500K lines</td><td class="p">~8,900 lines core</td><td class="y">~700 lines</td><td class="p">Rust, auditable</td><td class="na">Wrapper</td><td class="y">3.4MB binary</td><td class="y">4,000 lines</td></tr>
+      <tr><td>Self-improving / learns</td><td class="n">No</td><td class="y">Yes</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="n">No</td></tr>
+      <tr><td>Persistent memory</td><td class="p">Context file</td><td class="y">Yes, native</td><td class="p">Per-container</td><td class="p">Encrypted DB</td><td class="na">Via OpenClaw</td><td class="p">Partial</td><td class="p">Basic</td></tr>
+
+      <tr class="row-group"><td colspan="8">Messaging channels</td></tr>
+      <tr><td>WhatsApp</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="p">Via plugins</td><td class="y">Via OpenClaw</td><td class="p">Partial</td><td class="p">Via config</td></tr>
+      <tr><td>Telegram</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Via OpenClaw</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+      <tr><td>Slack / Discord</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td><td class="y">Via OpenClaw</td><td class="p">Partial</td><td class="y">Yes</td></tr>
+      <tr><td>Signal</td><td class="y">Yes</td><td class="y">Yes</td><td class="p">Partial</td><td class="n">No</td><td class="y">Via OpenClaw</td><td class="n">No</td><td class="n">No</td></tr>
+      <tr><td>iMessage</td><td class="y">Yes</td><td class="n">No</td><td class="n">No</td><td class="n">No</td><td class="y">Via OpenClaw</td><td class="n">No</td><td class="n">No</td></tr>
+
+      <tr class="row-group"><td colspan="8">Security</td></tr>
+      <tr><td>Container / sandbox isolation</td><td class="n">No</td><td class="y">6 backends</td><td class="y">Yes, per-agent</td><td class="y">WASM + TEE</td><td class="y">Kernel sandbox</td><td class="p">Process only</td><td class="n">No</td></tr>
+      <tr><td>Prompt injection scanning</td><td class="n">Patched CVEs</td><td class="y">Yes v0.7+</td><td class="p">Via isolation</td><td class="y">iron-verify</td><td class="y">Yes</td><td class="p">Basic</td><td class="n">No</td></tr>
+      <tr><td>Known critical CVEs</td><td class="n">3 critical</td><td class="y">None</td><td class="y">None</td><td class="y">None</td><td class="y">None</td><td class="y">None</td><td class="y">None</td></tr>
+      <tr><td>Suitable for regulated industries</td><td class="n">No</td><td class="p">With hardening</td><td class="p">With hardening</td><td class="y">Yes</td><td class="y">Yes</td><td class="p">Partial</td><td class="n">No</td></tr>
+
+      <tr class="row-group"><td colspan="8">Ecosystem &amp; cost</td></tr>
+      <tr><td>Skills / plugin marketplace</td><td class="y">ClawHub 5,700+</td><td class="p">agentskills.io</td><td class="p">Fork-based</td><td class="n">No</td><td class="y">Via OpenClaw</td><td class="n">No</td><td class="n">No</td></tr>
+      <tr><td>MCP support</td><td class="y">Yes</td><td class="y">Yes</td><td class="p">Via extension</td><td class="p">Via plugins</td><td class="y">Via OpenClaw</td><td class="n">No</td><td class="n">No</td></tr>
+      <tr><td>Local model support (Ollama)</td><td class="y">Yes</td><td class="y">Yes</td><td class="p">Via Claude SDK</td><td class="y">Yes</td><td class="y">Nemotron bundled</td><td class="y">Yes</td><td class="y">Yes</td></tr>
+      <tr><td>Managed hosting available</td><td class="y">Yes ($59/mo)</td><td class="p">Partners (~$14/mo)</td><td class="n">Self-host only</td><td class="p">Enterprise</td><td class="na">N/A</td><td class="n">Self-host only</td><td class="n">Self-host only</td></tr>
+      <tr><td>Runs on low-power hardware</td><td class="n">1GB+ RAM</td><td class="p">VPS min.</td><td class="y">Yes</td><td class="p">Moderate</td><td class="n">Host only</td><td class="y">Yes</td><td class="y">Raspberry Pi</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="insight">
+    <p><strong>The lineage in one sentence:</strong> OpenClaw proved the category existed. NanoClaw and IronClaw were built because OpenClaw's security was dangerous. Hermes was built because OpenClaw didn't learn. ZeroClaw and Nanobot were built because OpenClaw was too heavy. NemoClaw was built because NVIDIA saw the enterprise opportunity. HiClaw was built because nobody had coordinated multiple agents yet.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     SECTION II — BROADER LANDSCAPE
+══════════════════════════════════════════════════ -->
+
+<div class="part">
+  <p class="part-label">Section II</p>
+  <h2 class="part-title">Coding Agents, Managed Platforms<br>&amp; Developer Frameworks</h2>
+  <p class="part-desc">The broader agent landscape: terminal-native coding tools, hosted infrastructure for production deployment, big tech model-native agent systems, and the developer frameworks used to build custom architectures.</p>
+
+  <!-- Coding agents -->
+  <p class="subsec">Coding agents — terminal-native developer tools</p>
+  <div class="card-grid">
+    <div class="card accent" style="border-color:#1a4a8a;">
+      <span class="tag" style="background:#eaf0fb;color:#1a4a8a;">Open source · engine</span>
+      <h3></h3>
+      <a href="https://shittycodingagent.ai/" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">pi.dev / shittycodingagent.ai ↗</a>
+      <p class="maker">Mario Zechner</p>
+      <p class="desc">Minimal terminal coding harness. Only 4 core tools: read, write, edit, bash. Maximally extensible via TypeScript extensions. The engine that powers OpenClaw. Model-agnostic across 15+ providers. Mid-session model switching.</p>
+      <div class="stats"><span>14K+ stars</span><span>TypeScript</span><span>MIT</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eaf0fb;color:#1a4a8a;">Managed</span>
+      <h3></h3>
+      <a href="https://claude.ai/download" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">claude.ai/download ↗</a>
+      <p class="maker">Anthropic</p>
+      <p class="desc">Batteries-included CLI. Deep codebase context, git workflows, IDE integration (VS Code, JetBrains, Xcode). Included in Pro/Max plans. SOC2 Type II. Foundation for Managed Agents. Best-in-class for Claude models.</p>
+      <div class="stats"><span>$20/mo plan</span><span>SOC2 Type II</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#fdf3e0;color:#8a5a00;">xAI</span>
+      <h3></h3>
+      <a href="https://x.ai/grok" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">x.ai/grok ↗</a>
+      <p class="maker">xAI (now SpaceX)</p>
+      <p class="desc">Local-first CLI coding agent. Up to 8 parallel agents on a single project. Air-gap compatible, no code sent to xAI servers. Native X/real-time data advantage. Waitlist as of Q1 2026.</p>
+      <div class="stats"><span>Local-first</span><span>8 parallel agents</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eeebe3;color:#5a5a5a;">Open source</span>
+      <h3></h3>
+      <a href="https://github.com/block/goose" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">github/block/goose ↗</a>
+      <p class="maker">Block</p>
+      <p class="desc">Open-source local agent from Block. CLI and desktop, MCP extensibility, real engineering task automation. Model-agnostic. Privacy-first Claude Code alternative.</p>
+      <div class="stats"><span>Open source</span><span>MIT</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eeebe3;color:#5a5a5a;">Open source</span>
+      <h3></h3>
+      <a href="https://aider.chat/" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">aider.chat ↗</a>
+      <p class="maker">Community</p>
+      <p class="desc">Git-native CLI coding agent. Excellent multi-file editing, strong git integration. Simpler than Pi. Best for developers who want AI-assisted commits without setup overhead or extension work.</p>
+      <div class="stats"><span>Open source</span><span>Python</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eaf5f5;color:#1a6a6a;">Google</span>
+      <h3></h3>
+      <a href="https://github.com/google-gemini/gemini-cli" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">github/google-gemini/gemini-cli ↗</a>
+      <p class="maker">Google</p>
+      <p class="desc">Terminal coding agent with A2A protocol and Vertex AI backend. Native Google Workspace and Search grounding. Strong for GCP workflows. Part of Google ADK ecosystem.</p>
+      <div class="stats"><span>A2A protocol</span><span>Vertex AI</span></div>
+    </div>
+  </div>
+
+  <!-- Managed platforms -->
+  <p class="subsec">Managed agent platforms — hosted production infrastructure</p>
+  <div class="card-grid">
+    <div class="card accent" style="border-color:#1a4a8a;">
+      <span class="tag" style="background:#eaf0fb;color:#1a4a8a;">Managed cloud</span>
+      <h3></h3>
+      <a href="https://platform.claude.com/docs/en/managed-agents/overview" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">platform.claude.com/docs ↗</a>
+      <p class="maker">Anthropic</p>
+      <p class="desc">Hosted harness with durable session logs, sandboxed cloud containers, crash recovery via wake(sessionId), credential vaults where secrets never reach the sandbox, and MCP tool integration. Brain decoupled from hands. The architecture described in Anthropic's engineering blog.</p>
+      <div class="stats"><span>$0.08/hr + tokens</span><span>SOC2 Type II</span><span>Beta Apr 2026</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eaf0fb;color:#1a4a8a;">Managed cloud</span>
+      <h3></h3>
+      <a href="https://platform.openai.com/docs/guides/agents" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">platform.openai.com/docs/guides/agents ↗</a>
+      <p class="maker">OpenAI</p>
+      <p class="desc">Managed runtime with built-in web search, code interpreter, file search, agent handoffs, and guardrails. Tightly OpenAI-coupled. Lowest setup friction for GPT-based deployments. Production-ready.</p>
+      <div class="stats"><span>Token-based</span><span>Python / TS SDK</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#fbede8;color:#7a3010;">Google Cloud</span>
+      <h3></h3>
+      <a href="https://cloud.google.com/products/agent-builder" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">cloud.google.com/products/agent-builder ↗</a>
+      <p class="maker">Google</p>
+      <p class="desc">Enterprise agent platform on GCP. A2A protocol, Gemini models, native Google Workspace connectors. Strong for organisations already in GCP. Managed compliance, observability, and data residency.</p>
+      <div class="stats"><span>GCP-native</span><span>A2A protocol</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eeebe3;color:#5a5a5a;">Microsoft</span>
+      <h3></h3>
+      <a href="https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">microsoft.com/copilot-studio ↗</a>
+      <p class="maker">Microsoft</p>
+      <p class="desc">No-code/low-code agent builder on M365. Deep Teams, Outlook, Dynamics integration. Now powered by Claude (Cowork partnership). Best for M365 organisations. Enterprise governance built-in.</p>
+      <div class="stats"><span>M365 licence</span><span>Powered by Claude</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eaf5ee;color:#1a7a52;">No-code</span>
+      <h3></h3>
+      <a href="https://www.lindy.ai/" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">lindy.ai ↗</a>
+      <p class="maker">Lindy AI</p>
+      <p class="desc">No-code personal agent platform. Connects Gmail, Calendar, Slack, CRMs. Automations from natural language. Consumer-friendly entry for non-developers wanting agentic workflows without self-hosting.</p>
+      <div class="stats"><span>Free / paid tiers</span><span>Web app</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eaf0fb;color:#1a4a8a;">Managed cloud</span>
+      <h3>Perplexity Computer</h3>
+      <a href="https://www.perplexity.ai/products/computer" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">perplexity.ai/products/computer ↗</a>
+      <p class="maker">Perplexity AI</p>
+      <p class="desc">Multi-model cloud agent orchestrating 19 AI models simultaneously — routing each subtask to the optimal model. Tasks run in isolated Firecracker microVMs and can persist for hours or months. Also ships Personal Computer, a local variant running on Mac Mini for file and app access. Model-agnostic by design: no single provider dominates.</p>
+      <div class="stats"><span>$200/mo Max plan</span><span>19 models</span><span>Feb 2026</span></div>
+    </div>
+  </div>
+
+  <!-- Big tech model-native -->
+  <p class="subsec">Big tech — model-native and internal agent systems</p>
+  <div class="card-grid">
+    <div class="card">
+      <span class="tag" style="background:#fdf3e0;color:#8a5a00;">xAI model-native</span>
+      <h3></h3>
+      <a href="https://x.ai/grok" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">x.ai/grok ↗</a>
+      <p class="maker">xAI (now SpaceX)</p>
+      <p class="desc">4-agent council baked into inference at runtime: Grok (Captain), Harper (research), Benjamin (math/code), Lucas (strategy). Not a framework you orchestrate — runs natively on every complex query. 16 agents on high reasoning mode.</p>
+      <div class="stats"><span>4–16 agents native</span><span>Grok 4.20</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#fdf3e0;color:#8a5a00;">Meta internal</span>
+      <h3></h3>
+      <a href="https://engineering.fb.com/2026/03/17/developer-tools/ranking-engineer-agent-rea-autonomous-ai-system-accelerating-meta-ads-ranking-innovation/" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">engineering.fb.com ↗</a>
+      <p class="maker">Meta</p>
+      <p class="desc">Internal agent framework powering Meta's Ranking Engineer Agent. Multi-week autonomous ML experimentation via hibernate-and-wake mechanism. Not publicly available — internal Meta infrastructure only.</p>
+      <div class="stats"><span>Internal only</span><span>Not public</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eeebe3;color:#5a5a5a;">Microsoft research</span>
+      <h3></h3>
+      <a href="https://github.com/microsoft/autogen" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">github/microsoft/autogen ↗</a>
+      <p class="maker">Microsoft Research</p>
+      <p class="desc">Conversation-based multi-agent framework. Agents communicate via structured chat. Strong human-in-the-loop. Azure integration. Open source and enterprise-deployable. v0.4 rewrite introduced graph-based workflows.</p>
+      <div class="stats"><span>Open source</span><span>Python</span></div>
+    </div>
+  </div>
+
+  <!-- Developer frameworks -->
+  <p class="subsec">Developer frameworks — build your own agent architecture</p>
+  <div class="card-grid">
+    <div class="card">
+      <span class="tag" style="background:#eeebe3;color:#5a5a5a;">Framework</span>
+      <h3></h3>
+      <a href="https://www.langchain.com/" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">langchain.com ↗</a>
+      <p class="maker">LangChain Inc.</p>
+      <p class="desc">Largest ecosystem. LangGraph adds graph-based stateful workflows with explicit control flow and state management. Most integrations. LangSmith for observability. High flexibility, high complexity. Best for custom multi-step pipelines.</p>
+      <div class="stats"><span>Open source</span><span>Python / TS</span><span>LangSmith SaaS</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eeebe3;color:#5a5a5a;">Framework</span>
+      <h3></h3>
+      <a href="https://www.crewai.com/" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">crewai.com ↗</a>
+      <p class="maker">CrewAI Inc.</p>
+      <p class="desc">Role-based multi-agent orchestration. Define a crew of specialist agents with task delegation. Sequential or hierarchical coordination. Intuitive mental model for team-oriented workflows. Fast prototyping.</p>
+      <div class="stats"><span>Open source</span><span>Python</span><span>Enterprise tier</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eaf5f5;color:#1a6a6a;">Google</span>
+      <h3></h3>
+      <a href="https://google.github.io/adk-docs/" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">google.github.io/adk-docs ↗</a>
+      <p class="maker">Google</p>
+      <p class="desc">Agent Development Kit. Python-first, multi-agent, A2A protocol. Connects to Vertex AI and Google Workspace data stores. Designed for developers building on Google infrastructure.</p>
+      <div class="stats"><span>Python</span><span>A2A protocol</span><span>Apache 2.0</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eeebe3;color:#5a5a5a;">Framework</span>
+      <h3></h3>
+      <a href="https://www.llamaindex.ai/" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">llamaindex.ai ↗</a>
+      <p class="maker">LlamaIndex</p>
+      <p class="desc">RAG-first agent framework. Best for agents that need to reason over large document corpora. Deep indexing and retrieval primitives. Combines well with CrewAI for document-heavy multi-agent systems.</p>
+      <div class="stats"><span>Open source</span><span>Python</span></div>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:#eeebe3;color:#5a5a5a;">Framework</span>
+      <h3></h3>
+      <a href="https://mastra.ai/" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;color:var(--ink-3);text-decoration:none;border:0.5px solid var(--rule);border-radius:3px;padding:2px 7px;margin-bottom:6px;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-3)'">mastra.ai ↗</a>
+      <p class="maker">Community</p>
+      <p class="desc">TypeScript-first agent framework for web developers. Built-in Studio with traces and token usage. Durable execution, state management, and long-running workflow support. Growing fast in 2026.</p>
+      <div class="stats"><span>Open source</span><span>TypeScript</span></div>
+    </div>
+  </div>
+
+  <!-- Section II comparison table -->
+  <p class="subsec" style="margin-top:2.5rem;">Platform comparison</p>
+  <div class="legend">
+    <span><span class="y">Yes</span> — full native support</span>
+    <span><span class="p">~</span> — partial or conditional</span>
+    <span><span class="n">No</span> — not supported</span>
+    <span><span class="na">N/A</span> — not applicable</span>
+  </div>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Pi</th>
+        <th>Claude Code</th>
+        <th>Grok Build</th>
+        <th>Claude Managed</th>
+        <th>OpenAI Agents</th>
+        <th>Copilot Studio</th>
+        <th>Grok Multi-Agent</th>
+        <th>LangGraph</th>
+        <th>CrewAI</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-group"><td colspan="11">What it is</td></tr>
+      <tr><td>Category</td>
+        <td class="p">Coding harness</td><td class="p">Coding agent</td><td class="p">Coding agent</td>
+        <td class="p">Managed infra</td><td class="p">Managed infra</td><td class="p">Enterprise platform</td>
+        <td class="p">Model-native</td><td class="p">Dev framework</td><td class="p">Dev framework</td>
+      </tr>
+      <tr><td>Primary audience</td>
+        <td class="p">Power devs</td><td class="p">Devs / builders</td><td class="p">Local-first devs</td>
+        <td class="p">Production teams</td><td class="p">GPT builders</td><td class="p">Enterprise / M365</td>
+        <td class="p">Research / power users</td><td class="p">Custom pipelines</td><td class="p">Role-based crews</td>
+      </tr>
+
+      <tr class="row-group"><td colspan="11">Deployment</td></tr>
+      <tr><td>Self-hosted / local</td>
+        <td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td>
+        <td class="n">No</td><td class="n">No</td><td class="n">No</td>
+        <td class="na">N/A</td><td class="y">Yes</td><td class="y">Yes</td>
+      
+        <td class="n">No</td>
+      </tr>
+      <tr><td>Runs 24/7 background</td>
+        <td class="n">No</td><td class="n">No</td><td class="n">No</td>
+        <td class="y">Yes</td><td class="n">No</td><td class="y">Yes</td>
+        <td class="na">N/A</td><td class="n">No</td><td class="n">No</td>
+      
+        <td class="y">Yes</td>
+      </tr>
+      <tr><td>Model agnostic</td>
+        <td class="y">Yes, 15+</td><td class="n">Claude only</td><td class="n">Grok only</td>
+        <td class="n">Claude only</td><td class="n">OpenAI primary</td><td class="p">Claude + GPT</td>
+        <td class="n">Grok only</td><td class="y">Yes</td><td class="y">Yes</td>
+      
+        <td class="y">Yes, 19 models</td>
+      </tr>
+      <tr><td>Data sovereignty</td>
+        <td class="y">Yes</td><td class="p">Local + Anthropic</td><td class="y">Yes</td>
+        <td class="n">No</td><td class="n">No</td><td class="n">No</td>
+        <td class="n">No</td><td class="y">Yes</td><td class="y">Yes</td>
+      
+        <td class="n">No</td>
+      </tr>
+
+      <tr class="row-group"><td colspan="11">Capabilities</td></tr>
+      <tr><td>Multi-agent orchestration</td>
+        <td class="p">Via extension</td><td class="y">Yes</td><td class="y">8–16 parallel</td>
+        <td class="p">Preview</td><td class="y">Yes</td><td class="y">Yes</td>
+        <td class="y">Yes, native</td><td class="y">Yes</td><td class="y">Yes</td>
+      
+        <td class="y">Yes, native</td>
+      </tr>
+      <tr><td>MCP support</td>
+        <td class="p">Via extension</td><td class="y">Yes</td><td class="n">No</td>
+        <td class="y">Yes</td><td class="n">No</td><td class="n">No</td>
+        <td class="n">No</td><td class="p">Via plugins</td><td class="p">Via plugins</td>
+      
+        <td class="n">No</td>
+      </tr>
+      <tr><td>Real-time web / data</td>
+        <td class="p">Via extension</td><td class="p">Web search</td><td class="y">Yes + X firehose</td>
+        <td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td>
+        <td class="y">Yes, native X</td><td class="p">Via tools</td><td class="p">Via tools</td>
+      
+        <td class="y">Yes, Sonar</td>
+      </tr>
+      <tr><td>Code execution (sandboxed)</td>
+        <td class="y">Yes</td><td class="y">Yes</td><td class="y">Local</td>
+        <td class="y">Cloud sandbox</td><td class="y">Yes</td><td class="p">Limited</td>
+        <td class="na">N/A</td><td class="p">Local</td><td class="p">Local</td>
+      </tr>
+
+      <tr class="row-group"><td colspan="11">Production architecture</td></tr>
+      <tr><td>Durable session / crash recovery</td>
+        <td class="p">Tree branching</td><td class="p">Partial</td><td class="n">No</td>
+        <td class="y">Yes, durable log</td><td class="p">Partial</td><td class="y">Yes</td>
+        <td class="na">N/A</td><td class="p">Setup needed</td><td class="n">No</td>
+      
+        <td class="y">Yes</td>
+      </tr>
+      <tr><td>Credential vault (secrets from sandbox)</td>
+        <td class="n">No</td><td class="n">No</td><td class="y">Local</td>
+        <td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td>
+        <td class="na">N/A</td><td class="n">No</td><td class="n">No</td>
+      </tr>
+      <tr><td>Observability / tracing</td>
+        <td class="p">Session tree</td><td class="p">Partial</td><td class="y">Auditable local</td>
+        <td class="y">Yes</td><td class="y">Yes</td><td class="y">Yes</td>
+        <td class="na">N/A</td><td class="y">LangSmith</td><td class="p">Enterprise</td>
+      
+        <td class="y">Yes</td>
+      </tr>
+
+      <tr class="row-group"><td colspan="11">Cost &amp; access</td></tr>
+      <tr><td>Free beyond API costs</td>
+        <td class="y">Yes</td><td class="n">$20/mo</td><td class="p">Waitlist</td>
+        <td class="n">+$0.08/hr</td><td class="n">Token-based</td><td class="n">M365 licence</td>
+        <td class="na">Via subscription</td><td class="y">Yes</td><td class="y">Yes</td>
+      
+        <td class="n">$200/mo</td>
+      </tr>
+      <tr><td>Non-developer accessible</td>
+        <td class="n">No</td><td class="n">No</td><td class="n">No</td>
+        <td class="p">Console UI</td><td class="n">No</td><td class="y">Yes</td>
+        <td class="y">Yes</td><td class="n">No</td><td class="n">No</td>
+      
+        <td class="y">Yes</td>
+      </tr>
+      <tr><td>Security / compliance</td>
+        <td class="p">MIT, unaudited</td><td class="y">SOC2 Type II</td><td class="p">Local, unaudited</td>
+        <td class="y">SOC2 Type II</td><td class="y">SOC2 Type II</td><td class="y">Enterprise</td>
+        <td class="y">xAI / SpaceX</td><td class="p">Open source</td><td class="p">Open source</td>
+      
+        <td class="p">Sandbox + human gates</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="insight">
+    <p><strong>The four-layer model:</strong> The model layer (Claude, Grok, Gemini) provides intelligence. The harness layer (Pi, Claude Code, Grok Build) provides the execution loop. The orchestration layer (OpenClaw, Hermes, LangGraph, CrewAI) routes tasks and manages state. The managed infrastructure layer (Claude Managed Agents, OpenAI Agents SDK, Copilot Studio) handles production deployment, security, and crash recovery. Most people conflate these layers. The real competitive advantage lies in the orchestration layer — not the model.</p>
+  </div>
+</div>
+
+</div><!-- /container -->
+</main>
+
+<footer>
+  <div style="max-width:1100px;margin:0 auto;padding:2.5rem 2rem;border-bottom:0.5px solid rgba(247,245,240,0.1);">
+    <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;flex-wrap:wrap;">
+      <div>
+        <p style="font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(247,245,240,0.35);margin-bottom:0.75rem;">About the author</p>
+        <p style="font-family:var(--serif);font-size:1.15rem;font-weight:400;line-height:1.6;color:rgba(247,245,240,0.9);max-width:600px;font-style:italic;">Craig Hepburn is an AI strategist and Perplexity Fellow who builds advanced agentic systems. He spent years leading digital transformation at Art Basel and UEFA. Now he works on the harder question: not whether organisations adopt AI, but how they govern it when they do.</p>
+      </div>
+      <div style="text-align:right;white-space:nowrap;">
+        <p style="font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(247,245,240,0.35);margin-bottom:0.5rem;">Publishing</p>
+        <a href="https://substack.com/@craighepburn" target="_blank" rel="noopener" style="display:block;font-family:var(--mono);font-size:11px;color:rgba(247,245,240,0.55);text-decoration:none;margin-bottom:0.3rem;" onmouseover="this.style.color='rgba(247,245,240,0.9)'" onmouseout="this.style.color='rgba(247,245,240,0.55)'">Agents Are Here (Substack) ↗</a>
+        <a href="https://www.linkedin.com/in/craighepburn" target="_blank" rel="noopener" style="display:block;font-family:var(--mono);font-size:11px;color:rgba(247,245,240,0.55);text-decoration:none;" onmouseover="this.style.color='rgba(247,245,240,0.9)'" onmouseout="this.style.color='rgba(247,245,240,0.55)'">LinkedIn ↗</a>
+      </div>
+    </div>
+  </div>
+  <div class="inner" style="padding-top:1.25rem;padding-bottom:1.25rem;">
+    <span>AI Agent Landscape 2026</span>
+    <span>Updated April 2026 · All data from public sources · Verify on vendor sites</span>
+  </div>
+</footer>
+
+</body>
+</html>
