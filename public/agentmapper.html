@@ -106,15 +106,15 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-heigh
 .comp-cell.on{background:var(--green-bg);border-color:rgba(26,122,82,0.25)}
 .comp-cell.off{background:var(--paper-2)}
 .comp-cell.configured{background:#fff;border-color:rgba(26,122,82,0.4)}
-.comp-cell.configured .comp-cell-name{color:var(--green)}
-.comp-cell.configured .comp-dot{background:transparent;border:1.5px solid var(--green)}
-.comp-status{font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:6px;font-style:italic}
 .comp-cell-name{font-size:11px;font-weight:500;display:block;margin-top:3px}
 .comp-cell.on .comp-cell-name{color:var(--green)}
 .comp-cell.off .comp-cell-name{color:var(--ink-3)}
+.comp-cell.configured .comp-cell-name{color:var(--green)}
 .comp-dot{width:6px;height:6px;border-radius:50%;margin:0 auto 2px}
 .comp-cell.on .comp-dot{background:var(--green)}
 .comp-cell.off .comp-dot{background:var(--paper-3)}
+.comp-cell.configured .comp-dot{background:transparent;border:1.5px solid var(--green)}
+.comp-status{font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:6px;font-style:italic}
 
 /* Tools */
 .tools-wrap{display:flex;flex-wrap:wrap;gap:5px}
@@ -126,6 +126,10 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-heigh
 .rw-label{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:0.5rem}
 .rw-text{font-size:13px;color:var(--ink-2);line-height:1.6}
 .rw-text strong{color:var(--ink);font-weight:600}
+
+/* STAGE ASIDE */
+.stage-aside{margin-top:1.25rem;padding:1rem 1.25rem;border-left:3px solid var(--aside-color, #7a7a7a);background:var(--aside-bg, rgba(122,122,122,0.06));border-radius:0 4px 4px 0}
+.stage-aside-text{font-family:var(--serif);font-size:14px;color:var(--ink-2);line-height:1.65;font-style:italic}
 
 /* Signal */
 .signal-line{font-size:12px;color:var(--ink-3);font-style:italic;padding:0.75rem 1rem;background:#fff;border-top:1px solid var(--rule)}
@@ -205,6 +209,52 @@ footer a{color:rgba(247,245,240,0.55);text-decoration:none}
 footer a:hover{color:var(--paper)}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* SPECTRUM BAR */
+.spectrum-wrap{margin-bottom:2rem}
+.spectrum-bar{display:flex;gap:3px;height:6px;border-radius:3px;overflow:hidden;margin-bottom:0.6rem}
+.spectrum-seg{flex:1;background:var(--paper-3);border-radius:2px;transition:background 0.2s}
+.spectrum-seg.active{background:var(--ink)}
+.spectrum-seg.past{background:var(--ink-3)}
+.spectrum-labels{display:flex;justify-content:space-between}
+.spectrum-label{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:0.05em}
+.spectrum-label.active{color:var(--ink);font-weight:500}
+
+/* COST SIGNAL */
+.cost-box{background:var(--amber-bg);border:0.5px solid rgba(138,90,0,0.2);border-radius:4px;padding:0.875rem 1rem;margin-top:1rem}
+.cost-label{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber);margin-bottom:0.3rem}
+.cost-text{font-size:13px;color:var(--ink-2);line-height:1.55}
+.cost-text strong{color:var(--amber);font-weight:600}
+
+/* SHAREABLE CARD */
+.share-card-wrap{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--rule)}
+.share-card-label{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:0.75rem}
+.share-card{background:var(--ink);border-radius:8px;padding:1.75rem;display:flex;flex-direction:column;gap:0.5rem;max-width:380px}
+.share-card-stage{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(247,245,240,0.35)}
+.share-card-name{font-family:var(--serif);font-size:1.6rem;font-weight:400;color:var(--paper);line-height:1.15}
+.share-card-tagline{font-size:13px;color:rgba(247,245,240,0.55);font-style:italic;line-height:1.5;margin-top:0.25rem}
+.share-card-url{font-family:var(--mono);font-size:10px;color:rgba(247,245,240,0.25);margin-top:0.75rem;padding-top:0.75rem;border-top:0.5px solid rgba(247,245,240,0.1)}
+.share-card-hint{font-size:12px;color:var(--ink-3);margin-top:0.5rem;font-style:italic}
+
+/* BADGE */
+.badge-wrap{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--rule)}
+.badge-label{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:0.75rem}
+.badge-outer{display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap}
+.badge-svg-wrap{flex-shrink:0}
+.badge-info{flex:1;min-width:200px}
+.badge-title{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--ink);margin-bottom:0.35rem}
+.badge-quip{font-size:13px;color:var(--ink-2);line-height:1.55;font-style:italic;margin-bottom:1rem}
+.badge-actions{display:flex;gap:0.6rem;flex-wrap:wrap}
+.badge-share-btn{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;padding:8px 16px;background:var(--ink);color:var(--paper);border:none;border-radius:100px;cursor:pointer;transition:background 0.15s}
+.badge-share-btn:hover{background:#2a2a2a}
+.badge-share-btn.copied{background:var(--green)}
+.badge-landing{display:none;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:2rem;margin-bottom:2rem;text-align:center;animation:fadeUp 0.4s ease}
+.badge-landing.show{display:block}
+.badge-landing-kicker{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:0.75rem}
+.badge-landing-name{font-family:var(--serif);font-size:1.8rem;font-weight:400;color:var(--ink);margin-bottom:0.5rem}
+.badge-landing-quip{font-size:14px;color:var(--ink-2);font-style:italic;margin-bottom:1.5rem;line-height:1.5}
+.badge-landing-cta{font-size:14px;color:var(--ink-3);margin-bottom:1.25rem}
+.badge-landing-cta strong{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -246,6 +296,10 @@ footer a:hover{color:var(--paper)}
   <p class="part-label">The Six Stages</p>
   <h2 class="part-title">From chatbot to <em>synthetic employee</em></h2>
   <p class="part-desc">Select any stage to explore what it looks like, which agent components are present, and what the real-world proof points are. Quick orientation: if your AI only works when you are in the room, you are at stage one or two regardless of how many tools your organisation has deployed.</p>
+  <div class="spectrum-wrap" id="spectrumWrap">
+    <div class="spectrum-bar" id="spectrumBar"></div>
+    <div class="spectrum-labels" id="spectrumLabels"></div>
+  </div>
   <div class="explorer-tabs" id="explorerTabs"></div>
   <div class="explorer-panel">
     <div class="epanel-inner" id="explorerPanel"></div>
@@ -265,30 +319,30 @@ footer a:hover{color:var(--paper)}
 
 <div class="part" id="proof">
   <p class="part-label">The proof that changes everything</p>
-  <h2 class="part-title">Block, February 2026. <em>The numbers from the CFO.</em></h2>
+  <h2 class="part-title">Block rebuilt how it works. <em>The numbers from the CFO.</em></h2>
   <p class="part-desc">In the past eighteen months, Block used an open-source agent framework called Goose to rebuild how its entire organisation works. The results, reported directly by the CFO to Fortune, are the clearest real-world proof of what Stage 5 to 6 operation looks like.</p>
   <div class="proof-block">
     <div class="proof-stats">
       <div class="proof-stat">
         <span class="proof-stat-num">40%</span>
-        <span class="proof-stat-lbl">developer productivity increase per engineer since September 2025</span>
+        <span class="proof-stat-lbl">developer productivity increase per engineer since Sept 2025</span>
       </div>
       <div class="proof-stat">
         <span class="proof-stat-num">$2M</span>
         <span class="proof-stat-lbl">projected gross profit per employee in 2026, up from $500K in 2019</span>
       </div>
       <div class="proof-stat">
-        <span class="proof-stat-num">18 mo</span>
-        <span class="proof-stat-lbl">the time it took Block to rebuild how its entire organisation works</span>
+        <span class="proof-stat-num">18mo</span>
+        <span class="proof-stat-lbl">the time it took to rebuild how the entire organisation works</span>
       </div>
     </div>
     <div class="proof-body">
       <p class="proof-kicker">Block CFO Amrita Ahuja · Fortune · March 2026</p>
-      <p>Block built Goose internally, deployed it across every function, and gave it away to the world under an open-source licence. <strong>One risk underwriting model that previously took an entire quarter to build was completed in a fraction of the time.</strong> Non-technical teams now run SQL queries and close support tickets without waiting for an engineer. The scale of that transformation meant the organisation needed to reshape itself around the new capability — and in early 2026 it did, reporting its best quarter in history the same month.</p>
+      <p><strong>Block built Goose internally, deployed it across every function, and gave it away to the world under an open-source licence.</strong> One risk underwriting model that previously took an entire quarter to build was completed in a fraction of the time. Non-technical teams now run SQL queries and close support tickets without waiting for an engineer. The scale of that transformation meant the organisation needed to reshape itself around the new capability — and in early 2026 it did, reporting its best quarter in history the same month.</p>
     </div>
   </div>
   <div class="insight">
-    <p><strong>The insight from Block's CTO, Dhanji Prasanna, on what made this possible:</strong> the competitive advantage lies in the agent harness built around the models, not in the models themselves. Every organisation is focused on choosing the right model. That is the wrong question. The model is the least defensible part of the stack. Block did not win because it picked the best model. It won because it understood which layer the real advantage lives in.</p>
+    <p><strong>Block's CTO, Dhanji Prasanna:</strong> the competitive advantage lies in the agent harness built around the models, not in the models themselves. Every organisation is focused on choosing the right model. That is the wrong question. The model is the least defensible part of the stack. Block did not win because it picked the best model. It won because it understood which layer the real advantage lives in.</p>
   </div>
 </div>
 
@@ -296,6 +350,15 @@ footer a:hover{color:var(--paper)}
   <p class="part-label">The Diagnostic</p>
   <h2 class="part-title">Where are you <em>actually?</em></h2>
   <p class="diag-intro">Answer five questions about how you and your organisation use AI today. The diagnostic places you on the six-stage map and shows you specifically what the next stage requires.</p>
+  <div class="badge-landing" id="badgeLanding">
+    <p class="badge-landing-kicker">Someone shared their badge with you</p>
+    <div id="badgeLandingSvg" style="margin:0 auto 1rem;display:flex;justify-content:center"></div>
+    <p class="badge-landing-name" id="badgeLandingName"></p>
+    <p class="badge-landing-quip" id="badgeLandingQuip"></p>
+    <p class="badge-landing-cta"><strong>What stage are you?</strong> Take the five-question diagnostic and get your own badge.</p>
+    <button class="btn-ink" onclick="dismissLanding()">Take the diagnostic ↓</button>
+  </div>
+
   <div class="diag-progress-wrap">
     <div class="diag-progress-bar"><div class="diag-progress-fill" id="diagProgress"></div></div>
     <span class="diag-progress-label" id="diagProgressLabel">0 of 5</span>
@@ -314,6 +377,20 @@ footer a:hover{color:var(--paper)}
         <button class="btn-ink" id="drStageBtn">See your stage in detail ↑</button>
         <a href="https://substack.com/@craighepburn" target="_blank" rel="noopener" class="btn-ink" style="background:#1a7a52">Read the full article ↗</a>
         <button class="btn-ghost-ink" onclick="resetDiag()">Start again</button>
+      </div>
+      <div class="badge-wrap">
+        <p class="badge-label">Your badge</p>
+        <div class="badge-outer">
+          <div class="badge-svg-wrap" id="badgeSvgWrap"></div>
+          <div class="badge-info">
+            <p class="badge-title" id="badgeTitle"></p>
+            <p class="badge-quip" id="badgeQuip"></p>
+            <div class="badge-actions">
+              <button class="badge-share-btn" id="badgeShareBtn" onclick="shareBadge()">Copy link to share ↗</button>
+              <button class="btn-ghost-ink" onclick="resetDiag()">Retake</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -342,34 +419,46 @@ footer a:hover{color:var(--paper)}
 
 <script>
 const STAGES=[
-  {n:"01",name:"The Prompter",tagline:"You ask. It answers. You close the tab.",color:"#7a7a7a",
+  {n:"01",name:"The Prompter",tagline:"You ask. It answers. You close the tab.",color:"#7a7a7a",compsActive:true,
+   joke:"You have typed 'write me a professional email' forty-seven times this month. Each one felt like the first time.",
+   cost:{time:"No setup",skill:"None required",change:"Individual habit only",note:"Free to start. The only investment is your time."},
    desc:`<p>You are having a conversation. Each session starts fresh. The model has no memory of you, no context about your work, no continuity. The value is real but it evaporates the moment you stop typing.</p><p>Everything depends on you showing up. The AI is a very fast, knowledgeable stranger you meet and forget every day.</p>`,
-   comps:["model"],compsActive:true,tools:["Claude.ai","ChatGPT","Grok","Gemini","Perplexity"],hero:"Claude.ai",
+   comps:["model"],tools:["Claude.ai","ChatGPT","Grok","Gemini","Perplexity"],hero:"Claude.ai",
    world:`<strong>The vast majority of people who believe they use AI live here.</strong> This is the waiting room, not the destination.`,
    signal:"You describe your AI usage by saying: I use ChatGPT."},
-  {n:"02",name:"The Augmented Worker",tagline:"AI is in your tools. You are still doing the work.",color:"#1a6a6a",
+  {n:"02",name:"The Augmented Worker",tagline:"AI is in your tools. You are still doing the work.",color:"#1a6a6a",compsActive:true,
+   joke:"The AI is technically on. Nothing has changed. You have, however, attended a webinar about it.",
+   cost:{time:"Days to deploy",skill:"No technical skill required",change:"Licence rollout, training",note:"Copilot M365 from £24/user/month. Real productivity gains but no architectural change."},
    desc:`<p>AI is embedded in the software you already use. Copilot in Word, Gemini in your calendar, Claude in your browser. You are still doing the work but AI accelerates parts of it.</p><p>The defining characteristic: nothing happens unless you initiate it. The AI waits. Most corporate AI adoption sits here — and organisations mistake a licence rollout for a transformation.</p>`,
-   comps:["model"],compsActive:true,tools:["Copilot Studio","Gemini Workspace","Lindy.ai","Notion AI","Claude browser"],hero:"Copilot Studio",
+   comps:["model"],tools:["Copilot Studio","Gemini Workspace","Lindy.ai","Notion AI","Claude browser"],hero:"Copilot Studio",
    world:`<strong>Billions spent on licences. Genuine productivity gains. But nothing changes shape.</strong> The org chart, the workflows, the assumptions about what humans must do — all unchanged.`,
    signal:"Your organisation has rolled out Copilot and calls it an AI strategy."},
-  {n:"03",name:"The Workflow Builder",tagline:"Sequences run without you. But they cannot think.",color:"#1a4a8a",
-   desc:`<p>You have started connecting things. Zapier flows, Make pipelines, n8n sequences with AI nodes. Automated tasks running without you pressing a button.</p><p>Workflow builders have real tool integrations — the connections to Gmail, Slack, databases and other systems are genuine. What they lack is a reasoning heartbeat. The trigger fires but the agent does not think. The workflows are brittle and pre-scripted. They execute sequences, not decisions. No judgement. No memory. No soul. The most important line in the whole journey sits between here and the next stage: automation executes what you designed — agency handles what you did not.</p>`,
-   comps:["model","harness","tools"],compsActive:true,tools:["Zapier + AI","Make","n8n","Lindy.ai","Airtable automations"],hero:"n8n",
+  {n:"03",name:"The Workflow Builder",tagline:"Sequences run without you. But they cannot think.",color:"#1a4a8a",compsActive:true,
+   joke:"Three of your flows are working. One is sending the same email every four minutes. You are not sure which.",
+   cost:{time:"Days to weeks per workflow",skill:"One technically minded person",change:"Process redesign for specific tasks",note:"Zapier from £19/month. n8n self-hosted is free. The investment is time, not money."},
+   desc:`<p>You have started connecting things. Zapier flows, Make pipelines, n8n sequences with AI nodes. Automated tasks running without you pressing a button. Workflow builders have real tool integrations — genuine connections to Gmail, Slack, databases and external systems.</p><p>But they are brittle and pre-scripted. They execute sequences, not decisions. What they lack is a reasoning heartbeat. The trigger fires but the agent does not think. The most important line in the whole journey sits between here and the next stage: automation executes what you designed — agency handles what you did not.</p>`,
+   comps:["model","harness","tools"],tools:["Zapier + AI","Make","n8n","Lindy.ai","Airtable automations"],hero:"n8n",
    world:`<strong>Automation executes what you designed. Agency handles what you did not.</strong> Most people think they have crossed that line. They have not.`,
    signal:"You have built Zapier flows with AI nodes and feel like you are ahead of the curve."},
-  {n:"04",name:"The Agent Operator",tagline:"You give the goal. The agent finds the path.",color:"#7a4a10",
-   desc:`<p>You give a goal, not a script. The agent reasons about how to reach it across multiple steps and tools. It handles things you did not anticipate. A proper harness is in place. Memory is beginning to accumulate. Memory at this stage is emerging rather than fully persistent — session context accumulates but cross-session memory requires deliberate configuration.</p><p>You are still close — reviewing before consequential actions happen. But something fundamentally different has begun. Claude Managed Agents launched 8 April 2026. Rakuten deployed agents across sales, marketing, finance and HR, each live within a week.</p>`,
-   comps:["model","harness","heartbeat","memory","tools"],compsActive:true,tools:["Claude Managed Agents","Claude Code","OpenAI Agents SDK","Goose","Eigent","Aider"],hero:"Claude Managed Agents",
+  {n:"04",name:"The Agent Operator",tagline:"You give the goal. The agent finds the path.",color:"#7a4a10",compsActive:true,
+   joke:"You gave it a goal. It did something. You reviewed it nervously. It was fine. You are not sure why you are nervous.",
+   cost:{time:"A developer and a focused week",skill:"One developer or technical founder",change:"New deployment mindset, not just new tools",note:"Claude Managed Agents at $0.08/hr runtime. API costs on top. First serious agents can be live within days."},
+   desc:`<p>You give a goal, not a script. The agent reasons about how to reach it across multiple steps and tools. It handles things you did not anticipate. A proper harness is in place. The heartbeat is real — the agent can act proactively rather than waiting to be asked.</p><p>Memory at this stage is emerging rather than fully persistent — session context accumulates but cross-session memory requires deliberate configuration. You are still close, reviewing before consequential actions happen. But something fundamentally different has begun. Claude Managed Agents launched 8 April 2026. Rakuten deployed agents across sales, marketing, finance and HR, each live within a week.</p>`,
+   comps:["model","harness","heartbeat","memory","tools"],tools:["Claude Managed Agents","Claude Code","OpenAI Agents SDK","Goose","Eigent","Aider"],hero:"Claude Managed Agents",
    world:`<strong>Claude Managed Agents launched 8 April 2026.</strong> Notion, Rakuten, and Asana are early adopters. This stage just became accessible to any organisation with an API key and a clear problem.`,
    signal:"You have run an agent that completed a multi-step task without you guiding every step."},
-  {n:"05",name:"The Orchestrator",tagline:"You design systems of agents. They run. You govern.",color:"#4a2a8a",
-   desc:`<p>You are not operating agents. You are designing architectures. Each agent has a role, a context, a set of tools, and a relationship to the others. You think in flows of intelligence, not individual tasks.</p><p>All six components are present. Soul files are specific and deep. Memory layers are accumulating institutional knowledge. The competitive moat starts forming here — a competitor can buy the same model but cannot replicate your orchestration layer.</p>`,
-   comps:["model","harness","heartbeat","memory","tools","soul"],compsActive:false,tools:["LangGraph","CrewAI","Google ADK","LlamaIndex","Mastra","AutoGen","Perplexity Computer"],hero:"LangGraph",
+  {n:"05",name:"The Orchestrator",tagline:"You design systems of agents. They run. You govern.",color:"#4a2a8a",compsActive:false,
+   joke:"You have stopped explaining what you do at dinner. Nobody understands it anyway. The agents are doing great.",
+   cost:{time:"Six to eight weeks minimum",skill:"A technical architect or specialist partner",change:"Organisational rethink of how work flows",note:"This is where real investment begins — not in tools but in architecture. The frameworks are free. The design work is not."},
+   desc:`<p>You are not operating agents. You are designing architectures. Each agent has a role, a context, a set of tools, and a relationship to the others. You think in flows of intelligence, not individual tasks.</p><p>All six components are present as capabilities you configure and build. The frameworks at this stage provide the building blocks — heartbeat, memory, soul, tools — but you architect them deliberately. The competitive moat starts forming here because orchestration is deeply tied to your specific context and institutional knowledge.</p>`,
+   comps:["model","harness","heartbeat","memory","tools","soul"],tools:["LangGraph","CrewAI","Google ADK","LlamaIndex","Mastra","AutoGen","Perplexity Computer"],hero:"LangGraph",
    world:`<strong>Perplexity Computer orchestrates 19 models simultaneously</strong>, routing each subtask to the optimal model, with tasks persisting for hours or months in isolated microVMs.`,
    signal:"You have stopped asking what an agent can do and started asking how agents should relate to each other."},
-  {n:"06",name:"The Synthetic Employer",tagline:"Your agents have names. They work while you sleep.",color:"#8a5a00",
-   desc:`<p>You are not using AI. You are managing a workforce that happens to be synthetic. Your agents have names, soul files, persistent memory, and defined roles. A task given on Monday is completed by Thursday without you in the loop once.</p><p>They communicate through WhatsApp, Telegram, Slack — the same channels your human colleagues use. The heartbeat runs continuously. The soul deepens with every interaction.</p>`,
-   comps:["model","harness","heartbeat","memory","tools","soul"],compsActive:true,tools:["OpenClaw","Hermes","NanoClaw","IronClaw","ZeroClaw","NemoClaw","HiClaw"],hero:"OpenClaw",
+  {n:"06",name:"The Synthetic Employer",tagline:"Your agents have names. They work while you sleep.",color:"#8a5a00",compsActive:true,
+   joke:"You delegated something on Thursday. It was done by Friday. You did not do it. You are not entirely sure how you feel about this.",
+   cost:{time:"An ongoing practice, not a project",skill:"Agent architect plus governance discipline",change:"Fundamental shift in how the organisation thinks about work",note:"This is not a deployment cost. It is an operating model. The organisations here are not spending more — they are spending differently."},
+   desc:`<p>You are not using AI. You are managing a workforce that happens to be synthetic. Your agents have names, soul files, persistent memory, and defined roles. A task given on Monday is completed by Thursday without you in the loop once.</p><p>They communicate through WhatsApp, Telegram, Slack — the same channels your human colleagues use. The heartbeat runs continuously. The soul deepens with every interaction. Every component is not just present — it is active, compounding, and deepening over time.</p>`,
+   comps:["model","harness","heartbeat","memory","tools","soul"],tools:["OpenClaw","Hermes","NanoClaw","IronClaw","ZeroClaw","NemoClaw","HiClaw"],hero:"OpenClaw",
    world:`<strong>Block rebuilt how its entire organisation works using an open-source agent framework called Goose.</strong> Developer productivity up 40% per engineer since September 2025. Gross profit per employee heading to $2M — double the prior year. The same month Block reported its best quarter in history.`,
    signal:"You receive a WhatsApp message from an agent reporting on something it completed while you were asleep."}
 ];
@@ -434,7 +523,24 @@ const STAGE_NEXTS=[
 
 let diagAnswers={};
 
+function buildSpectrum(){
+  const bar=document.getElementById('spectrumBar');
+  const labels=document.getElementById('spectrumLabels');
+  bar.innerHTML=STAGES.map((s,i)=>`<div class="spectrum-seg" id="seg-${i}"></div>`).join('');
+  labels.innerHTML=`<span class="spectrum-label active" id="slbl-0">${STAGES[0].n}</span><span class="spectrum-label" style="text-align:right" id="slbl-5">${STAGES[5].n}</span>`;
+}
+
+function updateSpectrum(i){
+  STAGES.forEach((_,j)=>{
+    const seg=document.getElementById(`seg-${j}`);
+    if(j<i) seg.className='spectrum-seg past';
+    else if(j===i) seg.className='spectrum-seg active';
+    else seg.className='spectrum-seg';
+  });
+}
+
 function buildExplorer(){
+  buildSpectrum();
   document.getElementById('explorerTabs').innerHTML=STAGES.map((s,i)=>
     `<button class="etab${i===0?' active':''}" onclick="selectStage(${i})">${s.n} ${s.name}</button>`
   ).join('');
@@ -447,6 +553,7 @@ function selectStage(i){
 }
 
 function renderExplorer(i){
+  updateSpectrum(i);
   const s=STAGES[i];
   const compsHtml=COMPS_ALL.map(c=>{
     const present=s.comps.includes(c);
@@ -455,21 +562,27 @@ function renderExplorer(i){
   }).join('');
   const compStatus=s.compsActive===false
     ?'All components present — architect-configured'
-    :s.comps.length===6
-    ?'All components present — continuously running'
-    :'';
+    :s.comps.length===6?'All components present — continuously running':'';
   const toolsHtml=s.tools.map(t=>`<span class="tool-pill${t===s.hero?' hero':''}">${t}</span>`).join('');
+  const costHtml=`<div class="cost-box">
+    <p class="cost-label">What moving to the next stage requires</p>
+    <p class="cost-text"><strong>${s.cost.time}</strong> · ${s.cost.skill} · ${s.cost.change}<br><span style="font-size:12px;color:var(--ink-3);margin-top:4px;display:block">${s.cost.note}</span></p>
+  </div>`;
   document.getElementById('explorerPanel').innerHTML=`
     <div class="eleft">
       <div class="estage-num" style="color:${s.color}">${s.n}</div>
       <div class="estage-name">${s.name}</div>
       <div class="estage-tagline">${s.tagline}</div>
       <div class="estage-desc">${s.desc}</div>
+      <div class="stage-aside" style="--aside-color:${s.color};--aside-bg:${s.color}11">
+        <p class="stage-aside-text">${s.joke}</p>
+      </div>
     </div>
     <div class="eright">
       <div><p class="comp-label">Agent components present</p><div class="comp-grid">${compsHtml}</div>${compStatus?`<p class="comp-status">${compStatus}</p>`:''}</div>
       <div><p class="comp-label">Tools at this stage</p><div class="tools-wrap">${toolsHtml}</div></div>
       <div class="rw-box"><p class="rw-label">In the real world</p><p class="rw-text">${s.world}</p></div>
+      ${i<5?costHtml:''}
     </div>`;
   document.getElementById('explorerSignal').textContent=s.signal;
 }
@@ -512,33 +625,162 @@ function selectDiag(qi,oi,score){
   if(Object.keys(diagAnswers).length===DIAG_QS.length) showResult();
 }
 
+const BADGES=[
+  {
+    title:"Certified Tab Closer",
+    quip:"ChatGPT power user. Opens tabs with purpose. Closes them with dignity. Repeats daily.",
+    color:"#4a4846",
+    svg:(c)=>`<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="56" fill="${c}" stroke="#fff" stroke-width="2"/>
+      <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+      <text x="60" y="48" text-anchor="middle" font-family="serif" font-size="28" fill="rgba(255,255,255,0.9)">01</text>
+      <rect x="30" y="56" width="60" height="1" fill="rgba(255,255,255,0.3)"/>
+      <text x="60" y="72" text-anchor="middle" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.6)" letter-spacing="1">PROMPTER</text>
+      <text x="60" y="86" text-anchor="middle" font-family="monospace" font-size="6" fill="rgba(255,255,255,0.35)" letter-spacing="0.5">agentnetwork.ai</text>
+    </svg>`
+  },
+  {
+    title:"Licensed Copilot Deployer",
+    quip:"Has attended the AI onboarding. Completed the training module. Awaits transformation.",
+    color:"#1a6a6a",
+    svg:(c)=>`<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="4" width="112" height="112" rx="16" fill="${c}" stroke="#fff" stroke-width="2"/>
+      <rect x="12" y="12" width="96" height="96" rx="10" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+      <text x="60" y="48" text-anchor="middle" font-family="serif" font-size="28" fill="rgba(255,255,255,0.9)">02</text>
+      <rect x="30" y="56" width="60" height="1" fill="rgba(255,255,255,0.3)"/>
+      <text x="60" y="72" text-anchor="middle" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.6)" letter-spacing="1">AUGMENTED</text>
+      <text x="60" y="86" text-anchor="middle" font-family="monospace" font-size="6" fill="rgba(255,255,255,0.35)" letter-spacing="0.5">agentnetwork.ai</text>
+    </svg>`
+  },
+  {
+    title:"Automation Artisan",
+    quip:"Built seventeen Zapier flows. Fifteen still work. Three are load-bearing. Nobody knows which.",
+    color:"#1a4a8a",
+    svg:(c)=>`<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="60,4 116,34 116,86 60,116 4,86 4,34" fill="${c}" stroke="#fff" stroke-width="2"/>
+      <polygon points="60,14 106,39 106,81 60,106 14,81 14,39" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+      <text x="60" y="48" text-anchor="middle" font-family="serif" font-size="28" fill="rgba(255,255,255,0.9)">03</text>
+      <rect x="30" y="56" width="60" height="1" fill="rgba(255,255,255,0.3)"/>
+      <text x="60" y="72" text-anchor="middle" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.6)" letter-spacing="1">BUILDER</text>
+      <text x="60" y="86" text-anchor="middle" font-family="monospace" font-size="6" fill="rgba(255,255,255,0.35)" letter-spacing="0.5">agentnetwork.ai</text>
+    </svg>`
+  },
+  {
+    title:"Agent Whisperer",
+    quip:"Has given a goal to an agent and watched in mild panic as it actually did it. Has not fully recovered.",
+    color:"#7a4a10",
+    svg:(c)=>`<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60 4 L116 60 L60 116 L4 60 Z" fill="${c}" stroke="#fff" stroke-width="2"/>
+      <path d="M60 16 L104 60 L60 104 L16 60 Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+      <text x="60" y="48" text-anchor="middle" font-family="serif" font-size="28" fill="rgba(255,255,255,0.9)">04</text>
+      <rect x="30" y="56" width="60" height="1" fill="rgba(255,255,255,0.3)"/>
+      <text x="60" y="72" text-anchor="middle" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.6)" letter-spacing="1">OPERATOR</text>
+      <text x="60" y="86" text-anchor="middle" font-family="monospace" font-size="6" fill="rgba(255,255,255,0.35)" letter-spacing="0.5">agentnetwork.ai</text>
+    </svg>`
+  },
+  {
+    title:"Intelligence Architect",
+    quip:"Thinks in graphs. Dreams in flows. Replies to Slack messages with 'my agent will handle that'.",
+    color:"#4a2a8a",
+    svg:(c)=>`<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60 4 L82 22 L116 22 L116 58 L96 76 L96 98 L60 116 L24 98 L24 76 L4 58 L4 22 L38 22 Z" fill="${c}" stroke="#fff" stroke-width="2"/>
+      <text x="60" y="48" text-anchor="middle" font-family="serif" font-size="28" fill="rgba(255,255,255,0.9)">05</text>
+      <rect x="30" y="56" width="60" height="1" fill="rgba(255,255,255,0.3)"/>
+      <text x="60" y="72" text-anchor="middle" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.6)" letter-spacing="1">ORCHESTRATOR</text>
+      <text x="60" y="86" text-anchor="middle" font-family="monospace" font-size="6" fill="rgba(255,255,255,0.35)" letter-spacing="0.5">agentnetwork.ai</text>
+    </svg>`
+  },
+  {
+    title:"Synthetic Employer",
+    quip:"Manages a team that never sleeps, never complains, and never asks for a pay rise. Has mixed feelings about this.",
+    color:"#8a5a00",
+    svg:(c)=>`<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="56" fill="${c}" stroke="#fff" stroke-width="2"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+      <circle cx="60" cy="60" r="36" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+      <text x="60" y="48" text-anchor="middle" font-family="serif" font-size="28" fill="rgba(255,255,255,0.9)">06</text>
+      <rect x="30" y="56" width="60" height="1" fill="rgba(255,255,255,0.3)"/>
+      <text x="60" y="72" text-anchor="middle" font-family="monospace" font-size="7" fill="rgba(255,255,255,0.6)" letter-spacing="1">SYNTHETIC</text>
+      <text x="60" y="86" text-anchor="middle" font-family="monospace" font-size="6" fill="rgba(255,255,255,0.35)" letter-spacing="0.5">agentnetwork.ai</text>
+    </svg>`
+  }
+];
+
+let currentBadgeStage = 0;
+
 function showResult(){
   const total=Object.values(diagAnswers).reduce((a,b)=>a+b,0);
   const pct=total/(6*DIAG_QS.length);
   const si=pct<0.22?0:pct<0.38?1:pct<0.54?2:pct<0.70?3:pct<0.86?4:5;
+  currentBadgeStage=si;
+  renderResult(si);
+}
+
+function renderResult(si){
   const s=STAGES[si];
+  const b=BADGES[si];
   document.getElementById('drName').textContent=`${s.n} — ${s.name}`;
   document.getElementById('drTagline').textContent=s.tagline;
   document.getElementById('drText').textContent=STAGE_DESCS[si];
   document.getElementById('drNext').innerHTML=`<strong>What ${si<5?'Stage '+(si+2)+' requires':'comes next'}:</strong> ${STAGE_NEXTS[si]}`;
   document.getElementById('drStageBtn').onclick=()=>{selectStage(si);document.getElementById('stages').scrollIntoView({behavior:'smooth'})};
+  document.getElementById('badgeSvgWrap').innerHTML=b.svg(b.color);
+  document.getElementById('badgeTitle').textContent=b.title;
+  document.getElementById('badgeQuip').textContent=b.quip;
   const r=document.getElementById('diagResult');
   r.classList.add('show');
   setTimeout(()=>r.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
 }
 
+function shareBadge(){
+  const url=`${window.location.origin}${window.location.pathname}?stage=${currentBadgeStage+1}`;
+  navigator.clipboard.writeText(url).then(()=>{
+    const btn=document.getElementById('badgeShareBtn');
+    btn.textContent='Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy link to share ↗';btn.classList.remove('copied');},2500);
+  }).catch(()=>{
+    prompt('Copy this link:',`${window.location.origin}${window.location.pathname}?stage=${currentBadgeStage+1}`);
+  });
+}
+
+function checkUrlStage(){
+  const params=new URLSearchParams(window.location.search);
+  const stageParam=params.get('stage');
+  if(stageParam){
+    const si=Math.max(0,Math.min(5,parseInt(stageParam)-1));
+    const b=BADGES[si];
+    const s=STAGES[si];
+    const landing=document.getElementById('badgeLanding');
+    document.getElementById('badgeLandingSvg').innerHTML=b.svg(b.color);
+    document.getElementById('badgeLandingName').textContent=`${s.n} — ${s.name}: ${b.title}`;
+    document.getElementById('badgeLandingQuip').textContent=b.quip;
+    landing.classList.add('show');
+    setTimeout(()=>landing.scrollIntoView({behavior:'smooth',block:'nearest'}),200);
+  }
+}
+
+function dismissLanding(){
+  document.getElementById('badgeLanding').classList.remove('show');
+  document.getElementById('diagnostic').scrollIntoView({behavior:'smooth'});
+}
+
 function resetDiag(){
   diagAnswers={};
+  currentBadgeStage=0;
   document.querySelectorAll('.diag-opt').forEach(el=>el.classList.remove('sel'));
   document.querySelectorAll('.diag-q').forEach(el=>el.classList.remove('done'));
   document.getElementById('diagResult').classList.remove('show');
   document.getElementById('diagProgress').style.width='0%';
   document.getElementById('diagProgressLabel').textContent='0 of 5';
+  const btn=document.getElementById('badgeShareBtn');
+  if(btn){btn.textContent='Copy link to share ↗';btn.classList.remove('copied');}
 }
 
 buildExplorer();
 buildAnatomy();
 buildDiag();
+checkUrlStage();
 </script>
 </body>
 </html>
