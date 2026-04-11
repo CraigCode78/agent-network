@@ -105,6 +105,10 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-heigh
 .comp-cell{padding:8px;border-radius:4px;text-align:center;border:0.5px solid var(--rule)}
 .comp-cell.on{background:var(--green-bg);border-color:rgba(26,122,82,0.25)}
 .comp-cell.off{background:var(--paper-2)}
+.comp-cell.configured{background:#fff;border-color:rgba(26,122,82,0.4)}
+.comp-cell.configured .comp-cell-name{color:var(--green)}
+.comp-cell.configured .comp-dot{background:transparent;border:1.5px solid var(--green)}
+.comp-status{font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:6px;font-style:italic}
 .comp-cell-name{font-size:11px;font-weight:500;display:block;margin-top:3px}
 .comp-cell.on .comp-cell-name{color:var(--green)}
 .comp-cell.off .comp-cell-name{color:var(--ink-3)}
@@ -280,7 +284,7 @@ footer a:hover{color:var(--paper)}
     </div>
     <div class="proof-body">
       <p class="proof-kicker">Block CFO Amrita Ahuja · Fortune · March 2026</p>
-      <p>Block rebuilt how its entire organisation works using an open-source agent framework called Goose. <strong>One risk underwriting model that previously took an entire quarter to build was completed in a fraction of the time.</strong> Non-technical teams now run SQL queries and close support tickets without waiting for an engineer. The scale of that transformation meant the organisation needed to reshape itself around the new capability. Block reduced its workforce significantly in early 2026. The same day it reported its best quarter in history.</p>
+      <p>Block built Goose internally, deployed it across every function, and gave it away to the world under an open-source licence. <strong>One risk underwriting model that previously took an entire quarter to build was completed in a fraction of the time.</strong> Non-technical teams now run SQL queries and close support tickets without waiting for an engineer. The scale of that transformation meant the organisation needed to reshape itself around the new capability — and in early 2026 it did, reporting its best quarter in history the same month.</p>
     </div>
   </div>
   <div class="insight">
@@ -340,33 +344,33 @@ footer a:hover{color:var(--paper)}
 const STAGES=[
   {n:"01",name:"The Prompter",tagline:"You ask. It answers. You close the tab.",color:"#7a7a7a",
    desc:`<p>You are having a conversation. Each session starts fresh. The model has no memory of you, no context about your work, no continuity. The value is real but it evaporates the moment you stop typing.</p><p>Everything depends on you showing up. The AI is a very fast, knowledgeable stranger you meet and forget every day.</p>`,
-   comps:["model"],tools:["Claude.ai","ChatGPT","Grok","Gemini","Perplexity"],hero:"Claude.ai",
+   comps:["model"],compsActive:true,tools:["Claude.ai","ChatGPT","Grok","Gemini","Perplexity"],hero:"Claude.ai",
    world:`<strong>The vast majority of people who believe they use AI live here.</strong> This is the waiting room, not the destination.`,
    signal:"You describe your AI usage by saying: I use ChatGPT."},
   {n:"02",name:"The Augmented Worker",tagline:"AI is in your tools. You are still doing the work.",color:"#1a6a6a",
    desc:`<p>AI is embedded in the software you already use. Copilot in Word, Gemini in your calendar, Claude in your browser. You are still doing the work but AI accelerates parts of it.</p><p>The defining characteristic: nothing happens unless you initiate it. The AI waits. Most corporate AI adoption sits here — and organisations mistake a licence rollout for a transformation.</p>`,
-   comps:["model"],tools:["Copilot Studio","Gemini Workspace","Lindy.ai","Notion AI","Claude browser"],hero:"Copilot Studio",
+   comps:["model"],compsActive:true,tools:["Copilot Studio","Gemini Workspace","Lindy.ai","Notion AI","Claude browser"],hero:"Copilot Studio",
    world:`<strong>Billions spent on licences. Genuine productivity gains. But nothing changes shape.</strong> The org chart, the workflows, the assumptions about what humans must do — all unchanged.`,
    signal:"Your organisation has rolled out Copilot and calls it an AI strategy."},
   {n:"03",name:"The Workflow Builder",tagline:"Sequences run without you. But they cannot think.",color:"#1a4a8a",
    desc:`<p>You have started connecting things. Zapier flows, Make pipelines, n8n sequences with AI nodes. Automated tasks running without you pressing a button.</p><p>Workflow builders have real tool integrations — the connections to Gmail, Slack, databases and other systems are genuine. What they lack is a reasoning heartbeat. The trigger fires but the agent does not think. The workflows are brittle and pre-scripted. They execute sequences, not decisions. No judgement. No memory. No soul. The most important line in the whole journey sits between here and the next stage: automation executes what you designed — agency handles what you did not.</p>`,
-   comps:["model","harness","tools"],tools:["Zapier + AI","Make","n8n","Lindy.ai","Airtable automations"],hero:"n8n",
+   comps:["model","harness","tools"],compsActive:true,tools:["Zapier + AI","Make","n8n","Lindy.ai","Airtable automations"],hero:"n8n",
    world:`<strong>Automation executes what you designed. Agency handles what you did not.</strong> Most people think they have crossed that line. They have not.`,
    signal:"You have built Zapier flows with AI nodes and feel like you are ahead of the curve."},
   {n:"04",name:"The Agent Operator",tagline:"You give the goal. The agent finds the path.",color:"#7a4a10",
    desc:`<p>You give a goal, not a script. The agent reasons about how to reach it across multiple steps and tools. It handles things you did not anticipate. A proper harness is in place. Memory is beginning to accumulate. Memory at this stage is emerging rather than fully persistent — session context accumulates but cross-session memory requires deliberate configuration.</p><p>You are still close — reviewing before consequential actions happen. But something fundamentally different has begun. Claude Managed Agents launched 8 April 2026. Rakuten deployed agents across sales, marketing, finance and HR, each live within a week.</p>`,
-   comps:["model","harness","heartbeat","memory","tools"],tools:["Claude Managed Agents","Claude Code","OpenAI Agents SDK","Goose","Eigent","Aider"],hero:"Claude Managed Agents",
+   comps:["model","harness","heartbeat","memory","tools"],compsActive:true,tools:["Claude Managed Agents","Claude Code","OpenAI Agents SDK","Goose","Eigent","Aider"],hero:"Claude Managed Agents",
    world:`<strong>Claude Managed Agents launched 8 April 2026.</strong> Notion, Rakuten, and Asana are early adopters. This stage just became accessible to any organisation with an API key and a clear problem.`,
    signal:"You have run an agent that completed a multi-step task without you guiding every step."},
   {n:"05",name:"The Orchestrator",tagline:"You design systems of agents. They run. You govern.",color:"#4a2a8a",
    desc:`<p>You are not operating agents. You are designing architectures. Each agent has a role, a context, a set of tools, and a relationship to the others. You think in flows of intelligence, not individual tasks.</p><p>All six components are present. Soul files are specific and deep. Memory layers are accumulating institutional knowledge. The competitive moat starts forming here — a competitor can buy the same model but cannot replicate your orchestration layer.</p>`,
-   comps:["model","harness","heartbeat","memory","tools","soul"],tools:["LangGraph","CrewAI","Google ADK","LlamaIndex","Mastra","AutoGen","Perplexity Computer"],hero:"LangGraph",
+   comps:["model","harness","heartbeat","memory","tools","soul"],compsActive:false,tools:["LangGraph","CrewAI","Google ADK","LlamaIndex","Mastra","AutoGen","Perplexity Computer"],hero:"LangGraph",
    world:`<strong>Perplexity Computer orchestrates 19 models simultaneously</strong>, routing each subtask to the optimal model, with tasks persisting for hours or months in isolated microVMs.`,
    signal:"You have stopped asking what an agent can do and started asking how agents should relate to each other."},
   {n:"06",name:"The Synthetic Employer",tagline:"Your agents have names. They work while you sleep.",color:"#8a5a00",
    desc:`<p>You are not using AI. You are managing a workforce that happens to be synthetic. Your agents have names, soul files, persistent memory, and defined roles. A task given on Monday is completed by Thursday without you in the loop once.</p><p>They communicate through WhatsApp, Telegram, Slack — the same channels your human colleagues use. The heartbeat runs continuously. The soul deepens with every interaction.</p>`,
-   comps:["model","harness","heartbeat","memory","tools","soul"],tools:["OpenClaw","Hermes","NanoClaw","IronClaw","ZeroClaw","NemoClaw","HiClaw"],hero:"OpenClaw",
-   world:`<strong>Block cut 4,000 people Feb 2026. Same day: best quarter in history. Stock +23%.</strong> Developer productivity up 40% per engineer since September. Gross profit per employee heading to $2M — double the prior year.`,
+   comps:["model","harness","heartbeat","memory","tools","soul"],compsActive:true,tools:["OpenClaw","Hermes","NanoClaw","IronClaw","ZeroClaw","NemoClaw","HiClaw"],hero:"OpenClaw",
+   world:`<strong>Block rebuilt how its entire organisation works using an open-source agent framework called Goose.</strong> Developer productivity up 40% per engineer since September 2025. Gross profit per employee heading to $2M — double the prior year. The same month Block reported its best quarter in history.`,
    signal:"You receive a WhatsApp message from an agent reporting on something it completed while you were asleep."}
 ];
 
@@ -445,9 +449,15 @@ function selectStage(i){
 function renderExplorer(i){
   const s=STAGES[i];
   const compsHtml=COMPS_ALL.map(c=>{
-    const on=s.comps.includes(c);
-    return `<div class="comp-cell ${on?'on':'off'}"><div class="comp-dot"></div><span class="comp-cell-name">${COMP_LABELS[c]}</span></div>`;
+    const present=s.comps.includes(c);
+    const cellClass=!present?'off':(s.compsActive===false?'configured':'on');
+    return `<div class="comp-cell ${cellClass}"><div class="comp-dot"></div><span class="comp-cell-name">${COMP_LABELS[c]}</span></div>`;
   }).join('');
+  const compStatus=s.compsActive===false
+    ?'All components present — architect-configured'
+    :s.comps.length===6
+    ?'All components present — continuously running'
+    :'';
   const toolsHtml=s.tools.map(t=>`<span class="tool-pill${t===s.hero?' hero':''}">${t}</span>`).join('');
   document.getElementById('explorerPanel').innerHTML=`
     <div class="eleft">
@@ -457,7 +467,7 @@ function renderExplorer(i){
       <div class="estage-desc">${s.desc}</div>
     </div>
     <div class="eright">
-      <div><p class="comp-label">Agent components present</p><div class="comp-grid">${compsHtml}</div></div>
+      <div><p class="comp-label">Agent components present</p><div class="comp-grid">${compsHtml}</div>${compStatus?`<p class="comp-status">${compStatus}</p>`:''}</div>
       <div><p class="comp-label">Tools at this stage</p><div class="tools-wrap">${toolsHtml}</div></div>
       <div class="rw-box"><p class="rw-label">In the real world</p><p class="rw-text">${s.world}</p></div>
     </div>`;
