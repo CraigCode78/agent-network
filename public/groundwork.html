@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Groundwork — The Intelligence Operating System</title>
+<meta name="description" content="The blueprint for building a company around knowledge, context, and agents. From first principles to working infrastructure.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0e0e0e;
+  --ink-2: #3a3a3a;
+  --ink-3: #7a7a7a;
+  --paper: #f7f5f0;
+  --paper-2: #eeebe3;
+  --paper-3: #e4e0d5;
+  --rule: rgba(14,14,14,0.12);
+  --rule-2: rgba(14,14,14,0.06);
+  --green: #1a7a52; --green-bg: #eaf5ee;
+  --amber: #8a5a00; --amber-bg: #fdf3e0;
+  --blue: #1a4a8a;  --blue-bg: #eaf0fb;
+  --red: #8a2020;   --red-bg: #faeaea;
+  --purple: #4a2a8a; --purple-bg: #f0eafb;
+  --teal: #1a6a6a;  --teal-bg: #eaf5f5;
+  --mono: 'DM Mono', monospace;
+  --serif: 'DM Serif Display', serif;
+  --sans: 'Instrument Sans', sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.65; font-size: 15px; -webkit-font-smoothing: antialiased; }
+
+/* ── Masthead ── */
+.masthead { background: var(--ink); padding: 3.5rem 0 3rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.masthead-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.masthead-kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(247,245,240,0.4); margin-bottom: 1.25rem; }
+.masthead h1 { font-family: var(--serif); font-size: clamp(2.8rem,6vw,5rem); font-weight: 400; line-height: 1.08; color: var(--paper); margin-bottom: 1.25rem; }
+.masthead h1 em { font-style: italic; color: rgba(247,245,240,0.5); }
+.masthead-sub { font-family: var(--serif); font-size: clamp(1rem,2vw,1.3rem); font-style: italic; color: rgba(247,245,240,0.6); max-width: 640px; line-height: 1.5; margin-bottom: 2rem; }
+.masthead-meta { font-family: var(--mono); font-size: 11px; color: rgba(247,245,240,0.35); display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+.masthead-meta a { color: rgba(247,245,240,0.5); text-decoration: none; transition: color 0.15s; }
+.masthead-meta a:hover { color: var(--paper); }
+
+/* ── Sitenav ── */
+.sitenav { background: var(--ink); border-bottom: 1px solid rgba(255,255,255,0.08); position: sticky; top: 0; z-index: 100; }
+.sitenav-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; gap: 0; overflow-x: auto; }
+.sitenav a { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(247,245,240,0.35); text-decoration: none; padding: 11px 0; margin-right: 1.75rem; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; }
+.sitenav a:hover { color: rgba(247,245,240,0.7); }
+.sitenav a.active { color: var(--paper); border-bottom-color: var(--paper); }
+
+/* ── Container ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.container-narrow { max-width: 760px; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Section structure ── */
+.part { border-top: 2px solid var(--ink); padding-top: 3rem; margin-top: 4rem; }
+.part-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.5rem; }
+.part-title { font-family: var(--serif); font-size: clamp(1.7rem,3.5vw,2.6rem); font-weight: 400; margin-bottom: 0.75rem; line-height: 1.15; }
+.part-desc { font-size: 14px; color: var(--ink-2); max-width: 680px; line-height: 1.7; margin-bottom: 2.5rem; }
+.subsec { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); padding-bottom: 6px; border-bottom: 0.5px solid var(--rule); margin: 2.5rem 0 1.25rem; }
+
+/* ── Cards ── */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 12px; margin-bottom: 1rem; }
+.card { background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 1.25rem 1.5rem; }
+.card:hover { box-shadow: 0 2px 12px rgba(14,14,14,0.07); }
+.card h3 { font-family: var(--serif); font-size: 17px; font-weight: 400; margin-bottom: 0.4rem; line-height: 1.25; }
+.card p { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+.card .tag { display: inline-block; font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 7px; border-radius: 3px; margin-bottom: 8px; }
+
+/* ── Stat callout ── */
+.stat-callout { display: flex; gap: 2rem; align-items: flex-start; padding: 1.75rem 2rem; background: #fff; border: 1px solid var(--rule); border-radius: 6px; margin-bottom: 2rem; }
+.stat-number { font-family: var(--serif); font-size: 4rem; line-height: 1; color: var(--ink); flex-shrink: 0; }
+.stat-body h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 0.4rem; }
+.stat-body p { font-size: 13px; color: var(--ink-2); line-height: 1.65; }
+.stat-source { font-family: var(--mono); font-size: 10px; color: var(--ink-3); margin-top: 0.5rem; }
+@media(max-width:560px){ .stat-callout { flex-direction: column; gap: 1rem; } }
+
+/* ── Insight box ── */
+.insight { border-left: 3px solid var(--ink); padding: 1rem 1.5rem; margin: 1.5rem 0; background: #fff; border-radius: 0 6px 6px 0; border-top: 1px solid var(--rule); border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.insight p { font-size: 13px; color: var(--ink-2); line-height: 1.65; font-style: italic; }
+.insight p strong { color: var(--ink); font-style: normal; font-weight: 600; }
+.insight.green { border-left-color: var(--green); }
+.insight.amber { border-left-color: var(--amber); }
+.insight.blue  { border-left-color: var(--blue); }
+.insight.purple{ border-left-color: var(--purple); }
+
+/* ── Stack layers ── */
+.stack-layer { border: 1px solid var(--rule); border-radius: 6px; margin-bottom: 8px; overflow: hidden; }
+.stack-layer-header { display: flex; align-items: center; gap: 12px; padding: 1rem 1.25rem; cursor: pointer; user-select: none; transition: background 0.12s; }
+.stack-layer-header:hover { background: var(--paper-2); }
+.layer-accent { width: 3px; border-radius: 2px; align-self: stretch; flex-shrink: 0; }
+.layer-num { font-family: var(--mono); font-size: 10px; color: var(--ink-3); min-width: 18px; letter-spacing: 0.08em; }
+.layer-head-text { flex: 1; }
+.layer-head-text h3 { font-family: var(--serif); font-size: 17px; font-weight: 400; color: var(--ink); margin-bottom: 2px; line-height: 1.2; }
+.layer-head-text p { font-size: 12px; color: var(--ink-3); line-height: 1.4; }
+.layer-badge { font-family: var(--mono); font-size: 9px; letter-spacing: 0.07em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; border: 0.5px solid var(--rule); color: var(--ink-3); white-space: nowrap; flex-shrink: 0; }
+.layer-chevron { font-size: 11px; color: var(--ink-3); transition: transform 0.2s; flex-shrink: 0; }
+.stack-layer.open .layer-chevron { transform: rotate(180deg); }
+.stack-layer-body { display: none; padding: 1.25rem 1.5rem; border-top: 1px solid var(--rule); background: #fff; }
+.stack-layer.open .stack-layer-body { display: block; }
+.layer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+@media(max-width:560px){ .layer-grid { grid-template-columns: 1fr; } }
+.layer-col h4 { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
+.layer-col ul { list-style: none; }
+.layer-col ul li { font-size: 13px; color: var(--ink-2); padding: 3px 0; line-height: 1.55; display: flex; gap: 8px; }
+.layer-col ul li::before { content: '—'; color: var(--ink-3); font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+.layer-examples { margin-top: 1rem; padding: 1rem 1.25rem; background: var(--paper-2); border-radius: 4px; }
+.layer-examples h4 { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
+.example-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.ex-tag { font-size: 12px; padding: 3px 10px; border-radius: 3px; background: #fff; border: 0.5px solid var(--rule); color: var(--ink-2); }
+.layer-quote { margin-top: 1rem; font-family: var(--mono); font-size: 11px; color: var(--ink-3); line-height: 1.6; padding: 0.75rem 1rem; border-left: 2px solid var(--rule); }
+
+/* ── Diagnostic ── */
+.diagnostic-q { background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 1.25rem 1.5rem; margin-bottom: 10px; }
+.diagnostic-q p { font-size: 14px; color: var(--ink); margin-bottom: 10px; line-height: 1.6; font-weight: 500; }
+.d-options { display: flex; flex-direction: column; gap: 6px; }
+.d-opt { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 6px 8px; border-radius: 4px; transition: background 0.1s; }
+.d-opt:hover { background: var(--paper-2); }
+.d-opt input { margin-top: 3px; flex-shrink: 0; accent-color: var(--ink); }
+.d-opt label { font-size: 13px; color: var(--ink-2); line-height: 1.5; cursor: pointer; }
+.d-opt.selected label { color: var(--ink); font-weight: 500; }
+.diag-result { margin-top: 1.5rem; padding: 1.25rem 1.5rem; background: var(--ink); color: var(--paper); border-radius: 6px; display: none; }
+.diag-result.show { display: block; }
+.diag-result h3 { font-family: var(--serif); font-size: 1.4rem; color: var(--paper); margin-bottom: 0.5rem; }
+.diag-result p { font-size: 13px; color: rgba(247,245,240,0.6); line-height: 1.65; }
+.diag-result .next-steps { margin-top: 1rem; display: flex; flex-direction: column; gap: 6px; }
+.diag-result .ns { font-size: 12px; color: rgba(247,245,240,0.7); display: flex; gap: 8px; }
+.diag-result .ns::before { content: '→'; color: rgba(247,245,240,0.35); flex-shrink: 0; }
+
+/* ── File templates ── */
+.file-card { background: var(--ink); color: var(--paper); border-radius: 6px; margin-bottom: 12px; overflow: hidden; }
+.file-card-header { display: flex; align-items: center; gap: 10px; padding: 0.75rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.file-name { font-family: var(--mono); font-size: 12px; color: rgba(247,245,240,0.8); }
+.file-type { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(247,245,240,0.35); margin-left: auto; }
+.file-body { padding: 1.25rem; font-family: var(--mono); font-size: 12px; color: rgba(247,245,240,0.65); line-height: 1.9; white-space: pre-wrap; }
+.file-body .comment { color: rgba(247,245,240,0.3); }
+.file-body .key { color: rgba(247,245,240,0.9); }
+.file-body .val { color: rgba(247,245,240,0.55); }
+
+/* ── Sequence steps ── */
+.seq-step { display: flex; gap: 1.25rem; margin-bottom: 1.5rem; align-items: flex-start; }
+.seq-num { font-family: var(--serif); font-size: 2rem; color: var(--paper-3); line-height: 1; flex-shrink: 0; width: 32px; text-align: right; }
+.seq-body h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.seq-body p { font-size: 13px; color: var(--ink-2); line-height: 1.65; }
+.seq-body .week { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+
+/* ── Comparison table ── */
+.comp-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 1.5rem; }
+.comp-table th { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--rule); }
+.comp-table td { padding: 10px 12px; border-bottom: 0.5px solid var(--rule-2); color: var(--ink-2); vertical-align: top; line-height: 1.55; }
+.comp-table td:first-child { color: var(--ink); font-weight: 500; }
+.comp-table tr:hover td { background: var(--paper-2); }
+
+/* ── Buttons ── */
+.btn { font-family: var(--sans); font-size: 13px; font-weight: 500; padding: 9px 18px; border-radius: 4px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); cursor: pointer; transition: all 0.15s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { background: var(--paper-2); }
+.btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn.primary:hover { opacity: 0.82; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem; }
+
+/* ── Toolkit nav ── */
+.toolkit-bar { display: flex; gap: 0; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 3rem; }
+.toolkit-item { flex: 1; padding: 1rem 1.25rem; border-right: 1px solid var(--rule); text-decoration: none; transition: background 0.12s; }
+.toolkit-item:last-child { border-right: none; }
+.toolkit-item:hover { background: var(--paper-2); }
+.toolkit-item .tk-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+.toolkit-item .tk-name { font-family: var(--serif); font-size: 15px; color: var(--ink); }
+.toolkit-item .tk-desc { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+.toolkit-item.active { background: var(--ink); }
+.toolkit-item.active .tk-label,
+.toolkit-item.active .tk-name,
+.toolkit-item.active .tk-desc { color: rgba(247,245,240,0.7); }
+.toolkit-item.active .tk-name { color: var(--paper); }
+@media(max-width:600px){ .toolkit-bar { flex-direction: column; } .toolkit-item { border-right: none; border-bottom: 1px solid var(--rule); } .toolkit-item:last-child { border-bottom: none; } }
+
+/* ── Footer ── */
+footer { border-top: 1px solid var(--rule); margin-top: 5rem; padding: 2rem 0; background: var(--ink); }
+footer .inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-family: var(--mono); font-size: 11px; color: rgba(247,245,240,0.35); }
+footer a { color: rgba(247,245,240,0.5); text-decoration: none; transition: color 0.15s; }
+footer a:hover { color: var(--paper); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(14px); } to { opacity:1; transform: translateY(0); } }
+.part { animation: fadeUp 0.4s ease both; }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="masthead-kicker">agentnetwork.ai · Groundwork · The Intelligence Operating System</p>
+    <h1>Ground<em>work</em></h1>
+    <p class="masthead-sub">The blueprint for building an organisation around knowledge, context, and agents. From first principles to working infrastructure.</p>
+    <div class="masthead-meta">
+      <span>April 2026</span>
+      <span>·</span>
+      <span>By Craig Hepburn</span>
+      <span>·</span>
+      <a href="https://agentnetwork.ai">← Agent Landscape</a>
+      <a href="https://agentnetwork.ai/agentmapper.html">Agent Mapper</a>
+      <a href="https://agentnetwork.ai/attention-audit.html">Attention Audit</a>
+      <a href="https://craighepburn.substack.com">Ground Truth ↗</a>
+    </div>
+  </div>
+</header>
+
+<!-- SITENAV -->
+<nav class="sitenav">
+  <div class="sitenav-inner">
+    <a href="#premise">The premise</a>
+    <a href="#stack">The stack</a>
+    <a href="#diagnostic">Where are you</a>
+    <a href="#knowledge">Knowledge layer</a>
+    <a href="#agent">Agent layer</a>
+    <a href="#sequence">How to build it</a>
+    <a href="#constitution">The constitution</a>
+  </div>
+</nav>
+
+<main>
+<div class="container">
+
+<!-- TOOLKIT BAR -->
+<div style="margin-top: 3rem;">
+  <div class="toolkit-bar">
+    <a class="toolkit-item" href="https://agentnetwork.ai">
+      <div class="tk-label">Reference</div>
+      <div class="tk-name">Agent Landscape</div>
+      <div class="tk-desc">Every framework, platform, and tool</div>
+    </a>
+    <a class="toolkit-item" href="https://agentnetwork.ai/agentmapper.html">
+      <div class="tk-label">Diagnostic</div>
+      <div class="tk-name">Agent Mapper</div>
+      <div class="tk-desc">Where are you on the spectrum</div>
+    </a>
+    <a class="toolkit-item" href="https://agentnetwork.ai/attention-audit.html">
+      <div class="tk-label">Audit</div>
+      <div class="tk-name">Attention Audit</div>
+      <div class="tk-desc">Where is your working day going</div>
+    </a>
+    <a class="toolkit-item active" href="#">
+      <div class="tk-label">Blueprint</div>
+      <div class="tk-name">Groundwork</div>
+      <div class="tk-desc">How to build the operating system</div>
+    </a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 1: THE PREMISE
+════════════════════════════════════════════════ -->
+<div class="part" id="premise">
+  <p class="part-label">Section I</p>
+  <h2 class="part-title">The premise</h2>
+  <p class="part-desc">The way companies are built is changing at the foundation level. Not the tools on top. The logic underneath. Most organisations are adding AI to an existing model. A small number are building a different model entirely. This is the blueprint for the second approach.</p>
+
+  <p class="subsec">The shift in one sentence</p>
+  <div style="background:#fff;border:1px solid var(--rule);border-radius:6px;padding:2rem 2.5rem;margin-bottom:1.5rem;">
+    <p style="font-family:var(--serif);font-size:clamp(1.1rem,2.5vw,1.5rem);color:var(--ink);line-height:1.45;font-style:italic;">The traditional company was built around humans as the execution unit. The new company is built around knowledge and context as the core asset, with agents as the execution unit.</p>
+  </div>
+
+  <p class="subsec">Two fundamentally different bets</p>
+  <div class="card-grid" style="grid-template-columns:1fr 1fr;">
+    <div class="card" style="border-left:3px solid var(--ink-3);">
+      <div class="tag" style="background:var(--paper-2);color:var(--ink-3);">Bet one · most organisations</div>
+      <h3>Augmentation</h3>
+      <p>Add intelligence to the existing stack. Give people better tools. Make the translation faster. The human remains the bridge between the business need and the machine. They just cross the bridge more quickly.</p>
+      <p style="margin-top:0.75rem;font-size:12px;color:var(--ink-3);">Produces: faster execution of existing work. Measured by: adoption rates, time saved, productivity scores.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--ink);">
+      <div class="tag" style="background:var(--ink);color:var(--paper);">Bet two · the structural shift</div>
+      <h3>Substitution</h3>
+      <p>Build systems that handle the execution so the human no longer needs to be the bridge at all. The human defines the outcome, provides the context, sets the direction. The agent finds the path and runs it.</p>
+      <p style="margin-top:0.75rem;font-size:12px;color:var(--ink-3);">Produces: a different kind of working day. Measured by: what your people spend their time thinking about.</p>
+    </div>
+  </div>
+
+  <div class="stat-callout">
+    <div class="stat-number">60%</div>
+    <div class="stat-body">
+      <h4>of the average knowledge worker's day is work about work</h4>
+      <p>Navigation, coordination, information retrieval, status updates, approval chains. Not the skilled work. The overhead around it. Asana found this across 10,000+ knowledge workers globally. The average worker switches between applications over 1,200 times a day. If AI makes that 60% faster, the hamster wheel runs faster. The hamster is still on the wheel. The opportunity is escaping it.</p>
+      <p class="stat-source">Source: Asana Anatomy of Work Index · Harvard Business Review · Cornell Workgeist Report 2024</p>
+    </div>
+  </div>
+
+  <div class="insight">
+    <p><strong>The diagnostic question.</strong> Has your AI adoption changed what your people spend their time thinking about? If the answer is no, you are making the first bet regardless of what the procurement deck says. The test is not which tools you have deployed. The test is whether the execution layer is still consuming the attention of your most valuable people.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 2: THE STACK
+════════════════════════════════════════════════ -->
+<div class="part" id="stack">
+  <p class="part-label">Section II</p>
+  <h2 class="part-title">The intelligence operating stack</h2>
+  <p class="part-desc">Five layers. Built from the bottom up. The models will change. The frameworks will evolve. But the logic of the stack is durable because it reflects what agents actually need to function well: knowledge, context, infrastructure, execution, and human direction. The diagram below shows the architecture at a glance. Click each layer below to explore in detail.</p>
+
+  <p class="subsec">The architecture — overview</p>
+  <div style="background:#fff;border:1px solid var(--rule);border-radius:6px;padding:1.5rem;margin-bottom:2.5rem;">
+    <svg width="100%" viewBox="0 0 680 820" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>The Groundwork intelligence operating stack</title>
+      <desc>Five-layer architecture from knowledge architecture at the foundation to human intelligence at the top.</desc>
+      <defs>
+        <marker id="sarr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <!-- side label -->
+      <text x="22" y="440" text-anchor="middle" transform="rotate(-90,22,440)" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;fill:#b4b2a9;">Compounds upward</text>
+      <!-- header -->
+      <text x="52" y="46" style="font-family:'DM Serif Display',serif;font-size:21px;fill:#0e0e0e;">The intelligence operating stack</text>
+      <text x="52" y="66" style="font-family:'Instrument Sans',sans-serif;font-size:12px;fill:#7a7a7a;">The models change. The frameworks evolve. What compounds permanently is what you build here.</text>
+      <line x1="52" y1="80" x2="628" y2="80" stroke="rgba(14,14,14,0.12)" stroke-width="0.5"/>
+      <!-- legend -->
+      <text x="52" y="98" style="font-family:'Instrument Sans',sans-serif;font-size:11px;fill:#7a7a7a;">Build order:</text>
+      <rect x="118" y="87" width="13" height="13" rx="2" fill="#eaf3de" stroke="#97c459" stroke-width="0.5"/>
+      <text x="137" y="98" style="font-family:'Instrument Sans',sans-serif;font-size:11px;fill:#7a7a7a;">Foundation first</text>
+      <rect x="234" y="87" width="13" height="13" rx="2" fill="#e1f5ee" stroke="#5dcaa5" stroke-width="0.5"/>
+      <text x="253" y="98" style="font-family:'Instrument Sans',sans-serif;font-size:11px;fill:#7a7a7a;">Agents built on top</text>
+      <rect x="382" y="87" width="13" height="13" rx="2" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="0.5"/>
+      <text x="401" y="98" style="font-family:'Instrument Sans',sans-serif;font-size:11px;fill:#7a7a7a;">Humans elevated above</text>
+
+      <!-- LAYER 1 — KNOWLEDGE (green) -->
+      <rect x="52" y="680" width="576" height="108" rx="6" fill="#eaf3de" stroke="#3B6D11" stroke-width="0.5"/>
+      <text x="76" y="706" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;fill:#27500a;">01 · Foundation</text>
+      <text x="76" y="727" style="font-family:'DM Serif Display',serif;font-size:17px;fill:#0e0e0e;">Knowledge architecture</text>
+      <text x="76" y="746" style="font-family:'Instrument Sans',sans-serif;font-size:12px;fill:#3a3a3a;">SYSTEM.md · MEMORY.md · STANDARDS.md · CLIENT.md</text>
+      <rect x="76"  y="757" width="84" height="19" rx="3" fill="#c0dd97" stroke="#3B6D11" stroke-width="0.5"/><text x="118"  y="770" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#173404;">Plain markdown</text>
+      <rect x="168" y="757" width="84" height="19" rx="3" fill="#c0dd97" stroke="#3B6D11" stroke-width="0.5"/><text x="210" y="770" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#173404;">Agent-readable</text>
+      <rect x="260" y="757" width="84" height="19" rx="3" fill="#c0dd97" stroke="#3B6D11" stroke-width="0.5"/><text x="302" y="770" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#173404;">Irreplicable</text>
+      <rect x="352" y="757" width="96" height="19" rx="3" fill="#c0dd97" stroke="#3B6D11" stroke-width="0.5"/><text x="400" y="770" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#173404;">Compounds forever</text>
+      <text x="600" y="770" text-anchor="end" style="font-family:'DM Mono',monospace;font-size:10px;fill:#3B6D11;">Cost: time</text>
+
+      <!-- connector 1→2 -->
+      <line x1="340" y1="676" x2="340" y2="658" stroke="#888780" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#sarr)"/>
+
+      <!-- LAYER 2 — CONTEXT (blue) -->
+      <rect x="52" y="558" width="576" height="108" rx="6" fill="#e6f1fb" stroke="#185FA5" stroke-width="0.5"/>
+      <text x="76" y="584" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;fill:#0C447C;">02 · Living state</text>
+      <text x="76" y="605" style="font-family:'DM Serif Display',serif;font-size:17px;fill:#0e0e0e;">Context layer</text>
+      <text x="76" y="624" style="font-family:'Instrument Sans',sans-serif;font-size:12px;fill:#3a3a3a;">CLIENT.md · decision logs · project state · relationship notes · pattern library</text>
+      <rect x="76"  y="635" width="76" height="19" rx="3" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/><text x="114"  y="648" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#042C53;">Per client</text>
+      <rect x="160" y="635" width="76" height="19" rx="3" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/><text x="198" y="648" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#042C53;">Per project</text>
+      <rect x="244" y="635" width="76" height="19" rx="3" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/><text x="282" y="648" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#042C53;">Per domain</text>
+      <rect x="328" y="635" width="96" height="19" rx="3" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/><text x="376" y="648" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#042C53;">Auto-maintained</text>
+      <text x="600" y="648" text-anchor="end" style="font-family:'DM Mono',monospace;font-size:10px;fill:#185FA5;">Cost: time</text>
+
+      <!-- connector 2→3 -->
+      <line x1="340" y1="554" x2="340" y2="536" stroke="#888780" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#sarr)"/>
+
+      <!-- LAYER 3 — INFRASTRUCTURE (amber) -->
+      <rect x="52" y="436" width="576" height="108" rx="6" fill="#faeeda" stroke="#854F0B" stroke-width="0.5"/>
+      <text x="76" y="462" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;fill:#633806;">03 · Operating environment</text>
+      <text x="76" y="483" style="font-family:'DM Serif Display',serif;font-size:17px;fill:#0e0e0e;">Agent infrastructure</text>
+      <text x="76" y="502" style="font-family:'Instrument Sans',sans-serif;font-size:12px;fill:#3a3a3a;">Harness · heartbeat · skills · tools · shell · orchestration · logs</text>
+      <!-- six constitution mini cards -->
+      <rect x="76"  y="513" width="62" height="27" rx="3" fill="#FAC775" stroke="#854F0B" stroke-width="0.5"/>
+      <text x="107"  y="524" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:9px;fill:#412402;font-weight:600;">Soul</text>
+      <text x="107"  y="535" text-anchor="middle" style="font-family:'DM Mono',monospace;font-size:9px;fill:#633806;">SYSTEM.md</text>
+      <rect x="146" y="513" width="62" height="27" rx="3" fill="#FAC775" stroke="#854F0B" stroke-width="0.5"/>
+      <text x="177"  y="524" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:9px;fill:#412402;font-weight:600;">Memory</text>
+      <text x="177"  y="535" text-anchor="middle" style="font-family:'DM Mono',monospace;font-size:9px;fill:#633806;">MEMORY.md</text>
+      <rect x="216" y="513" width="62" height="27" rx="3" fill="#FAC775" stroke="#854F0B" stroke-width="0.5"/>
+      <text x="247"  y="524" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:9px;fill:#412402;font-weight:600;">Context</text>
+      <text x="247"  y="535" text-anchor="middle" style="font-family:'DM Mono',monospace;font-size:9px;fill:#633806;">CLIENT.md</text>
+      <rect x="286" y="513" width="62" height="27" rx="3" fill="#FAC775" stroke="#854F0B" stroke-width="0.5"/>
+      <text x="317"  y="524" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:9px;fill:#412402;font-weight:600;">Tools</text>
+      <text x="317"  y="535" text-anchor="middle" style="font-family:'DM Mono',monospace;font-size:9px;fill:#633806;">APIs · shell</text>
+      <rect x="356" y="513" width="62" height="27" rx="3" fill="#FAC775" stroke="#854F0B" stroke-width="0.5"/>
+      <text x="387"  y="524" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:9px;fill:#412402;font-weight:600;">Heartbeat</text>
+      <text x="387"  y="535" text-anchor="middle" style="font-family:'DM Mono',monospace;font-size:9px;fill:#633806;">Cron · loop</text>
+      <rect x="426" y="513" width="62" height="27" rx="3" fill="#FAC775" stroke="#854F0B" stroke-width="0.5"/>
+      <text x="457"  y="524" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:9px;fill:#412402;font-weight:600;">Outcomes</text>
+      <text x="457"  y="535" text-anchor="middle" style="font-family:'DM Mono',monospace;font-size:9px;fill:#633806;">Standards</text>
+      <text x="600" y="527" text-anchor="end" style="font-family:'DM Mono',monospace;font-size:10px;fill:#854F0B;">Cost: build once</text>
+
+      <!-- connector 3→4 -->
+      <line x1="340" y1="432" x2="340" y2="414" stroke="#888780" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#sarr)"/>
+
+      <!-- LAYER 4 — EXECUTION (teal) -->
+      <rect x="52" y="314" width="576" height="108" rx="6" fill="#e1f5ee" stroke="#0F6E56" stroke-width="0.5"/>
+      <text x="76" y="340" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;fill:#085041;">04 · Agent workforce</text>
+      <text x="76" y="361" style="font-family:'DM Serif Display',serif;font-size:17px;fill:#0e0e0e;">Execution layer</text>
+      <text x="76" y="380" style="font-family:'Instrument Sans',sans-serif;font-size:12px;fill:#3a3a3a;">Agents doing the work · continuously · without being asked · at token cost</text>
+      <rect x="76"  y="391" width="84" height="19" rx="3" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/><text x="118"  y="404" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#04342C;">Email triage</text>
+      <rect x="168" y="391" width="84" height="19" rx="3" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/><text x="210" y="404" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#04342C;">Research sync</text>
+      <rect x="260" y="391" width="84" height="19" rx="3" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/><text x="302" y="404" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#04342C;">Client briefings</text>
+      <rect x="352" y="391" width="84" height="19" rx="3" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/><text x="394" y="404" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#04342C;">CRM updates</text>
+      <rect x="444" y="391" width="72" height="19" rx="3" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/><text x="480" y="404" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#04342C;">Reporting</text>
+      <text x="600" y="404" text-anchor="end" style="font-family:'DM Mono',monospace;font-size:10px;fill:#0F6E56;">Cost: tokens</text>
+
+      <!-- connector 4→5 -->
+      <line x1="340" y1="310" x2="340" y2="292" stroke="#888780" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#sarr)"/>
+
+      <!-- LAYER 5 — HUMAN (purple) -->
+      <rect x="52" y="192" width="576" height="108" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+      <text x="76" y="218" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;fill:#3C3489;">05 · Human intelligence</text>
+      <text x="76" y="239" style="font-family:'DM Serif Display',serif;font-size:17px;fill:#0e0e0e;">Direction &amp; judgement</text>
+      <text x="76" y="258" style="font-family:'Instrument Sans',sans-serif;font-size:12px;fill:#3a3a3a;">Defining what matters · relationships · knowing when the brief is wrong · building what is new</text>
+      <rect x="76"  y="269" width="78" height="19" rx="3" fill="#CECBF6" stroke="#534AB7" stroke-width="0.5"/><text x="115"  y="282" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#26215C;">Strategy</text>
+      <rect x="162" y="269" width="84" height="19" rx="3" fill="#CECBF6" stroke="#534AB7" stroke-width="0.5"/><text x="204" y="282" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#26215C;">Relationships</text>
+      <rect x="254" y="269" width="78" height="19" rx="3" fill="#CECBF6" stroke="#534AB7" stroke-width="0.5"/><text x="293" y="282" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#26215C;">Judgement</text>
+      <rect x="340" y="269" width="78" height="19" rx="3" fill="#CECBF6" stroke="#534AB7" stroke-width="0.5"/><text x="379" y="282" text-anchor="middle" style="font-family:'Instrument Sans',sans-serif;font-size:10px;fill:#26215C;">Creation</text>
+      <text x="600" y="282" text-anchor="end" style="font-family:'DM Mono',monospace;font-size:10px;fill:#3C3489;">Cost: attention</text>
+
+      <!-- bottom attribution -->
+      <text x="340" y="806" text-anchor="middle" style="font-family:'DM Mono',monospace;font-size:10px;fill:#b4b2a9;letter-spacing:0.06em;">groundwork · agentnetwork.ai · Craig Hepburn · 2026</text>
+    </svg>
+  </div>
+
+  <p class="subsec">The stack — explore each layer</p>
+
+  <!-- LAYER 5 -->
+  <div class="stack-layer open" id="sl5">
+    <div class="stack-layer-header" onclick="toggleLayer('sl5')">
+      <span class="layer-num">05</span>
+      <div class="layer-accent" style="background:#4a2a8a"></div>
+      <div class="layer-head-text">
+        <h3>Human intelligence layer</h3>
+        <p>Direction, judgement, relationships, and the things that require accountability</p>
+      </div>
+      <span class="layer-badge" style="border-color:#c0b0e0;color:#4a2a8a;">Humans only</span>
+      <span class="layer-chevron">▾</span>
+    </div>
+    <div class="stack-layer-body">
+      <div class="layer-grid">
+        <div class="layer-col">
+          <h4>What lives here</h4>
+          <ul>
+            <li>Defining what the outcome should be</li>
+            <li>Relationships that make difficult conversations possible</li>
+            <li>Knowing when the brief is wrong before starting</li>
+            <li>Decisions where being wrong has real consequences</li>
+            <li>Reading context no dataset fully captures</li>
+            <li>Building things that do not yet exist</li>
+            <li>Holding accountability for what agents produce</li>
+            <li>Setting the direction when the path is genuinely unclear</li>
+          </ul>
+        </div>
+        <div class="layer-col">
+          <h4>What this replaces</h4>
+          <ul>
+            <li>Management layers that relayed information up and down</li>
+            <li>Status meetings that monitored execution progress</li>
+            <li>Project coordination that tracked tasks</li>
+            <li>Reporting that aggregated context already held in systems</li>
+            <li>Middle management as the primary coordination mechanism</li>
+          </ul>
+          <div style="margin-top:1rem;padding:0.75rem 1rem;background:var(--purple-bg);border-radius:4px;">
+            <p style="font-family:var(--mono);font-size:10px;color:var(--purple);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">Cost unit</p>
+            <p style="font-size:12px;color:var(--ink-2);">Human attention · irreplaceable · the scarcest resource in the new model</p>
+          </div>
+        </div>
+      </div>
+      <div class="layer-examples">
+        <h4>Elevated work — what humans do when execution is handled</h4>
+        <div class="example-tags">
+          <span class="ex-tag">Defining what matters this quarter</span>
+          <span class="ex-tag">Client relationships that require trust</span>
+          <span class="ex-tag">Strategic decisions with real stakes</span>
+          <span class="ex-tag">Creative direction and vision</span>
+          <span class="ex-tag">Sensing what the market actually needs</span>
+          <span class="ex-tag">Knowing when to stop a project</span>
+          <span class="ex-tag">Building what has never been built</span>
+          <span class="ex-tag">Reading the room in a negotiation</span>
+        </div>
+      </div>
+      <div class="layer-quote">Block (Dorsey + Botha, March 2026): "Three roles going forward. Individual contributors doing actual work, augmented by agents. Directly responsible individuals owning specific cross-cutting problems. Player-coaches who raise the capability of the people around them. No permanent middle management layer. Everything else the old hierarchy did, the intelligence layer now coordinates."</div>
+    </div>
+  </div>
+
+  <!-- LAYER 4 -->
+  <div class="stack-layer" id="sl4">
+    <div class="stack-layer-header" onclick="toggleLayer('sl4')">
+      <span class="layer-num">04</span>
+      <div class="layer-accent" style="background:#1a6a6a"></div>
+      <div class="layer-head-text">
+        <h3>Execution layer</h3>
+        <p>Agents doing the work — continuously, without being asked, at token cost</p>
+      </div>
+      <span class="layer-badge" style="border-color:#9fd0d0;color:#1a6a6a;">Agents</span>
+      <span class="layer-chevron">▾</span>
+    </div>
+    <div class="stack-layer-body">
+      <div class="layer-grid">
+        <div class="layer-col">
+          <h4>What agents handle today</h4>
+          <ul>
+            <li>Email triage, extraction, and drafted responses</li>
+            <li>Research synthesis across multiple sources</li>
+            <li>Client briefing documents from context files</li>
+            <li>Meeting intelligence logged to memory</li>
+            <li>Reporting generated from live system state</li>
+            <li>Scheduling and coordination routing</li>
+            <li>Code scaffolding, tests, and documentation</li>
+            <li>CRM updates from conversation context</li>
+            <li>First-draft proposals from context and standards files</li>
+            <li>Data extraction and transformation</li>
+          </ul>
+        </div>
+        <div class="layer-col">
+          <h4>Still developing (honest assessment)</h4>
+          <ul>
+            <li>Complex multi-step reasoning across ambiguous inputs</li>
+            <li>Regulated decision-making in banking and healthcare</li>
+            <li>Novel problem types with no training precedent</li>
+            <li>High-stakes actions without human review</li>
+            <li>Tasks requiring real-time physical world interaction</li>
+          </ul>
+          <div style="margin-top:1rem;padding:0.75rem 1rem;background:var(--teal-bg);border-radius:4px;">
+            <p style="font-family:var(--mono);font-size:10px;color:var(--teal);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">Cost unit</p>
+            <p style="font-size:12px;color:var(--ink-2);">Tokens per task · Gartner forecasts 90% cost reduction by 2030 · agentic workflows consume 5–30x more tokens than simple queries</p>
+          </div>
+        </div>
+      </div>
+      <div class="layer-examples">
+        <h4>Example tasks moving from human to agent</h4>
+        <div class="example-tags">
+          <span class="ex-tag">Weekly client status report</span>
+          <span class="ex-tag">Inbound email triage and routing</span>
+          <span class="ex-tag">Market research synthesis</span>
+          <span class="ex-tag">Meeting notes to action items</span>
+          <span class="ex-tag">Proposal first draft</span>
+          <span class="ex-tag">CRM contact updates</span>
+          <span class="ex-tag">Competitor monitoring</span>
+          <span class="ex-tag">Invoice processing</span>
+          <span class="ex-tag">Code review and documentation</span>
+          <span class="ex-tag">Social media scheduling</span>
+          <span class="ex-tag">Internal FAQ responses</span>
+          <span class="ex-tag">Data formatting and transformation</span>
+        </div>
+      </div>
+      <div class="layer-quote">Block's Goose agent framework: developer productivity up 40% per engineer since September 2025. Gross profit per employee reached $1M in 2025, targeting $2M in 2026. A risk underwriting model that previously took a full quarter to build was completed in days.</div>
+    </div>
+  </div>
+
+  <!-- LAYER 3 -->
+  <div class="stack-layer" id="sl3">
+    <div class="stack-layer-header" onclick="toggleLayer('sl3')">
+      <span class="layer-num">03</span>
+      <div class="layer-accent" style="background:#8a5a00"></div>
+      <div class="layer-head-text">
+        <h3>Agent infrastructure layer</h3>
+        <p>Harness, heartbeat, tools, memory, orchestration — the operating environment</p>
+      </div>
+      <span class="layer-badge" style="border-color:#e8c878;color:#8a5a00;">Built once</span>
+      <span class="layer-chevron">▾</span>
+    </div>
+    <div class="stack-layer-body">
+      <div class="layer-grid">
+        <div class="layer-col">
+          <h4>Core components</h4>
+          <ul>
+            <li><strong>SYSTEM.md</strong> — identity, purpose, rules of engagement</li>
+            <li><strong>MEMORY.md</strong> — accumulated knowledge across all sessions</li>
+            <li><strong>Heartbeat</strong> — scheduled loop running without being asked</li>
+            <li><strong>SKILL files</strong> — capabilities described in plain text</li>
+            <li><strong>Shell access</strong> — direct execution against the machine</li>
+            <li><strong>Tool connections</strong> — APIs, email, calendar, CRM, data sources</li>
+            <li><strong>Logs</strong> — auditable record of decisions and actions</li>
+          </ul>
+        </div>
+        <div class="layer-col">
+          <h4>Current frameworks (April 2026)</h4>
+          <ul>
+            <li>OpenClaw — 345K stars, gateway architecture, 5,700+ skills</li>
+            <li>Hermes — self-improving, persistent memory, agent-loop</li>
+            <li>Pi / Claude Code — minimal harness, 4 core tools</li>
+            <li>Goose (Block) — open source, model-agnostic</li>
+            <li>LangGraph, CrewAI — multi-agent orchestration</li>
+            <li>Claude Managed Agents — production-grade hosted infrastructure</li>
+            <li>Perplexity Computer — 19-model routing, persistent sessions</li>
+          </ul>
+        </div>
+      </div>
+      <div class="layer-examples">
+        <h4>The minimal viable harness — what you actually need</h4>
+        <div class="example-tags">
+          <span class="ex-tag">A model (reasoning engine)</span>
+          <span class="ex-tag">A filesystem (storage)</span>
+          <span class="ex-tag">Markdown files (knowledge)</span>
+          <span class="ex-tag">A shell (execution)</span>
+          <span class="ex-tag">A cron job (heartbeat)</span>
+        </div>
+      </div>
+      <div class="layer-quote">Marc Andreessen (Latent Space, April 2026): "It's basically LLM plus shell, plus filesystem, plus markdown, plus cron." Five components. Four of them have existed since the 1970s. The infrastructure was always there. What was missing was a model that could understand human intent and act on it directly. See the full Agent Landscape at agentnetwork.ai for current framework comparison.</div>
+    </div>
+  </div>
+
+  <!-- LAYER 2 -->
+  <div class="stack-layer" id="sl2">
+    <div class="stack-layer-header" onclick="toggleLayer('sl2')">
+      <span class="layer-num">02</span>
+      <div class="layer-accent" style="background:#1a4a8a"></div>
+      <div class="layer-head-text">
+        <h3>Context layer</h3>
+        <p>The living picture of every relationship, project, commitment, and decision</p>
+      </div>
+      <span class="layer-badge" style="border-color:#90b8e0;color:#1a4a8a;">Maintained continuously</span>
+      <span class="layer-chevron">▾</span>
+    </div>
+    <div class="stack-layer-body">
+      <div class="layer-grid">
+        <div class="layer-col">
+          <h4>What context contains</h4>
+          <ul>
+            <li>CLIENT.md — who they are, what they need, what is open</li>
+            <li>Decision log — what was decided, when, and why</li>
+            <li>Project state — current status, blockers, next actions</li>
+            <li>Relationship notes — preferences, communication style</li>
+            <li>Pattern library — what works in this sector or situation</li>
+            <li>Commitment tracker — what has been promised and to whom</li>
+          </ul>
+        </div>
+        <div class="layer-col">
+          <h4>How it is maintained</h4>
+          <ul>
+            <li>Agent updates MEMORY.md after every significant session</li>
+            <li>Structured folder per client, project, and domain</li>
+            <li>Plain markdown — readable by humans and models alike</li>
+            <li>No login required — no SaaS wall between agent and knowledge</li>
+            <li>Version controlled — full history of what changed and when</li>
+            <li>Human review at decision points, agent maintenance in between</li>
+          </ul>
+        </div>
+      </div>
+      <div class="layer-quote">Andrej Karpathy (April 2026): 100 articles, 400,000 words, maintained entirely by an agent. His instruction: write documentation for agents, not for people. If the agent understands it, it can explain it to any human who needs it. The discipline of making information legible to agents supersedes making it legible to humans.</div>
+    </div>
+  </div>
+
+  <!-- LAYER 1 -->
+  <div class="stack-layer" id="sl1">
+    <div class="stack-layer-header" onclick="toggleLayer('sl1')">
+      <span class="layer-num">01</span>
+      <div class="layer-accent" style="background:#1a7a52"></div>
+      <div class="layer-head-text">
+        <h3>Knowledge architecture layer</h3>
+        <p>The foundation — what the company knows, encoded in a form agents can act on</p>
+      </div>
+      <span class="layer-badge" style="border-color:#80c8a0;color:#1a7a52;">Built first</span>
+      <span class="layer-chevron">▾</span>
+    </div>
+    <div class="stack-layer-body">
+      <div class="layer-grid">
+        <div class="layer-col">
+          <h4>What goes here</h4>
+          <ul>
+            <li>Every process described precisely enough to evaluate</li>
+            <li>Definition of good for every deliverable type</li>
+            <li>Domain expertise encoded in plain language</li>
+            <li>Lessons from every engagement, accessible to every agent</li>
+            <li>Brand voice, standards, and non-negotiables</li>
+            <li>Structured data sources agents can query directly</li>
+            <li>Failure patterns — what has gone wrong and why</li>
+          </ul>
+        </div>
+        <div class="layer-col">
+          <h4>Why this layer must come first</h4>
+          <ul>
+            <li>Agents without context are expensive and unreliable</li>
+            <li>McKinsey: 80% of enterprises cite data limitations as the primary blocker to scaling agentic AI</li>
+            <li>Context cannot be bought — only built over time</li>
+            <li>Competitors can buy the same models; not your knowledge</li>
+            <li>Every week this layer compounds — the moat deepens automatically</li>
+          </ul>
+          <div style="margin-top:1rem;padding:0.75rem 1rem;background:var(--green-bg);border-radius:4px;">
+            <p style="font-family:var(--mono);font-size:10px;color:var(--green);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">Cost unit</p>
+            <p style="font-size:12px;color:var(--ink-2);">Time to encode · the only irreplicable asset · compounds indefinitely</p>
+          </div>
+        </div>
+      </div>
+      <div class="layer-quote">McKinsey (2026): fewer than 10% of enterprises that experiment with agents scale them to deliver tangible value. Eight in ten cite data limitations as the primary blocker. The stack fails without this foundation. You are not building an agent. You are building the knowledge infrastructure the agent runs on.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 3: DIAGNOSTIC
+════════════════════════════════════════════════ -->
+<div class="part" id="diagnostic">
+  <p class="part-label">Section III</p>
+  <h2 class="part-title">Where are you now?</h2>
+  <p class="part-desc">Before deciding where to focus, it helps to be honest about which layers you currently have and which are missing or broken. Answer the five questions below. No right answers. The output is a starting point, not a verdict.</p>
+
+  <p class="subsec">Five questions — honest answers only</p>
+
+  <div class="diagnostic-q">
+    <p>1. Where does your organisation's knowledge currently live?</p>
+    <div class="d-options">
+      <div class="d-opt" onclick="selectOpt(this,'q1','a')"><input type="radio" name="q1"><label>Mostly in people's heads and email threads. It leaves when they leave.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q1','b')"><input type="radio" name="q1"><label>In various tools — Notion, Confluence, SharePoint — but fragmented and hard to find.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q1','c')"><input type="radio" name="q1"><label>Structured and documented, but inside SaaS systems that require a login to access.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q1','d')"><input type="radio" name="q1"><label>In structured, plain-text files that any model can read directly without an integration.</label></div>
+    </div>
+  </div>
+
+  <div class="diagnostic-q">
+    <p>2. When a new person joins your team, how do they learn what good looks like?</p>
+    <div class="d-options">
+      <div class="d-opt" onclick="selectOpt(this,'q2','a')"><input type="radio" name="q2"><label>By shadowing someone for weeks and absorbing it gradually through osmosis.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q2','b')"><input type="radio" name="q2"><label>We have onboarding documents, but they are out of date and incomplete.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q2','c')"><input type="radio" name="q2"><label>We have reasonably current documentation, but it requires significant interpretation.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q2','d')"><input type="radio" name="q2"><label>We have explicit standards files that define good precisely enough for a new hire — or an agent — to evaluate their own output.</label></div>
+    </div>
+  </div>
+
+  <div class="diagnostic-q">
+    <p>3. How does your team currently use AI?</p>
+    <div class="d-options">
+      <div class="d-opt" onclick="selectOpt(this,'q3','a')"><input type="radio" name="q3"><label>Sporadically. Some people use it for personal tasks. No organisational deployment.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q3','b')"><input type="radio" name="q3"><label>We have Copilot or similar licences rolled out. People use it to draft and summarise.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q3','c')"><input type="radio" name="q3"><label>We have specific workflows where AI handles defined tasks, but humans initiate everything.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q3','d')"><input type="radio" name="q3"><label>We have agents with persistent memory, heartbeats, and defined roles that operate without being asked.</label></div>
+    </div>
+  </div>
+
+  <div class="diagnostic-q">
+    <p>4. What percentage of your senior people's day is execution versus direction?</p>
+    <div class="d-options">
+      <div class="d-opt" onclick="selectOpt(this,'q4','a')"><input type="radio" name="q4"><label>Mostly execution. They are doing the work, not directing it.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q4','b')"><input type="radio" name="q4"><label>Roughly half and half. They direct some things but still do a lot of the work themselves.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q4','c')"><input type="radio" name="q4"><label>Mostly direction, but they still spend significant time on coordination and reporting overhead.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q4','d')"><input type="radio" name="q4"><label>Almost entirely direction. Execution and coordination are handled by agents or systems.</label></div>
+    </div>
+  </div>
+
+  <div class="diagnostic-q">
+    <p>5. If your two most valuable people left tomorrow, what would you lose?</p>
+    <div class="d-options">
+      <div class="d-opt" onclick="selectOpt(this,'q5','a')"><input type="radio" name="q5"><label>Almost everything. The knowledge, the relationships, and the ability to do the work.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q5','b')"><input type="radio" name="q5"><label>A lot. We would lose significant knowledge and take months to rebuild capability.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q5','c')"><input type="radio" name="q5"><label>Their relationships and judgement. The process knowledge is documented and recoverable.</label></div>
+      <div class="d-opt" onclick="selectOpt(this,'q5','d')"><input type="radio" name="q5"><label>Their relationships and judgement. The knowledge lives in the system, not in their heads.</label></div>
+    </div>
+  </div>
+
+  <div style="margin-top:1rem;">
+    <button class="btn primary" onclick="showDiagResult()">See where you are →</button>
+  </div>
+
+  <div class="diag-result" id="diag-result">
+    <h3 id="diag-title">Your starting point</h3>
+    <p id="diag-body"></p>
+    <div class="next-steps" id="diag-steps"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 4: KNOWLEDGE LAYER
+════════════════════════════════════════════════ -->
+<div class="part" id="knowledge">
+  <p class="part-label">Section IV</p>
+  <h2 class="part-title">Building the knowledge architecture layer</h2>
+  <p class="part-desc">This is the layer most organisations skip. It is also the reason most agent deployments underperform. Before you think about which framework to use or which model to run, you need to answer one question: what does this agent need to know about how we work in order to do this work without us?</p>
+
+  <p class="subsec">The three files every domain needs</p>
+
+  <div class="file-card">
+    <div class="file-card-header">
+      <span class="file-name">SYSTEM.md</span>
+      <span class="file-type">Identity · purpose · rules</span>
+    </div>
+    <div class="file-body"><span class="comment"># Agent identity and operating constitution
+# This file is read at the start of every session
+# Treat it as the onboarding document for a senior hire
+</span>
+<span class="key">## Who you are</span>
+<span class="val">You are [name], the [role] for [organisation].
+You serve [who you serve] by [what you do].
+Your primary objective is [specific outcome, not vague purpose].</span>
+
+<span class="key">## How you operate</span>
+<span class="val">You run on a [frequency] heartbeat. You check for [what to check].
+You act on [what you can act on without asking].
+You flag and wait on [what requires human decision].
+You never [hard constraints — things you will not do].</span>
+
+<span class="key">## Standards you hold</span>
+<span class="val">Every output you produce must meet these standards:
+- [Standard one — specific and testable]
+- [Standard two — specific and testable]
+- [Standard three — specific and testable]
+When in doubt, flag rather than proceed.</span>
+
+<span class="key">## Voice and style</span>
+<span class="val">When communicating externally: [tone, register, what to avoid]
+When logging internally: [format, level of detail required]</span>
+    </div>
+  </div>
+
+  <div class="file-card">
+    <div class="file-card-header">
+      <span class="file-name">MEMORY.md</span>
+      <span class="file-type">Accumulated knowledge · patterns · lessons</span>
+    </div>
+    <div class="file-body"><span class="comment"># Accumulated knowledge across all sessions
+# Updated by the agent after significant interactions
+# This is where institutional knowledge lives
+</span>
+<span class="key">## Patterns observed</span>
+<span class="val">- [Pattern]: [Context in which it appears] → [What it usually means]
+- [Client name] responds better to [approach] than [approach]
+- [Process] tends to stall at [stage] because [reason]
+- When [trigger], the right action is almost always [action]</span>
+
+<span class="key">## Decisions made</span>
+<span class="val">- [Date] [Decision]: [Reasoning] [Outcome]
+- [Date] [Decision]: [Reasoning] [Outcome]</span>
+
+<span class="key">## Things that have not worked</span>
+<span class="val">- [Approach] failed when [context] because [reason]
+- [Do not try X] — tried on [date], result was [outcome]</span>
+
+<span class="key">## Active context</span>
+<span class="val">Current priorities: [list]
+Things to watch: [list]
+Open questions: [list]</span>
+    </div>
+  </div>
+
+  <div class="file-card">
+    <div class="file-card-header">
+      <span class="file-name">CLIENT.md</span>
+      <span class="file-type">Context · history · commitments</span>
+    </div>
+    <div class="file-body"><span class="comment"># Living context file — updated after every significant interaction
+# Template: one file per client, per project, per engagement
+</span>
+<span class="key">## Who they are</span>
+<span class="val">Organisation: [name, sector, size]
+Primary contact: [name, role, how they prefer to communicate]
+Relationship since: [date] · Relationship health: [honest assessment]</span>
+
+<span class="key">## What they have asked for</span>
+<span class="val">Original brief: [plain language summary]
+What they actually need: [your interpretation, may differ from brief]
+What success looks like to them: [specific, not vague]</span>
+
+<span class="key">## What has been decided</span>
+<span class="val">- [Date] [Decision] [Who made it] [Any conditions]</span>
+
+<span class="key">## What is still open</span>
+<span class="val">- [Question or decision pending] [Who owns it] [By when]</span>
+
+<span class="key">## What we know that is not in the brief</span>
+<span class="val">- [Observation about how they work]
+- [Preference or sensitivity worth knowing]
+- [Political or organisational context that affects the work]</span>
+    </div>
+  </div>
+
+  <p class="subsec">The folder structure</p>
+  <div style="background:var(--ink);border-radius:6px;padding:1.5rem;font-family:var(--mono);font-size:12px;color:rgba(247,245,240,0.6);line-height:2;margin-bottom:1.5rem;">
+    <span style="color:rgba(247,245,240,0.35)"># Your organisation's knowledge architecture</span><br>
+    <span style="color:rgba(247,245,240,0.8)">knowledge/</span><br>
+    &nbsp;&nbsp;<span style="color:rgba(247,245,240,0.8)">agents/</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9FE1CB">SYSTEM.md</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgba(247,245,240,0.3)"># Agent identity and constitution</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9FE1CB">MEMORY.md</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgba(247,245,240,0.3)"># Accumulated learning</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9FE1CB">skills/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgba(247,245,240,0.3)"># Capability files</span><br>
+    &nbsp;&nbsp;<span style="color:rgba(247,245,240,0.8)">clients/</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9FE1CB">[client-name]/</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FAC775">CLIENT.md</span>&nbsp;&nbsp;&nbsp;<span style="color:rgba(247,245,240,0.3)"># Living context</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FAC775">decisions.md</span>&nbsp;<span style="color:rgba(247,245,240,0.3)"># Decision log</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FAC775">briefs/</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgba(247,245,240,0.3)"># Project briefs</span><br>
+    &nbsp;&nbsp;<span style="color:rgba(247,245,240,0.8)">standards/</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#B5D4F4">delivery.md</span>&nbsp;&nbsp;<span style="color:rgba(247,245,240,0.3)"># Definition of good</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#B5D4F4">voice.md</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgba(247,245,240,0.3)"># Brand and communication standards</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#B5D4F4">process.md</span>&nbsp;&nbsp;<span style="color:rgba(247,245,240,0.3)"># How we do things here</span><br>
+    &nbsp;&nbsp;<span style="color:rgba(247,245,240,0.8)">domain/</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#AFA9EC">market.md</span>&nbsp;&nbsp;&nbsp;<span style="color:rgba(247,245,240,0.3)"># Sector knowledge and patterns</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#AFA9EC">tools.md</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:rgba(247,245,240,0.3)"># What tools exist and how to use them</span>
+  </div>
+
+  <p class="subsec">The first encoding session</p>
+  <p style="font-size:14px;color:var(--ink-2);line-height:1.7;margin-bottom:1.25rem;">Block out two hours with the person who knows the most about the domain you have chosen. Ask three questions.</p>
+
+  <div class="card-grid" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="tag" style="background:var(--green-bg);color:var(--green);">Question one</div>
+      <h3>What does good look like?</h3>
+      <p>How would you know if something was excellent versus merely acceptable? Be specific enough that someone new could evaluate their own work without asking you.</p>
+    </div>
+    <div class="card">
+      <div class="tag" style="background:var(--amber-bg);color:var(--amber);">Question two</div>
+      <h3>What consistently goes wrong?</h3>
+      <p>What are the failure modes? Where do things typically stall? What mistakes keep happening? What do you wish people understood before starting?</p>
+    </div>
+    <div class="card">
+      <div class="tag" style="background:var(--purple-bg);color:var(--purple);">Question three</div>
+      <h3>What takes six months to learn?</h3>
+      <p>What context does someone need to do this well that they would only absorb after significant time? What is never in the documentation but should be?</p>
+    </div>
+  </div>
+
+  <div class="insight green">
+    <p>Record or transcribe the conversation. Have an agent turn it into the first draft of your STANDARDS.md and MEMORY.md. Review and correct. That two-hour session, properly encoded, is worth months of agent training. The act of encoding the knowledge is itself clarifying — most organisations discover they have never made explicit what they have always assumed was obvious.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 5: AGENT INFRASTRUCTURE
+════════════════════════════════════════════════ -->
+<div class="part" id="agent">
+  <p class="part-label">Section V</p>
+  <h2 class="part-title">Building the agent infrastructure layer</h2>
+  <p class="part-desc">Once the knowledge architecture exists, you can build the agent. Not before. The infrastructure layer is where most organisations start, which is why most agent deployments underperform. The order matters more than the tooling.</p>
+
+  <p class="subsec">Choosing the right framework — honest comparison</p>
+
+  <div style="overflow-x:auto;">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Framework</th>
+          <th>Best for</th>
+          <th>Technical requirement</th>
+          <th>What it gives you</th>
+          <th>Honest limitation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>OpenClaw / Hermes</td>
+          <td>Personal agent, always-on across messaging channels</td>
+          <td>Moderate — comfortable with command line</td>
+          <td>WhatsApp/Telegram integration, 5,700+ skills, self-improving loop</td>
+          <td>Security CVEs in OpenClaw; complex for regulated environments</td>
+        </tr>
+        <tr>
+          <td>Claude Code / Pi</td>
+          <td>Developer workflows, coding agents, minimal harness</td>
+          <td>Developer comfort required</td>
+          <td>Deep codebase context, git integration, extensible via tools</td>
+          <td>Claude-only; not a full autonomous agent without additional harness</td>
+        </tr>
+        <tr>
+          <td>Goose (Block)</td>
+          <td>Teams wanting open-source, model-agnostic foundation</td>
+          <td>Technical team required for setup</td>
+          <td>Privacy-first, local execution, proven at scale</td>
+          <td>Less ecosystem than OpenClaw; requires more self-built skills</td>
+        </tr>
+        <tr>
+          <td>LangGraph / CrewAI</td>
+          <td>Multi-agent orchestration, complex workflow automation</td>
+          <td>Engineering resource required</td>
+          <td>Full orchestration control, role-based agents, custom pipelines</td>
+          <td>Higher complexity; over-engineered for simple use cases</td>
+        </tr>
+        <tr>
+          <td>Claude Managed Agents</td>
+          <td>Production deployments requiring security and reliability</td>
+          <td>Low — managed infrastructure</td>
+          <td>Durable sessions, crash recovery, credential vaults, SOC2</td>
+          <td>Claude-only; ongoing infrastructure cost</td>
+        </tr>
+        <tr>
+          <td>n8n / Zapier (no-code)</td>
+          <td>Teams without technical resource who need automation fast</td>
+          <td>None — visual builder</td>
+          <td>Fast to deploy, wide integrations, no code required</td>
+          <td>Not truly agentic — triggered workflows, not autonomous agents</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="insight blue">
+    <p>The full landscape of every current agent framework, platform, and tool is mapped at <strong>agentnetwork.ai</strong>. Use the Agent Mapper to understand where you sit on the spectrum from tool-use to full autonomous agents. The Groundwork resource focuses on the architecture decisions; the landscape covers the tooling in full.</p>
+  </div>
+
+  <p class="subsec">What separates a tool from an agent</p>
+  <div class="card-grid" style="grid-template-columns:1fr 1fr;">
+    <div class="card" style="border-left:3px solid var(--ink-3);">
+      <div class="tag" style="background:var(--paper-2);color:var(--ink-3);">A tool</div>
+      <h3>Waits to be asked</h3>
+      <p>Responds when prompted. Has no memory between sessions. Exists only in the moment of being asked. Does not monitor, initiate, or accumulate. Most people who believe they are using AI agents are using tools.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--ink);">
+      <div class="tag" style="background:var(--ink);color:var(--paper);">An agent</div>
+      <h3>Has a heartbeat</h3>
+      <p>Runs on a scheduled loop whether or not a human asks it to. Has persistent memory that accumulates across sessions. Has a defined role, tools to act with, and the authority to act within boundaries without waiting to be asked.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 6: HOW TO BUILD IT
+════════════════════════════════════════════════ -->
+<div class="part" id="sequence">
+  <p class="part-label">Section VI</p>
+  <h2 class="part-title">The build sequence</h2>
+  <p class="part-desc">The order matters more than the speed. Most failed deployments started with the agent. The ones that work started with the knowledge. Here is the sequence that compounds correctly.</p>
+
+  <p class="subsec">Week by week — the first ninety days</p>
+
+  <div class="seq-step">
+    <span class="seq-num">1</span>
+    <div class="seq-body">
+      <div class="week">Week 1–2 · Foundation</div>
+      <h4>Choose one domain. Map the knowledge that currently exists in people's heads.</h4>
+      <p>Pick the single area where the most valuable knowledge lives informally. Run the first encoding session. Create SYSTEM.md, MEMORY.md, and the first CLIENT.md or STANDARDS.md. Do not deploy an agent yet. The knowledge layer must exist first. Most teams find this harder than expected — writing down what seems obvious is itself clarifying work.</p>
+    </div>
+  </div>
+
+  <div class="seq-step">
+    <span class="seq-num">2</span>
+    <div class="seq-body">
+      <div class="week">Week 3–4 · First agent</div>
+      <h4>Deploy a minimal agent against the knowledge you have just built. Give it one task.</h4>
+      <p>Choose the single highest-value task in your chosen domain that is currently consuming human time. Brief the agent with the knowledge files you built. Run it. Observe what it gets right and what it gets wrong. Everything it gets wrong is a gap in your knowledge architecture, not a failure of the agent. Add what is missing to the files. Run it again.</p>
+    </div>
+  </div>
+
+  <div class="seq-step">
+    <span class="seq-num">3</span>
+    <div class="seq-body">
+      <div class="week">Week 5–8 · Heartbeat</div>
+      <h4>Add the heartbeat. Let the agent run without being asked.</h4>
+      <p>Set up the scheduled loop. Define what the agent checks for and what it does when it finds something. This is the moment the agent shifts from a tool to a system. The first time it handles something you did not ask it to handle, and handles it correctly, is the moment you understand what this infrastructure actually is. Log everything. Review the first two weeks of autonomous outputs carefully.</p>
+    </div>
+  </div>
+
+  <div class="seq-step">
+    <span class="seq-num">4</span>
+    <div class="seq-body">
+      <div class="week">Week 9–12 · Extend</div>
+      <h4>Add a second domain. Let the first agent's memory inform the second.</h4>
+      <p>By now the first agent has a MEMORY.md that is accumulating real knowledge. The patterns it has observed, the decisions it has logged, the failures it has recorded — all of this is now part of your knowledge architecture. When you extend to a second domain, the second agent starts with a richer foundation than the first. This is the compounding logic at work. Each deployment improves the substrate for the next.</p>
+    </div>
+  </div>
+
+  <div class="seq-step">
+    <span class="seq-num">5</span>
+    <div class="seq-body">
+      <div class="week">Month 3 onwards · Compound</div>
+      <h4>Stop measuring adoption. Start measuring what your people are spending their time thinking about.</h4>
+      <p>By month three you should be able to answer a question you probably could not answer on day one: what would your most valuable people build if the execution layer was not consuming their attention? That question, and its answer, is the signal that the architecture is working. The organisations that reach this point are not talking about AI productivity anymore. They are talking about what they are building now that they could not previously reach.</p>
+    </div>
+  </div>
+
+  <div class="insight amber">
+    <p><strong>The most common failure mode.</strong> Deploying the agent before the knowledge layer exists. The agent is technically functional but produces generic, context-free outputs that require constant correction. The team concludes agents are not ready. The reality is the foundation was not ready. The agent was willing; the knowledge was not there to guide it.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 7: THE CONSTITUTION
+════════════════════════════════════════════════ -->
+<div class="part" id="constitution">
+  <p class="part-label">Section VII</p>
+  <h2 class="part-title">The agent's constitution</h2>
+  <p class="part-desc">The models will change. Frameworks will be superseded. Costs will fall. What will not change is what an agent needs to function well: a clear sense of what it is, what it knows, what it remembers, what it can do, and what it is for. This is the permanent structure underneath all of it.</p>
+
+  <p class="subsec">The six elements that persist across every model change</p>
+
+  <div class="card-grid" style="grid-template-columns:repeat(3,1fr);">
+    <div class="card" style="border-top:3px solid var(--purple);">
+      <div class="tag" style="background:var(--purple-bg);color:var(--purple);">Soul</div>
+      <h3>Identity and purpose</h3>
+      <p>Who the agent is, who it serves, what it is for, and what it will not do. This is the SYSTEM.md. Every other element depends on this being clear. An agent without a soul is just an expensive autocomplete.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="tag" style="background:var(--blue-bg);color:var(--blue);">Memory</div>
+      <h3>Accumulated knowledge</h3>
+      <p>What the agent has learned across every session. Patterns, decisions, failures, preferences. The MEMORY.md is the thing that turns a capable model into an entity that knows your organisation. Without memory, the agent starts from zero every time.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--green);">
+      <div class="tag" style="background:var(--green-bg);color:var(--green);">Context</div>
+      <h3>Situational awareness</h3>
+      <p>The living picture of the current state. Who are we working with. What has been decided. What is open. What has changed since last time. Context is what makes the agent's output relevant rather than generically correct.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--amber);">
+      <div class="tag" style="background:var(--amber-bg);color:var(--amber);">Tools</div>
+      <h3>Capability to act</h3>
+      <p>The connections to external systems, data sources, and services. Email, calendar, CRM, APIs, files. Without tools, the agent can think but not do. The tools are the hands. The quality of the connections determines the scope of what is possible.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--teal);">
+      <div class="tag" style="background:var(--teal-bg);color:var(--teal);">Heartbeat</div>
+      <h3>Autonomous operation</h3>
+      <p>The scheduled loop that wakes the agent and asks it to check, decide, and act without being prompted. This is the architectural difference between a tool and an agent. A chatbot waits. An agent with a heartbeat is already working.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--ink);">
+      <div class="tag" style="background:var(--paper-2);color:var(--ink-2);">Outcomes</div>
+      <h3>Definition of good</h3>
+      <p>What success looks like, precisely enough for the agent to evaluate its own output. This is the STANDARDS.md. An agent without a clear definition of good will produce technically correct outputs that miss the point. This file is what turns capability into quality.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--ink);border-radius:6px;padding:2.5rem 3rem;margin-top:2rem;">
+    <p style="font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(247,245,240,0.35);margin-bottom:1rem;">The permanent truth</p>
+    <p style="font-family:var(--serif);font-size:clamp(1.1rem,2.5vw,1.5rem);color:var(--paper);line-height:1.45;font-style:italic;margin-bottom:1.25rem;">"The models will be replaced. The frameworks will evolve. The costs will fall. What compounds permanently is the knowledge, the context, and the memory you build today. That is the moat. And unlike every other advantage in technology, it is one your competitors cannot buy."</p>
+    <p style="font-family:var(--mono);font-size:11px;color:rgba(247,245,240,0.35);">Craig Hepburn · Ground Truth · April 2026</p>
+  </div>
+
+  <div style="margin-top:2.5rem;" class="btn-row">
+    <a class="btn primary" href="https://agentnetwork.ai/agentmapper.html">Map your agent journey →</a>
+    <a class="btn" href="https://agentnetwork.ai/attention-audit.html">Take the Attention Audit</a>
+    <a class="btn" href="https://craighepburn.substack.com" target="_blank" rel="noopener">Read Ground Truth ↗</a>
+  </div>
+</div>
+
+</div>
+</main>
+
+<footer>
+  <div class="inner">
+    <span>Groundwork · agentnetwork.ai · April 2026 · Craig Hepburn</span>
+    <span>
+      <a href="https://agentnetwork.ai">Landscape</a> &nbsp;·&nbsp;
+      <a href="https://agentnetwork.ai/agentmapper.html">Agent Mapper</a> &nbsp;·&nbsp;
+      <a href="https://agentnetwork.ai/attention-audit.html">Attention Audit</a> &nbsp;·&nbsp;
+      <a href="https://craighepburn.substack.com" target="_blank" rel="noopener">Ground Truth</a> &nbsp;·&nbsp;
+      <a href="https://www.linkedin.com/in/craighepburn" target="_blank" rel="noopener">LinkedIn</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+function toggleLayer(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function selectOpt(el, name, val) {
+  document.querySelectorAll('[onclick*="' + name + '"]').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+}
+
+function showDiagResult() {
+  const answers = {};
+  ['q1','q2','q3','q4','q5'].forEach(q => {
+    const checked = document.querySelector('input[name="' + q + '"]:checked');
+    answers[q] = checked ? checked.closest('.d-opt').getAttribute('onclick').match(/'([abcd])'\)/)[1] : null;
+  });
+  const aCount = Object.values(answers).filter(v => v === 'a').length;
+  const bCount = Object.values(answers).filter(v => v === 'b').length;
+  const cCount = Object.values(answers).filter(v => v === 'c').length;
+  const dCount = Object.values(answers).filter(v => v === 'd').length;
+  const answered = Object.values(answers).filter(v => v !== null).length;
+  if (answered < 3) {
+    alert('Please answer at least three questions for a useful result.');
+    return;
+  }
+  const score = (aCount * 0) + (bCount * 1) + (cCount * 2) + (dCount * 3);
+  const max = answered * 3;
+  const pct = Math.round((score / max) * 100);
+  let title, body, steps;
+  if (pct < 25) {
+    title = 'Starting from the ground up';
+    body = 'Your knowledge currently lives in people\'s heads and your AI adoption is early-stage. This is actually a good starting point — you are not trying to migrate a broken system. You are building correctly from the beginning. The priority is the knowledge architecture layer before anything else.';
+    steps = ['Start with a two-hour encoding session in your most valuable domain','Build SYSTEM.md, MEMORY.md, and one CLIENT.md before touching any agent tooling','Run the Attention Audit to map where your working day is currently going','Read the knowledge architecture section of this guide carefully before proceeding'];
+  } else if (pct < 50) {
+    title = 'Tools in place, architecture missing';
+    body = 'You have AI tools deployed and some documentation exists, but the knowledge architecture is fragmented and not in a form agents can act on directly. The tools are doing work, but they are operating without the context that would make them genuinely useful. The next step is not more tools — it is encoding what you know.';
+    steps = ['Audit your existing documentation: what is current, what is stale, what is missing entirely','Convert your best existing docs into the three-file format: SYSTEM, MEMORY, and CLIENT','Pick one workflow where an agent could replace significant human navigation time','Build the knowledge layer for that workflow before deploying the agent'];
+  } else if (pct < 75) {
+    title = 'Good foundation, ready to build agents';
+    body = 'Your knowledge is reasonably well documented and you have meaningful AI adoption. The gap is in moving from prompted tools to autonomous agents with heartbeats, persistent memory, and defined roles. You are ready to make the infrastructure investment that changes what the system can do without a human in the loop.';
+    steps = ['Review the agent infrastructure section and choose the right framework for your scale','Deploy your first agent with a heartbeat in the domain where knowledge is strongest','Set up the MEMORY.md maintenance habit — after every significant session, five minutes of logging','Measure what your senior people\'s time is spent on in 30 days. Is it shifting?'];
+  } else {
+    title = 'Operating at the intelligence layer';
+    body = 'You have the foundations in place: documented knowledge, autonomous agents, and humans operating primarily at the direction layer rather than the execution layer. The work now is deepening the knowledge architecture, extending to new domains, and asking the Jevons question: what can you now build that was previously uneconomical?';
+    steps = ['Run the Jevons audit: what work was previously too expensive to attempt that is now viable?','Extend the knowledge architecture to your next highest-value domain','Review the constitution section — as models improve, are your SYSTEM files ready to leverage them?','What is the organisation building now that it could not have reached six months ago?'];
+  }
+  const result = document.getElementById('diag-result');
+  document.getElementById('diag-title').textContent = title;
+  document.getElementById('diag-body').textContent = body;
+  document.getElementById('diag-steps').innerHTML = steps.map(s => '<div class="ns">' + s + '</div>').join('');
+  result.classList.add('show');
+  setTimeout(() => result.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+const sections = document.querySelectorAll('.part[id]');
+const navLinks = document.querySelectorAll('.sitenav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
