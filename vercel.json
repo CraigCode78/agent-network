@@ -1,4 +1,10 @@
 {
   "buildCommand": null,
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/attention-audit-v2", "destination": "/attention-audit", "permanent": true },
+    { "source": "/attention-audit-v2.html", "destination": "/attention-audit", "permanent": true }
+  ]
 }

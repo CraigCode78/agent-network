@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Attention Audit — agentnetwork.ai</title>
+<meta name="description" content="An interactive diagnostic that maps where your working day is going and what becomes possible when agents handle the execution layer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --ink-2: #3a3a3a;
+    --ink-3: #7a7a7a;
+    --paper: #f7f5f0;
+    --paper-2: #eeebe3;
+    --paper-3: #e4e0d5;
+    --rule: rgba(14,14,14,0.12);
+    --rule-2: rgba(14,14,14,0.06);
+    --green: #1a7a52;
+    --green-bg: #eaf5ee;
+    --amber: #8a5a00;
+    --amber-bg: #fdf3e0;
+    --blue: #1a4a8a;
+    --blue-bg: #eaf0fb;
+    --red: #8a2020;
+    --red-bg: #faeaea;
+    --mono: 'DM Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'Instrument Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Masthead ── */
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    padding: 3rem 0 2.5rem;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .masthead-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+  .masthead-kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(247,245,240,0.45);
+    margin-bottom: 1rem;
+  }
+  .masthead h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: var(--paper);
+  }
+  .masthead h1 em { font-style: italic; color: rgba(247,245,240,0.6); }
+  .masthead-sub {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: rgba(247,245,240,0.55);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+  .masthead-meta {
+    font-size: 11px;
+    color: rgba(247,245,240,0.4);
+    font-family: var(--mono);
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .masthead-meta a {
+    color: rgba(247,245,240,0.5);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .masthead-meta a:hover { color: var(--paper); }
+
+  /* ── Nav ── */
+  .topnav{position:sticky;top:0;z-index:100;background:var(--ink);border-bottom:0.5px solid rgba(255,255,255,0.08);padding:0 2rem;height:48px;display:flex;align-items:center;justify-content:space-between}
+  .topnav-brand{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:rgba(247,245,240,0.45);text-decoration:none}
+  .topnav-brand:hover{color:rgba(247,245,240,0.8)}
+  .topnav-links{display:flex;gap:1.5rem;list-style:none;margin:0;padding:0}
+  .topnav-links a{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;color:rgba(247,245,240,0.35);text-decoration:none;transition:color 0.15s}
+  .topnav-links a:hover{color:rgba(247,245,240,0.7)}
+  .topnav-links a.active{color:rgba(247,245,240,0.85)}
+  @media(max-width:600px){.topnav-links{display:none}}
+
+  /* ── Container ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ── Intro section ── */
+  .intro-band {
+    background: var(--paper);
+    padding: 3rem 0 0;
+  }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 640px) { .intro-grid { grid-template-columns: 1fr; } }
+  .intro-cell {
+    padding: 1.5rem;
+    border-right: 1px solid var(--rule);
+    background: #fff;
+  }
+  .intro-cell:last-child { border-right: none; }
+  .intro-cell .num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.75rem;
+  }
+  .intro-cell h3 {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .intro-cell p { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+
+  /* ── Stat callout ── */
+  .stat-callout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    padding: 1.75rem 2rem;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    margin-bottom: 3rem;
+  }
+  @media (max-width: 560px) { .stat-callout { flex-direction: column; gap: 1rem; } }
+  .stat-number {
+    font-family: var(--serif);
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+  .stat-body h4 {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .stat-body p { font-size: 13px; color: var(--ink-2); line-height: 1.65; }
+  .stat-source {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-3);
+    margin-top: 0.5rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Part header (matches landscape style) ── */
+  .part {
+    border-top: 2px solid var(--ink);
+    padding-top: 3rem;
+    margin-top: 3rem;
+  }
+  .part-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.5rem;
+  }
+  .part-title {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    line-height: 1.15;
+  }
+  .part-desc {
+    font-size: 14px;
+    color: var(--ink-2);
+    max-width: 680px;
+    line-height: 1.65;
+    margin-bottom: 2rem;
+  }
+
+  /* ── Subsection ── */
+  .subsec {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding-bottom: 6px;
+    border-bottom: 0.5px solid var(--rule);
+    margin: 2rem 0 1.25rem;
+  }
+
+  /* ── Step progress ── */
+  .step-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 2rem;
+    padding: 1rem 1.25rem;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+  }
+  .step-item { display: flex; align-items: center; gap: 8px; }
+  .step-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-3);
+    background: var(--paper);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .step-num.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .step-num.done { background: var(--green); color: #fff; border-color: var(--green); }
+  .step-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    transition: color 0.2s;
+  }
+  .step-label.active { color: var(--ink); }
+  .step-connector { flex: 1; height: 0.5px; background: var(--rule); margin: 0 12px; }
+  @media (max-width: 500px) { .step-label { display: none; } }
+
+  /* ── Level diagram ── */
+  .level-wrap { margin-bottom: 1.5rem; }
+  .level-band {
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--rule);
+    position: relative;
+  }
+  .level-band.upper {
+    background: #fff;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+  }
+  .level-band.lower {
+    background: var(--paper-2);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+  }
+  .level-kicker {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .kicker-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--ink-3);
+  }
+  .upper .kicker-dot { background: var(--ink); }
+  .level-name {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .level-desc { font-size: 12px; color: var(--ink-2); line-height: 1.55; margin-bottom: 1rem; }
+
+  .activity-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .atag {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 400;
+    padding: 5px 11px;
+    border-radius: 3px;
+    border: 1px solid var(--rule);
+    color: var(--ink-2);
+    background: var(--paper);
+    cursor: pointer;
+    transition: all 0.12s;
+    user-select: none;
+    line-height: 1.3;
+  }
+  .atag:hover { border-color: rgba(14,14,14,0.3); color: var(--ink); background: #fff; }
+  .atag.sel {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .lower .atag { background: var(--paper-2); }
+  .lower .atag:hover { background: var(--paper-3); }
+  .lower .atag.sel { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* ── Threshold bar ── */
+  .threshold-zone {
+    border-left: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 10px 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .thresh-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .thresh-track {
+    flex: 1;
+    height: 2px;
+    background: var(--paper-3);
+    border-radius: 1px;
+    overflow: hidden;
+    position: relative;
+  }
+  .thresh-fill {
+    position: absolute; left: 0; top: 0; height: 100%;
+    background: var(--ink);
+    border-radius: 1px;
+    transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .thresh-pct {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink);
+    min-width: 32px;
+    text-align: right;
+  }
+
+  /* ── Selection state bar ── */
+  .sel-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0 1.5rem;
+    padding: 0.65rem 1rem;
+    background: var(--paper-2);
+    border-radius: 4px;
+    border: 0.5px solid var(--rule);
+  }
+  .sel-count { font-family: var(--mono); font-size: 11px; color: var(--ink-2); }
+  .sel-count strong { color: var(--ink); }
+  .btn-clear {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    padding: 0;
+    transition: color 0.15s;
+  }
+  .btn-clear:hover { color: var(--ink-2); }
+
+  /* ── Buttons ── */
+  .btn {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 9px 20px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn:hover { background: var(--paper-2); border-color: rgba(14,14,14,0.25); }
+  .btn:active { transform: scale(0.98); }
+  .btn.primary {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .btn.primary:hover { opacity: 0.82; }
+  .btn.primary:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 2rem; }
+
+  /* ── Results ── */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  @media (max-width: 540px) { .metrics-row { grid-template-columns: 1fr 1fr; } }
+  .metric-box {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1.1rem 1.25rem;
+  }
+  .metric-box .mlabel {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+  }
+  .metric-box .mval {
+    font-family: var(--serif);
+    font-size: 2.4rem;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .metric-box .msub { font-size: 11px; color: var(--ink-3); line-height: 1.4; }
+
+  /* ── Insight box ── */
+  .insight {
+    border-left: 3px solid var(--ink);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    background: #fff;
+    border-radius: 0 6px 6px 0;
+    border-top: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .insight .i-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+  }
+  .insight .i-title {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.25;
+  }
+  .insight .i-body { font-size: 13px; color: var(--ink-2); line-height: 1.65; }
+  .insight .i-body strong { color: var(--ink); font-weight: 600; }
+  .insight.green { border-left-color: var(--green); }
+  .insight.amber { border-left-color: var(--amber); }
+  .insight.red { border-left-color: var(--red); }
+
+  /* ── Comparison bars ── */
+  .compare-wrap {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .compare-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 1rem;
+  }
+  .compare-row { margin-bottom: 12px; }
+  .compare-row:last-child { margin-bottom: 0; }
+  .compare-row-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .compare-row-top .cl { font-size: 12px; color: var(--ink-2); }
+  .compare-row-top .cl.highlight { color: var(--ink); font-weight: 600; }
+  .compare-row-top .cr { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+  .compare-bar-track {
+    height: 3px;
+    background: var(--paper-2);
+    border-radius: 1.5px;
+    overflow: visible;
+    position: relative;
+  }
+  .compare-bar-fill {
+    position: absolute; left: 0; top: 0;
+    height: 100%;
+    background: var(--paper-3);
+    border-radius: 1.5px;
+  }
+  .compare-bar-fill.highlight { background: var(--ink); }
+  .your-marker {
+    position: absolute;
+    top: -3px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--ink);
+    transform: translateX(-50%);
+    border: 2px solid var(--paper);
+    box-shadow: 0 0 0 1px var(--ink);
+  }
+
+  /* ── Becomes possible ── */
+  .becomes-list { margin-bottom: 1.5rem; }
+  .becomes-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 0.5px solid var(--rule-2);
+    align-items: flex-start;
+  }
+  .becomes-item:first-child { border-top: 1px solid var(--rule); }
+  .becomes-idx {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-3);
+    flex-shrink: 0;
+    padding-top: 3px;
+    width: 20px;
+  }
+  .becomes-content h4 {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 3px;
+    line-height: 1.25;
+  }
+  .becomes-content p { font-size: 12px; color: var(--ink-2); line-height: 1.55; }
+
+  /* ── Closing callout ── */
+  .closing-callout {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 6px;
+    padding: 2rem 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .closing-callout .c-kicker {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(247,245,240,0.35);
+    margin-bottom: 0.75rem;
+  }
+  .closing-callout h3 {
+    font-family: var(--serif);
+    font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--paper);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .closing-callout h3 em { font-style: italic; color: rgba(247,245,240,0.6); }
+  .closing-callout p { font-size: 13px; color: rgba(247,245,240,0.5); line-height: 1.7; font-style: italic; }
+
+  /* ── Toolkit banner ── */
+  .toolkit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 1.25rem 1.5rem;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    margin-top: 1.5rem;
+  }
+  .toolkit-row p { font-size: 13px; color: var(--ink-2); font-style: italic; }
+  .toolkit-links { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    margin-top: 5rem;
+    padding: 2rem 0;
+    background: var(--ink);
+    color: rgba(247,245,240,0.4);
+  }
+  footer .inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+  footer a { color: rgba(247,245,240,0.5); text-decoration: none; transition: color 0.15s; }
+  footer a:hover { color: var(--paper); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade { animation: fadeUp 0.3s ease both; }
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.10s; }
+  .d3 { animation-delay: 0.15s; }
+  .d4 { animation-delay: 0.20s; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a href="/" class="topnav-brand">agentnetwork.ai</a>
+  <ul class="topnav-links">
+    <li><a href="/">Landscape</a></li>
+    <li><a href="/agentmapper">Agent Mapper</a></li>
+    <li><a href="/attention-audit" class="active">Attention Audit</a></li>
+  </ul>
+</nav>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="masthead-kicker">agentnetwork.ai · Interactive Diagnostic · April 2026</p>
+    <h1>The Attention<br><em>Audit</em></h1>
+    <p class="masthead-sub">Map where your working day is actually going — and see what becomes possible when agents handle the execution layer.</p>
+    <div class="masthead-meta">
+      <span>3 minutes</span>
+      <span>·</span>
+      <span>Personalised results</span>
+      <span>·</span>
+      <span>No sign-up</span>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+<!-- ── INTRO ── -->
+<div class="intro-band">
+  <div class="subsec" style="margin-top: 3rem;">The premise</div>
+  <div class="intro-grid">
+    <div class="intro-cell">
+      <div class="num">01 — Two layers</div>
+      <h3>Every working day has an execution layer and an intelligence layer</h3>
+      <p>Execution is navigation, coordination, and task overhead. Intelligence is judgement, strategy, and creation. Most people have never mapped the ratio between them.</p>
+    </div>
+    <div class="intro-cell">
+      <div class="num">02 — Where AI is going</div>
+      <h3>Most AI adoption makes people faster at the execution layer</h3>
+      <p>Adding Copilot, using Claude to draft emails, generating reports faster. Useful. But it leaves the structural problem intact. The hamster wheel runs faster. The hamster is still on it.</p>
+    </div>
+    <div class="intro-cell">
+      <div class="num">03 — The real shift</div>
+      <h3>The bigger opportunity is removing the need to be in that layer at all</h3>
+      <p>When agents handle execution, the constraint on what your organisation can do changes from bandwidth to imagination. New work becomes possible. Old questions finally get answered.</p>
+    </div>
+  </div>
+
+  <div class="stat-callout">
+    <div class="stat-number">60%</div>
+    <div class="stat-body">
+      <h4>of the average knowledge worker's day is "work about work"</h4>
+      <p>Searching for information, switching between tools, chasing approvals, managing coordination, generating status updates. Not the skilled work. The overhead around it. Workers switch between applications over 1,200 times a day on average, spending roughly 59 minutes per day just searching for information across fragmented tools.</p>
+      <p class="stat-source">Source: Asana Anatomy of Work Index (10,000+ knowledge workers) · Harvard Business Review · Cornell Workgeist Report</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOOL ── -->
+<div class="part">
+  <p class="part-label">The Audit</p>
+  <h2 class="part-title">Where is your attention going?</h2>
+  <p class="part-desc">Select every activity that regularly occupies your working day across both layers. Be honest rather than aspirational. The more accurate your selection, the more useful the result.</p>
+
+  <!-- Step progress -->
+  <div class="step-row" id="step-row">
+    <div class="step-item">
+      <div class="step-num active" id="sn1">1</div>
+      <span class="step-label active" id="sl1">Select activities</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item">
+      <div class="step-num" id="sn2">2</div>
+      <span class="step-label" id="sl2">Your results</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item">
+      <div class="step-num" id="sn3">3</div>
+      <span class="step-label" id="sl3">What becomes possible</span>
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div id="step1">
+    <div class="level-wrap">
+      <div class="level-band upper">
+        <div class="level-kicker"><div class="kicker-dot"></div>Level two · Intelligence layer</div>
+        <div class="level-name">Strategy, judgement, and new value</div>
+        <div class="level-desc">Work that requires your specific experience, contextual authority, and relationships. The reason you were hired.</div>
+        <div class="activity-tags" id="upper-tags"></div>
+      </div>
+      <div class="threshold-zone">
+        <span class="thresh-label">Most AI investment stops here</span>
+        <div class="thresh-track"><div class="thresh-fill" id="thresh-fill" style="width:0%"></div></div>
+        <span class="thresh-pct" id="thresh-pct">—</span>
+      </div>
+      <div class="level-band lower">
+        <div class="level-kicker" style="color:var(--ink-3)"><div class="kicker-dot"></div>Level one · Execution layer</div>
+        <div class="level-name">Navigation, coordination, and task overhead</div>
+        <div class="level-desc">The infrastructure of getting things done. Necessary, but not the work itself. Agents are becoming capable of handling most of this autonomously.</div>
+        <div class="activity-tags" id="lower-tags"></div>
+      </div>
+    </div>
+
+    <div class="sel-bar">
+      <span class="sel-count" id="sel-count">Select activities to begin your audit</span>
+      <button class="btn-clear" onclick="resetAll()" id="btn-clear" style="display:none">Clear all</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary" onclick="goStep2()" id="btn-next" disabled>See my results →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div id="step2" style="display:none">
+    <div class="metrics-row fade" id="metrics-row"></div>
+    <div class="fade d1" id="verdict-wrap"></div>
+    <div class="fade d2" id="compare-wrap"></div>
+    <div class="btn-row">
+      <button class="btn primary" onclick="goStep3()">What becomes possible →</button>
+      <button class="btn" onclick="goStep1()">← Adjust answers</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div id="step3" style="display:none">
+    <p class="part-desc fade" style="margin-bottom:1rem">Based on your execution layer selections, here is specifically what agent deployment unlocks. These are not efficiencies. They are new capabilities that were previously uneconomical to pursue.</p>
+    <div class="becomes-list fade d1" id="becomes-list"></div>
+    <div class="closing-callout fade d2" id="closing-callout"></div>
+    <div class="toolkit-row fade d3">
+      <p>This audit is part of the agentnetwork.ai toolkit alongside the AI Agent Landscape and Agent Mapper.</p>
+      <div class="toolkit-links">
+        <a class="btn" href="/">Landscape</a>
+        <a class="btn" href="/agentmapper">Agent Mapper</a>
+        <a class="btn" href="https://craighepburn.substack.com" target="_blank" rel="noopener">Read the article ↗</a>
+      </div>
+    </div>
+    <div class="btn-row fade d4">
+      <button class="btn primary" onclick="goStep1()">Start again</button>
+      <button class="btn" onclick="goStep1()">← Adjust answers</button>
+    </div>
+  </div>
+
+</div><!-- /part -->
+</div><!-- /container -->
+</main>
+
+<footer>
+  <div class="inner">
+    <span>agentnetwork.ai · Updated April 2026 · All data from public sources</span>
+    <span>
+      <a href="/">Landscape</a> &nbsp;·&nbsp;
+      <a href="/agentmapper">Agent Mapper</a> &nbsp;·&nbsp;
+      <a href="https://craighepburn.substack.com" target="_blank" rel="noopener">Substack</a> &nbsp;·&nbsp;
+      <a href="https://www.linkedin.com/in/craighepburn" target="_blank" rel="noopener">LinkedIn</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+const upper = [
+  { id:'u1', label:'Defining what problems to solve' },
+  { id:'u2', label:'Client and stakeholder relationships' },
+  { id:'u3', label:'Decisions with real consequences' },
+  { id:'u4', label:'Creative direction and vision' },
+  { id:'u5', label:'Sensing what the market actually needs' },
+  { id:'u6', label:'Leading through ambiguity' },
+  { id:'u7', label:'Building something that did not exist' },
+  { id:'u8', label:'Knowing when the brief is wrong' },
+  { id:'u9', label:'Deep thinking and original analysis' },
+  { id:'u10', label:'Mentoring and developing people' },
+];
+
+const lower = [
+  { id:'l1',  label:'Searching for information across tools' },
+  { id:'l2',  label:'Writing status updates and reports' },
+  { id:'l3',  label:'Chasing approvals and sign-offs' },
+  { id:'l4',  label:'Reformatting and moving data between systems' },
+  { id:'l5',  label:'Scheduling and coordination overhead' },
+  { id:'l6',  label:'Navigating dashboards and CRM systems' },
+  { id:'l7',  label:'Managing content workflows and approvals' },
+  { id:'l8',  label:'Writing boilerplate code and documentation' },
+  { id:'l9',  label:'Synthesising meeting notes and action items' },
+  { id:'l10', label:'Pulling data for decisions someone else makes' },
+  { id:'l11', label:'Responding to internal information requests' },
+  { id:'l12', label:'Updating project trackers and task tools' },
+  { id:'l13', label:'Onboarding and briefing new team members' },
+  { id:'l14', label:'Managing email and communication backlog' },
+];
+
+const becomes = {
+  l1:  { title:'Continuous intelligence, not periodic catch-up', body:'An agent monitors your domain continuously. You stop catching up and start staying ahead of it.' },
+  l2:  { title:'Reports that write themselves from live data', body:'Status updates drafted from system state in real time. You review exceptions, not sentences.' },
+  l3:  { title:'Approval flows that route without you managing them', body:'Coordination runs in the background. You are notified when a human decision is actually required.' },
+  l4:  { title:'Data that moves itself to where decisions happen', body:'No more copy and paste between systems. Context arrives with the task rather than after it.' },
+  l5:  { title:'Scheduling that reflects your actual priorities', body:'Coordination handled from context. Your calendar becomes a reflection of what matters, not what is available.' },
+  l6:  { title:'Insights surfaced without requiring a login', body:'The system tells you what matters when it matters. You stop navigating to find it.' },
+  l7:  { title:'Content that moves through production without a human as traffic manager', body:'Human review reserved for actual judgement calls, not workflow management.' },
+  l8:  { title:'Scaffolding handled so you can solve the actual problem', body:'The interesting engineering work. The infrastructure builds itself around it.' },
+  l9:  { title:'Meeting intelligence that compounds automatically', body:'Decisions, actions, and context logged and connected without the overhead of doing it manually.' },
+  l10: { title:'Analysis ready before you know you need it', body:'The data is prepared when the question arises. No gap between decision point and information.' },
+  l11: { title:'Common questions answered from encoded knowledge', body:'The agent handles the repeatable requests. You handle the genuinely novel ones.' },
+  l12: { title:'Project state that reflects what actually happened', body:'Trackers updated from activity rather than from what someone remembered to log.' },
+  l13: { title:'Onboarding that delivers institutional knowledge immediately', body:'Context, history, and working patterns encoded and available from day one without a briefing session.' },
+  l14: { title:'Communications managed by priority rather than arrival order', body:'The agent triages, drafts, and surfaces. You handle what requires your specific judgement.' },
+};
+
+const verdicts = [
+  { min:0,  max:9,  cls:'',      title:'Select activities to see your audit',   body:'Tag the activities that regularly fill your working day in both layers. The more honest you are, the more useful the result.' },
+  { min:10, max:25, cls:'green', title:'Low execution load',                     body:'You are already operating close to the intelligence layer. The opportunity here is less about freeing attention and more about amplifying what your attention is directed at. <strong>Agent infrastructure at this level accelerates rather than transforms.</strong>' },
+  { min:26, max:50, cls:'amber', title:'Moderate execution load',                body:'A meaningful portion of your working week is structural overhead. Targeted agent deployment in your heaviest areas would free significant cognitive capacity. <strong>The shift is achievable and the return is clear.</strong>' },
+  { min:51, max:74, cls:'amber', title:'High execution load',                    body:'The majority of your working week is infrastructure overhead. This is where most knowledge workers sit. <strong>The shift to the intelligence layer requires architectural change, not better tools.</strong> This is the moment to ask the structural questions.' },
+  { min:75, max:100,cls:'red',   title:'Very high execution load',               body:'Almost all of your working time is consumed by the execution layer. <strong>The work you were hired to do is buried under the overhead required to do it.</strong> The case for agent infrastructure here is not a question of ROI. It is a question of what your work is actually for.' },
+];
+
+const benchmarks = [
+  { pct:12, label:'Early AI adopter (augmentation bet)' },
+  { pct:38, label:'Average knowledge worker (pre-agent)' },
+  { pct:57, label:'Knowledge worker with heavy tool stack' },
+  { pct:76, label:'Operational role with significant reporting load' },
+];
+
+let sel = new Set();
+
+function renderTags() {
+  document.getElementById('upper-tags').innerHTML = upper.map(a =>
+    `<span class="atag ${sel.has(a.id)?'sel':''}" onclick="toggle('${a.id}')">${a.label}</span>`
+  ).join('');
+  document.getElementById('lower-tags').innerHTML = lower.map(a =>
+    `<span class="atag ${sel.has(a.id)?'sel':''}" onclick="toggle('${a.id}')">${a.label}</span>`
+  ).join('');
+}
+
+function toggle(id) {
+  sel.has(id) ? sel.delete(id) : sel.add(id);
+  updateUI();
+}
+
+function updateUI() {
+  const lSel = [...sel].filter(id => id.startsWith('l'));
+  const uSel = [...sel].filter(id => id.startsWith('u'));
+  const total = sel.size;
+  const pct = lSel.length ? Math.round((lSel.length / lower.length) * 100) : 0;
+
+  document.getElementById('thresh-fill').style.width = pct + '%';
+  document.getElementById('thresh-pct').textContent = total ? pct + '%' : '—';
+
+  const cc = document.getElementById('sel-count');
+  cc.innerHTML = total === 0
+    ? 'Select activities to begin your audit'
+    : `<strong>${lSel.length}</strong> execution &nbsp;·&nbsp; <strong>${uSel.length}</strong> intelligence`;
+
+  document.getElementById('btn-clear').style.display = total ? 'block' : 'none';
+  const nb = document.getElementById('btn-next');
+  nb.disabled = total === 0;
+
+  renderTags();
+}
+
+function resetAll() { sel.clear(); updateUI(); }
+
+function stats() {
+  const lSel = [...sel].filter(id => id.startsWith('l'));
+  const uSel = [...sel].filter(id => id.startsWith('u'));
+  const pct = lSel.length ? Math.round((lSel.length / lower.length) * 100) : 0;
+  const hoursWk = Math.round((lSel.length / lower.length) * 24);
+  const daysYr = Math.round((hoursWk / 8) * 47);
+  const verdict = verdicts.find(v => pct >= v.min && pct <= v.max) || verdicts[0];
+  return { lSel, uSel, pct, hoursWk, daysYr, verdict };
+}
+
+function goStep2() {
+  const { lSel, uSel, pct, hoursWk, daysYr, verdict } = stats();
+
+  document.getElementById('metrics-row').innerHTML = `
+    <div class="metric-box">
+      <div class="mlabel">Execution load</div>
+      <div class="mval">${pct}%</div>
+      <div class="msub">of your working week in the execution layer</div>
+    </div>
+    <div class="metric-box">
+      <div class="mlabel">Recoverable per week</div>
+      <div class="mval">~${hoursWk}h</div>
+      <div class="msub">via targeted agent deployment</div>
+    </div>
+    <div class="metric-box">
+      <div class="mlabel">Days per year</div>
+      <div class="mval">${daysYr}</div>
+      <div class="msub">currently in execution overhead</div>
+    </div>
+  `;
+
+  document.getElementById('verdict-wrap').innerHTML = `
+    <div class="insight ${verdict.cls}">
+      <div class="i-label">Your audit — ${lSel.length} execution · ${uSel.length} intelligence activities selected</div>
+      <div class="i-title">${verdict.title}</div>
+      <div class="i-body">${verdict.body}</div>
+    </div>
+  `;
+
+  const nearest = benchmarks.reduce((a,b) => Math.abs(b.pct-pct) < Math.abs(a.pct-pct) ? b : a);
+  document.getElementById('compare-wrap').innerHTML = `
+    <div class="compare-wrap">
+      <div class="compare-label">How this compares</div>
+      ${benchmarks.map(b => {
+        const isNearest = b.label === nearest.label;
+        const closeEnough = Math.abs(b.pct - pct) < 10;
+        return `
+          <div class="compare-row">
+            <div class="compare-row-top">
+              <span class="cl ${isNearest?'highlight':''}">${b.label}</span>
+              <span class="cr">${b.pct}%</span>
+            </div>
+            <div class="compare-bar-track">
+              <div class="compare-bar-fill ${isNearest?'highlight':''}" style="width:${b.pct}%"></div>
+              ${closeEnough ? `<div class="your-marker" style="left:${pct}%"></div>` : ''}
+            </div>
+          </div>`;
+      }).join('')}
+      <p style="font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:10px;">Your score: ${pct}% &nbsp;·&nbsp; Nearest profile: ${nearest.label}</p>
+    </div>
+  `;
+
+  setStep(2);
+}
+
+function goStep3() {
+  const { lSel, hoursWk } = stats();
+
+  if (!lSel.length) {
+    document.getElementById('becomes-list').innerHTML = `<p style="font-size:13px;color:var(--ink-2);padding:1rem 0;font-style:italic;">Go back and select some execution layer activities to see specific opportunities.</p>`;
+  } else {
+    document.getElementById('becomes-list').innerHTML = lSel.map((id, i) => {
+      const b = becomes[id];
+      if (!b) return '';
+      return `
+        <div class="becomes-item">
+          <div class="becomes-idx">${String(i+1).padStart(2,'0')}</div>
+          <div class="becomes-content">
+            <h4>${b.title}</h4>
+            <p>${b.body}</p>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  const hrs = hoursWk > 0 ? `those ~${hoursWk} hours` : 'the execution overhead';
+  document.getElementById('closing-callout').innerHTML = `
+    <div class="c-kicker">The question worth sitting with</div>
+    <h3>If ${hrs} were handled by agents, what would you build that you currently <em>cannot reach</em>?</h3>
+    <p>Not what you would do faster. What you would build that does not exist yet. That question is the whole transition. The organisations asking it now are the ones shaping their own answer to it.</p>
+  `;
+
+  setStep(3);
+}
+
+function goStep1() { setStep(1); }
+
+function setStep(n) {
+  document.getElementById('step1').style.display = n===1?'block':'none';
+  document.getElementById('step2').style.display = n===2?'block':'none';
+  document.getElementById('step3').style.display = n===3?'block':'none';
+  for (let i=1;i<=3;i++){
+    const num = document.getElementById('sn'+i);
+    const lbl = document.getElementById('sl'+i);
+    if (i < n) { num.className='step-num done'; num.textContent='✓'; }
+    else if (i===n) { num.className='step-num active'; num.textContent=i; }
+    else { num.className='step-num'; num.textContent=i; }
+    if (lbl) lbl.className='step-label'+(i===n?' active':'');
+  }
+  if (n>1) {
+    const target = document.querySelector('.part');
+    if (target) window.scrollTo({ top: target.offsetTop - 60, behavior:'smooth' });
+  }
+}
+
+renderTags();
+</script>
+</body>
+</html>
