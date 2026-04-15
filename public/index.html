@@ -54,7 +54,13 @@
   .topnav-links a{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;color:rgba(247,245,240,0.35);text-decoration:none;transition:color 0.15s}
   .topnav-links a:hover{color:rgba(247,245,240,0.7)}
   .topnav-links a.active{color:rgba(247,245,240,0.85)}
-  @media(max-width:600px){.topnav-links{display:none}}
+  @media(max-width:600px){
+    .topnav{padding:0 1rem;justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .topnav::-webkit-scrollbar{display:none}
+    .topnav-brand{display:none}
+    .topnav-links{gap:1.25rem;white-space:nowrap}
+    .topnav-links a{font-size:10px}
+  }
 
   .masthead {
     border-bottom: 1px solid var(--rule);

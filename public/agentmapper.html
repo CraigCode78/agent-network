@@ -44,7 +44,13 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-heigh
 .topnav-links a{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;color:rgba(247,245,240,0.35);text-decoration:none}
 .topnav-links a:hover{color:rgba(247,245,240,0.7)}
 .topnav-links a.active{color:rgba(247,245,240,0.85)}
-@media(max-width:600px){.topnav-links{display:none}}
+@media(max-width:600px){
+  .topnav{padding:0 1rem;justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .topnav::-webkit-scrollbar{display:none}
+  .topnav-brand{display:none}
+  .topnav-links{gap:1.25rem;white-space:nowrap}
+  .topnav-links a{font-size:10px}
+}
 
 /* MASTHEAD */
 .masthead{background:var(--ink);color:var(--paper);padding:3.5rem 0 3rem;border-bottom:1px solid rgba(255,255,255,0.08)}
