@@ -332,6 +332,21 @@
   .part { animation: fadeUp 0.4s ease both; }
   .part:nth-child(2) { animation-delay: 0.05s; }
   .part:nth-child(3) { animation-delay: 0.1s; }
+
+  /* ── Toolkit bar (shared cross-page nav) ── */
+  .toolkit-bar { display: flex; gap: 0; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 3rem; }
+  .toolkit-item { flex: 1; padding: 1rem 1.25rem; border-right: 1px solid var(--rule); text-decoration: none; transition: background 0.12s; }
+  .toolkit-item:last-child { border-right: none; }
+  .toolkit-item:hover { background: var(--paper-2); }
+  .toolkit-item .tk-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+  .toolkit-item .tk-name { font-family: var(--serif); font-size: 15px; color: var(--ink); }
+  .toolkit-item .tk-desc { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+  .toolkit-item.active { background: var(--ink); }
+  .toolkit-item.active .tk-label,
+  .toolkit-item.active .tk-name,
+  .toolkit-item.active .tk-desc { color: rgba(247,245,240,0.7); }
+  .toolkit-item.active .tk-name { color: var(--paper); }
+  @media(max-width:680px){ .toolkit-bar { flex-direction: column; } .toolkit-item { border-right: none; border-bottom: 1px solid var(--rule); } .toolkit-item:last-child { border-bottom: none; } }
 </style>
 </head>
 <body>
@@ -357,16 +372,42 @@
       <span>Section II — Coding Agents · Platforms · Frameworks</span>
 
     </div>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:1.25rem;">
-      <a href="/agentmapper" class="cta-btn primary">Map Your Agent Journey →</a>
-      <a href="/attention-audit" class="cta-btn ghost">Take the Attention Audit →</a>
-      <a href="#section-i" class="cta-btn ghost">Explore the Landscape</a>
-    </div>
   </div>
 </header>
 
 <main>
 <div class="container">
+
+<!-- TOOLKIT BAR -->
+<div style="margin-top: 3rem;">
+  <div class="toolkit-bar">
+    <a class="toolkit-item active" href="#">
+      <div class="tk-label">Reference</div>
+      <div class="tk-name">Agent Landscape</div>
+      <div class="tk-desc">Every framework and tool</div>
+    </a>
+    <a class="toolkit-item" href="/agentmapper">
+      <div class="tk-label">Diagnostic</div>
+      <div class="tk-name">Agent Mapper</div>
+      <div class="tk-desc">Where are you on the journey</div>
+    </a>
+    <a class="toolkit-item" href="/attention-audit">
+      <div class="tk-label">Audit</div>
+      <div class="tk-name">Attention Audit</div>
+      <div class="tk-desc">What is your working day costing</div>
+    </a>
+    <a class="toolkit-item" href="/groundwork">
+      <div class="tk-label">Blueprint</div>
+      <div class="tk-name">Groundwork</div>
+      <div class="tk-desc">How to build the foundation</div>
+    </a>
+    <a class="toolkit-item" href="/company-map">
+      <div class="tk-label">Structure</div>
+      <div class="tk-name">Company Map</div>
+      <div class="tk-desc">What replaces the org chart</div>
+    </a>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════════════
      SECTION I — PERSONAL AGENTS
