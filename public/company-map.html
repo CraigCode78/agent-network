@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Company Map — What Replaces the Org Chart</title>
+<meta name="description" content="The five operational layers of the new organisation. What each contains, how agents operate it, the failure modes, and the questions to ask about your company this week.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0e0e0e;
+  --ink-2: #3a3a3a;
+  --ink-3: #7a7a7a;
+  --paper: #f7f5f0;
+  --paper-2: #eeebe3;
+  --paper-3: #e4e0d5;
+  --rule: rgba(14,14,14,0.12);
+  --rule-2: rgba(14,14,14,0.06);
+  --green: #1a7a52; --green-bg: #eaf5ee; --green-mid: #5aaa82;
+  --amber: #8a5a00; --amber-bg: #fdf3e0; --amber-mid: #c49030;
+  --blue: #1a4a8a; --blue-bg: #eaf0fb; --blue-mid: #4a7ac0;
+  --purple: #4a2a8a; --purple-bg: #f0eafb; --purple-mid: #7a5ab8;
+  --teal: #1a6a6a; --teal-bg: #eaf5f5; --teal-mid: #4a9a9a;
+  --mono: 'DM Mono', monospace;
+  --serif: 'DM Serif Display', serif;
+  --sans: 'Instrument Sans', sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.65; font-size: 15px; -webkit-font-smoothing: antialiased; }
+
+/* ── Masthead ── */
+.masthead { background: var(--ink); padding: 3.5rem 0 3rem; }
+.masthead-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.masthead-kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(247,245,240,0.4); margin-bottom: 1.25rem; }
+.masthead h1 { font-family: var(--serif); font-size: clamp(2.8rem,6vw,5rem); font-weight: 400; line-height: 1.08; color: var(--paper); margin-bottom: 1.25rem; }
+.masthead h1 em { font-style: italic; color: rgba(247,245,240,0.45); }
+.masthead-sub { font-family: var(--serif); font-size: clamp(1rem,2vw,1.25rem); font-style: italic; color: rgba(247,245,240,0.6); max-width: 620px; line-height: 1.5; margin-bottom: 2rem; }
+.masthead-meta { font-family: var(--mono); font-size: 11px; color: rgba(247,245,240,0.35); display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+.masthead-meta a { color: rgba(247,245,240,0.5); text-decoration: none; }
+.masthead-meta a:hover { color: var(--paper); }
+
+/* ── Topnav (shared across agentnetwork.ai) ── */
+.topnav { position: sticky; top: 0; z-index: 110; background: var(--ink); border-bottom: 0.5px solid rgba(255,255,255,0.08); padding: 0 2rem; height: 48px; display: flex; align-items: center; justify-content: space-between; }
+.topnav-brand { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: rgba(247,245,240,0.45); text-decoration: none; }
+.topnav-brand:hover { color: rgba(247,245,240,0.8); }
+.topnav-links { display: flex; gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
+.topnav-links a { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: rgba(247,245,240,0.35); text-decoration: none; transition: color 0.15s; }
+.topnav-links a:hover { color: rgba(247,245,240,0.7); }
+.topnav-links a.active { color: rgba(247,245,240,0.85); }
+@media(max-width:680px){
+  .topnav { padding: 0 1rem; justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .topnav::-webkit-scrollbar { display: none; }
+  .topnav-brand { display: none; }
+  .topnav-links { gap: 1.25rem; white-space: nowrap; }
+  .topnav-links a { font-size: 10px; }
+}
+
+/* ── Sitenav ── */
+.sitenav { background: var(--ink); border-bottom: 1px solid rgba(255,255,255,0.08); position: sticky; top: 48px; z-index: 100; }
+.sitenav-inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; gap: 0; overflow-x: auto; }
+.sitenav a { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(247,245,240,0.35); text-decoration: none; padding: 11px 0; margin-right: 1.75rem; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s; }
+.sitenav a:hover { color: rgba(247,245,240,0.7); }
+.sitenav a.active { color: var(--paper); border-bottom-color: var(--paper); }
+
+/* ── Layout ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.part { border-top: 2px solid var(--ink); padding-top: 3rem; margin-top: 4rem; }
+.part-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.5rem; }
+.part-title { font-family: var(--serif); font-size: clamp(1.7rem,3.5vw,2.6rem); font-weight: 400; margin-bottom: 0.75rem; line-height: 1.15; }
+.part-desc { font-size: 14px; color: var(--ink-2); max-width: 680px; line-height: 1.7; margin-bottom: 2.5rem; }
+.subsec { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); padding-bottom: 6px; border-bottom: 0.5px solid var(--rule); margin: 2.5rem 0 1.25rem; }
+
+/* ── Toolkit bar ── */
+.toolkit-bar { display: flex; gap: 0; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 3rem; }
+.toolkit-item { flex: 1; padding: 1rem 1.25rem; border-right: 1px solid var(--rule); text-decoration: none; transition: background 0.12s; }
+.toolkit-item:last-child { border-right: none; }
+.toolkit-item:hover { background: var(--paper-2); }
+.toolkit-item .tk-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+.toolkit-item .tk-name { font-family: var(--serif); font-size: 15px; color: var(--ink); }
+.toolkit-item .tk-desc { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+.toolkit-item.active { background: var(--ink); }
+.toolkit-item.active .tk-label, .toolkit-item.active .tk-name, .toolkit-item.active .tk-desc { color: rgba(247,245,240,0.7); }
+.toolkit-item.active .tk-name { color: var(--paper); }
+@media(max-width:680px){ .toolkit-bar { flex-direction: column; } .toolkit-item { border-right: none; border-bottom: 1px solid var(--rule); } }
+
+/* ── The visual map ── */
+.map-wrap { position: relative; margin-bottom: 3rem; }
+.map-layer-row { display: flex; align-items: stretch; gap: 0; margin-bottom: 4px; position: relative; }
+.map-num { width: 36px; display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; flex-shrink: 0; font-family: var(--mono); font-size: 10px; color: var(--ink-3); }
+.map-layer { flex: 1; border-radius: 6px; padding: 16px 20px; cursor: pointer; transition: opacity 0.15s, transform 0.15s; border-left: 5px solid transparent; position: relative; }
+.map-layer:hover { opacity: 0.88; }
+.map-layer.open { transform: none; }
+.map-layer-inner { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.map-layer-text { flex: 1; }
+.map-layer-name { font-family: var(--serif); font-size: 19px; font-weight: 400; margin-bottom: 3px; line-height: 1.2; }
+.map-layer-sub { font-size: 12px; line-height: 1.45; opacity: 0.7; }
+.map-layer-right { flex-shrink: 0; text-align: right; }
+.map-layer-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.07em; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; border: 0.5px solid; white-space: nowrap; display: inline-block; margin-bottom: 6px; }
+.map-layer-chevron { font-size: 11px; opacity: 0.5; transition: transform 0.2s; display: block; text-align: right; margin-top: 4px; }
+.map-layer.open .map-layer-chevron { transform: rotate(180deg); }
+.map-connector { display: flex; align-items: center; margin: 0 0 4px 36px; }
+.map-connector-line { flex: 1; height: 0.5px; background: var(--rule); }
+.map-connector-label { font-family: var(--mono); font-size: 9px; color: var(--ink-3); letter-spacing: 0.04em; padding: 0 10px; white-space: nowrap; }
+
+/* ── Layer body ── */
+.map-body { display: none; margin: 0 0 4px 36px; background: #fff; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.map-body.open { display: block; }
+.map-body-inner { padding: 1.5rem; }
+.map-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 1.25rem; }
+@media(max-width:600px){ .map-cols { grid-template-columns: 1fr; } }
+.map-col h4 { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 0.5px solid var(--rule); }
+.map-col p, .map-col li { font-size: 13px; color: var(--ink-2); line-height: 1.65; }
+.map-col ul { list-style: none; }
+.map-col ul li { padding: 2px 0; display: flex; gap: 8px; }
+.map-col ul li::before { content: '—'; color: var(--ink-3); font-size: 10px; flex-shrink: 0; margin-top: 2px; }
+.failure-box { padding: 1rem 1.25rem; border-radius: 4px; margin-bottom: 1rem; border-left: 3px solid; }
+.failure-box h4 { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.failure-box p { font-size: 13px; line-height: 1.6; }
+.question-box { background: var(--ink); color: var(--paper); padding: 1.25rem 1.5rem; border-radius: 4px; }
+.question-box h4 { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(247,245,240,0.4); margin-bottom: 8px; }
+.question-box p { font-size: 14px; color: var(--paper); line-height: 1.6; font-style: italic; font-family: var(--serif); }
+
+/* ── Connective tissue ── */
+.tissue-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 2rem; }
+@media(max-width:560px){ .tissue-grid { grid-template-columns: 1fr; } }
+.tissue-card { background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 1.25rem 1.5rem; }
+.tissue-card h3 { font-family: var(--serif); font-size: 17px; font-weight: 400; margin-bottom: 0.4rem; }
+.tissue-card p { font-size: 13px; color: var(--ink-2); line-height: 1.65; }
+
+/* ── Insight ── */
+.insight { border-left: 3px solid var(--ink); padding: 1rem 1.5rem; margin: 1.5rem 0; background: #fff; border-radius: 0 6px 6px 0; border-top: 1px solid var(--rule); border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.insight p { font-size: 13px; color: var(--ink-2); line-height: 1.65; font-style: italic; }
+.insight p strong { color: var(--ink); font-style: normal; }
+
+/* ── Diagnostic ── */
+.diag-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+@media(max-width:700px){ .diag-grid { grid-template-columns: 1fr; } }
+.diag-card { background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 1.25rem; cursor: pointer; transition: all 0.15s; user-select: none; }
+.diag-card:hover { background: var(--paper-2); }
+.diag-card.selected { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.diag-card.selected p { color: rgba(247,245,240,0.7); }
+.diag-card h4 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.diag-card p { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
+.diag-result { background: var(--ink); color: var(--paper); border-radius: 6px; padding: 1.5rem 2rem; display: none; }
+.diag-result.show { display: block; }
+.diag-result h3 { font-family: var(--serif); font-size: 1.4rem; margin-bottom: 0.5rem; }
+.diag-result p { font-size: 13px; color: rgba(247,245,240,0.65); line-height: 1.65; margin-bottom: 0.75rem; }
+.diag-result .next { font-size: 12px; color: rgba(247,245,240,0.5); display: flex; gap: 8px; }
+.diag-result .next::before { content: '→'; color: rgba(247,245,240,0.3); }
+
+/* ── Footer ── */
+footer { border-top: 1px solid var(--rule); margin-top: 5rem; padding: 2rem 0; background: var(--ink); }
+footer .inner { max-width: 1100px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-family: var(--mono); font-size: 11px; color: rgba(247,245,240,0.35); }
+footer a { color: rgba(247,245,240,0.5); text-decoration: none; }
+footer a:hover { color: var(--paper); }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="/" class="topnav-brand">agentnetwork.ai</a>
+  <ul class="topnav-links">
+    <li><a href="/">Landscape</a></li>
+    <li><a href="/groundwork">Groundwork</a></li>
+    <li><a href="/agentmapper">Agent Mapper</a></li>
+    <li><a href="/attention-audit">Attention Audit</a></li>
+    <li><a href="/company-map" class="active">Company Map</a></li>
+  </ul>
+</nav>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="masthead-kicker">agentnetwork.ai · The Company Map · What Replaces the Org Chart</p>
+    <h1>The Company <em>Map</em></h1>
+    <p class="masthead-sub">The org chart draws one layer, poorly. The new organisation has five. Here is what each one contains, how agents operate it, and what to ask about your company this week.</p>
+    <div class="masthead-meta">
+      <span>April 2026</span>
+      <span>·</span>
+      <span>By Craig Hepburn</span>
+      <span>·</span>
+      <a href="https://agentnetwork.ai">← Agent Landscape</a>
+      <a href="https://agentnetwork.ai/agentmapper.html">Agent Mapper</a>
+      <a href="https://agentnetwork.ai/attention-audit.html">Attention Audit</a>
+      <a href="https://agentnetwork.ai/groundwork.html">Groundwork</a>
+      <a href="https://craighepburn.substack.com">Ground Truth ↗</a>
+    </div>
+  </div>
+</header>
+
+<nav class="sitenav">
+  <div class="sitenav-inner">
+    <a href="#premise">The premise</a>
+    <a href="#layers">The five layers</a>
+    <a href="#tissue">Connective tissue</a>
+    <a href="#diagnostic">Your company</a>
+  </div>
+</nav>
+
+<main>
+<div class="container">
+
+<div style="margin-top:3rem;">
+  <div class="toolkit-bar">
+    <a class="toolkit-item" href="https://agentnetwork.ai">
+      <div class="tk-label">Reference</div>
+      <div class="tk-name">Agent Landscape</div>
+      <div class="tk-desc">Every framework and tool</div>
+    </a>
+    <a class="toolkit-item" href="https://agentnetwork.ai/agentmapper.html">
+      <div class="tk-label">Diagnostic</div>
+      <div class="tk-name">Agent Mapper</div>
+      <div class="tk-desc">Where are you on the journey</div>
+    </a>
+    <a class="toolkit-item" href="https://agentnetwork.ai/attention-audit.html">
+      <div class="tk-label">Audit</div>
+      <div class="tk-name">Attention Audit</div>
+      <div class="tk-desc">What is your working day costing</div>
+    </a>
+    <a class="toolkit-item" href="https://agentnetwork.ai/groundwork.html">
+      <div class="tk-label">Blueprint</div>
+      <div class="tk-name">Groundwork</div>
+      <div class="tk-desc">How to build the foundation</div>
+    </a>
+    <a class="toolkit-item active" href="#">
+      <div class="tk-label">Structure</div>
+      <div class="tk-name">Company Map</div>
+      <div class="tk-desc">What replaces the org chart</div>
+    </a>
+  </div>
+</div>
+
+<!-- PREMISE -->
+<div class="part" id="premise">
+  <p class="part-label">The premise</p>
+  <h2 class="part-title">The org chart is obsolete</h2>
+  <p class="part-desc">The hierarchy of people was built for a specific set of conditions. Coordination was expensive. Communication was slow. Institutional memory lived in heads. The only operational unit available was a human being. Every structural assumption in modern organisational design traces back to those four constraints. None of them holds anymore. And yet the map we use to draw companies still assumes all four.</p>
+
+  <div style="background:#fff;border:1px solid var(--rule);border-radius:6px;padding:2rem 2.5rem;margin-bottom:1.5rem;">
+    <p style="font-family:var(--serif);font-size:clamp(1.1rem,2.5vw,1.5rem);color:var(--ink);line-height:1.45;font-style:italic;">Every company has the same five operational layers underneath its org chart. The layers do not change. What changes is who, or what, operates each of them.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:2rem;">
+    <div style="background:#fff;border:1px solid var(--rule);border-radius:6px;padding:1.25rem 1.5rem;border-left:3px solid var(--ink-3);">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;padding:3px 7px;background:var(--paper-2);border-radius:3px;display:inline-block;">The old model</div>
+      <h3 style="font-family:var(--serif);font-size:16px;font-weight:400;margin-bottom:6px;">Staffed by humans</h3>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.6;">Every layer operated by people. The people carried the knowledge, ran the processes, made the decisions, and coordinated the work. Scale meant headcount. Capability meant hiring.</p>
+    </div>
+    <div style="background:#fff;border:1px solid var(--rule);border-radius:6px;padding:1.25rem 1.5rem;border-left:3px solid var(--ink);">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 7px;background:var(--ink);color:var(--paper);border-radius:3px;display:inline-block;margin-bottom:8px;">The new model</div>
+      <h3 style="font-family:var(--serif);font-size:16px;font-weight:400;margin-bottom:6px;">Operated by capabilities</h3>
+      <p style="font-size:13px;color:var(--ink-2);line-height:1.6;">Each layer becomes a capability: agents doing the work, knowledge feeding them context, workflows connecting them, evaluations measuring the output. Humans build, manage, and teach the capabilities. They stop staffing the layers and start governing them.</p>
+    </div>
+  </div>
+
+  <div class="insight">
+    <p><strong>The diagnostic question.</strong> If you were designing your organisation from scratch today, knowing what agent infrastructure can currently do and the rate at which it is improving, would you draw the same org chart? Almost certainly not. The five layers below are the structure of the organisation that replaces it.</p>
+  </div>
+</div>
+
+<!-- THE FIVE LAYERS -->
+<div class="part" id="layers">
+  <p class="part-label">Section II</p>
+  <h2 class="part-title">The five layers</h2>
+  <p class="part-desc">These are not functions. Not departments. Not process areas. They are the underlying architecture of every organisation. A function sits inside a layer. A department spans parts of several. A process runs across them. Click each layer to expand the full detail: what it contains, how it is currently operated, what a capability looks like, the failure mode, and the question to ask about your own company.</p>
+
+  <div class="map-wrap">
+
+    <!-- LAYER 5: LEADERSHIP -->
+    <div class="map-layer-row">
+      <div class="map-num">05</div>
+      <div class="map-layer open" id="ml5" style="background:#f0eafb;border-left-color:#4a2a8a;" onclick="toggleMap('ml5','mb5')">
+        <div class="map-layer-inner">
+          <div class="map-layer-text">
+            <div class="map-layer-name" style="color:#26215C;">Leadership</div>
+            <div class="map-layer-sub" style="color:#4a2a8a;">How the company decides and evolves</div>
+          </div>
+          <div class="map-layer-right">
+            <div class="map-layer-tag" style="color:#4a2a8a;border-color:#AFA9EC;background:#fff;">Highest leverage</div>
+            <span class="map-layer-chevron" style="color:#4a2a8a;">▾</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="map-body open" id="mb5">
+      <div class="map-body-inner">
+        <div class="map-cols">
+          <div class="map-col">
+            <h4>What it contains</h4>
+            <ul>
+              <li>Strategic rhythm and board cadence</li>
+              <li>Cross-functional decisioning</li>
+              <li>Feedback loops and environmental reading</li>
+              <li>The capacity to adjust as conditions change</li>
+              <li>Decision logs: what was decided, why, and what happened</li>
+            </ul>
+          </div>
+          <div class="map-col">
+            <h4>What a capability looks like now</h4>
+            <p>Ground truth becomes achievable. Every signal, every action, every decision: visible, queryable, real. Advisor agents synthesise what is happening continuously. Scenario analysis runs before decisions are made. The quality of information reaching decision-makers improves dramatically. The decision log compounds over time into an asset no competitor can replicate.</p>
+          </div>
+        </div>
+        <div class="failure-box" style="background:#f8f5fc;border-left-color:#4a2a8a;">
+          <h4 style="color:#4a2a8a;">The failure mode</h4>
+          <p style="color:var(--ink-2);">Leaders use the capability as a dashboard and nothing more. They read the outputs but do not change how they decide. The meetings look the same. The politics still shape what surfaces. The advisor agents get ignored when their analysis is inconvenient. The capability provides ground truth but the organisation does not yet know how to act on it.</p>
+        </div>
+        <div class="question-box">
+          <h4>The question for your company</h4>
+          <p>What percentage of the decisions your executive team made last quarter were made on the information you actually needed, versus the information that happened to reach you?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-connector"><div class="map-connector-line"></div><div class="map-connector-label">strategic direction flows down · ground truth flows up</div><div class="map-connector-line"></div></div>
+
+    <!-- LAYER 4: FUNCTIONS -->
+    <div class="map-layer-row">
+      <div class="map-num">04</div>
+      <div class="map-layer" id="ml4" style="background:#eaf5f5;border-left-color:#1a6a6a;" onclick="toggleMap('ml4','mb4')">
+        <div class="map-layer-inner">
+          <div class="map-layer-text">
+            <div class="map-layer-name" style="color:#04342C;">Functions</div>
+            <div class="map-layer-sub" style="color:#1a6a6a;">What the company does — product, marketing, sales, operations, people</div>
+          </div>
+          <div class="map-layer-right">
+            <div class="map-layer-tag" style="color:#1a6a6a;border-color:#5DCAA5;background:#fff;">Most visible</div>
+            <span class="map-layer-chevron" style="color:#1a6a6a;">▾</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="map-body" id="mb4">
+      <div class="map-body-inner">
+        <div class="map-cols">
+          <div class="map-col">
+            <h4>The old operating pattern</h4>
+            <p>Each function was a team plus tools. The team carried the knowledge. The tools supported the execution. Marketing was a marketing team running marketing software. Sales was a sales team running a CRM. The function was indistinguishable from the people inside it.</p>
+          </div>
+          <div class="map-col">
+            <h4>What a capability looks like now</h4>
+            <p>A function is no longer a team with tools. It is a capability: task agents executing, operator agents holding standing responsibility, advisor agents handling strategic questions, domain knowledge feeding all of them. One person managing this capability replaces the operational capacity of a team many times their size. Not because they are heroic. Because the capability is doing the work.</p>
+          </div>
+        </div>
+        <div class="map-cols">
+          <div class="map-col">
+            <h4>Example: marketing capability</h4>
+            <ul>
+              <li>Task agents: campaign execution, content generation, performance reporting</li>
+              <li>Operator agents: content operator, campaign operator, analytics operator</li>
+              <li>Advisor agents: brand decisions, unusual campaigns, strategic questions</li>
+              <li>Knowledge: canonical brand, market context, customer segments, domain playbooks</li>
+              <li>Evaluations: scoring outputs against defined standards of good</li>
+            </ul>
+          </div>
+          <div class="map-col">
+            <h4>The same pattern applies to</h4>
+            <ul>
+              <li>Sales: pipeline agents, outreach operators, deal advisor agents</li>
+              <li>Customer success: support agents, escalation operators, retention advisors</li>
+              <li>Operations: process agents, compliance operators, optimisation advisors</li>
+              <li>People: candidate agents, onboarding operators, culture advisors</li>
+              <li>Partnerships: prospecting agents, relationship operators, negotiation advisors</li>
+            </ul>
+          </div>
+        </div>
+        <div class="failure-box" style="background:#eaf5f5;border-left-color:#1a6a6a;">
+          <h4 style="color:#1a6a6a;">The failure mode</h4>
+          <p style="color:var(--ink-2);">Companies deploy agents on top of the existing functional shape without redesigning the function. The marketing team adds an AI assistant. The sales team adds a prospecting bot. Each one is useful and none of them changes the shape of the function. Productivity improves at the margin. The cost structure does not. This is the single biggest waste of the current moment and it is happening at scale right now.</p>
+        </div>
+        <div class="question-box">
+          <h4>The question for your company</h4>
+          <p>If you were designing your marketing function from scratch today, would you start with a team and add tools? Or start with a capability and assign humans to build, manage, and teach it?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-connector"><div class="map-connector-line"></div><div class="map-connector-label">outputs flow up · standards and context flow down</div><div class="map-connector-line"></div></div>
+
+    <!-- LAYER 3: INFRASTRUCTURE -->
+    <div class="map-layer-row">
+      <div class="map-num">03</div>
+      <div class="map-layer" id="ml3" style="background:#fdf3e0;border-left-color:#8a5a00;" onclick="toggleMap('ml3','mb3')">
+        <div class="map-layer-inner">
+          <div class="map-layer-text">
+            <div class="map-layer-name" style="color:#412402;">Infrastructure</div>
+            <div class="map-layer-sub" style="color:#8a5a00;">What keeps the company solvent and compliant — finance, legal, tax, data, reporting</div>
+          </div>
+          <div class="map-layer-right">
+            <div class="map-layer-tag" style="color:#8a5a00;border-color:#EF9F27;background:#fff;">Always underbuilt</div>
+            <span class="map-layer-chevron" style="color:#8a5a00;">▾</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="map-body" id="mb3">
+      <div class="map-body-inner">
+        <div class="map-cols">
+          <div class="map-col">
+            <h4>What it contains</h4>
+            <ul>
+              <li>Banking, accounting, and financial reporting</li>
+              <li>Tax obligations across every jurisdiction the company operates in</li>
+              <li>Contracts: drafting, negotiation, execution, monitoring</li>
+              <li>Data protection and regulatory compliance</li>
+              <li>Payroll, benefits, and statutory obligations</li>
+            </ul>
+          </div>
+          <div class="map-col">
+            <h4>What a capability looks like now</h4>
+            <p>Books reconcile in real time. Tax obligations surface the moment they become relevant. Contracts generate from templates, get drafted, negotiated within defined parameters, and surface for human review only when they step outside those parameters. Compliance runs as monitoring rather than panic. The layer moves from periodic human intervention to continuous background process.</p>
+          </div>
+        </div>
+        <div class="failure-box" style="background:#fdf3e0;border-left-color:#8a5a00;">
+          <h4 style="color:#8a5a00;">The failure mode</h4>
+          <p style="color:var(--ink-2);">Companies treat infrastructure as the thing to automate first because it feels the most mechanical. They deploy agents before they have written down what good looks like. An agent that files a return incorrectly at speed is worse than a human who files it correctly slowly. Infrastructure is the layer where evaluations must exist before the automation does. Companies that skip this sequence end up with a mess harder to fix than the original inefficiency.</p>
+        </div>
+        <div class="question-box">
+          <h4>The question for your company</h4>
+          <p>Which parts of your infrastructure layer are you still treating as periodic human intervention when they could run as continuous background capability? And do you have the evaluation discipline in place to automate them safely?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-connector"><div class="map-connector-line"></div><div class="map-connector-label">operational data flows down · compliance signals flow up</div><div class="map-connector-line"></div></div>
+
+    <!-- LAYER 2: KNOWLEDGE -->
+    <div class="map-layer-row">
+      <div class="map-num">02</div>
+      <div class="map-layer" id="ml2" style="background:#eaf0fb;border-left-color:#1a4a8a;" onclick="toggleMap('ml2','mb2')">
+        <div class="map-layer-inner">
+          <div class="map-layer-text">
+            <div class="map-layer-name" style="color:#042C53;">Knowledge</div>
+            <div class="map-layer-sub" style="color:#1a4a8a;">Everything the company knows — the substrate everything else depends on</div>
+          </div>
+          <div class="map-layer-right">
+            <div class="map-layer-tag" style="color:#1a4a8a;border-color:#85B7EB;background:#fff;">The moat</div>
+            <span class="map-layer-chevron" style="color:#1a4a8a;">▾</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="map-body" id="mb2">
+      <div class="map-body-inner">
+        <div class="map-cols">
+          <div class="map-col">
+            <h4>Four kinds of knowledge</h4>
+            <ul>
+              <li><strong>Canonical:</strong> what the company is, who the customers are, how it is structured — stable bedrock</li>
+              <li><strong>Operational:</strong> live state, what is in the pipeline, what changed overnight</li>
+              <li><strong>Domain:</strong> how things get done — the playbooks, patterns, reusable intellectual capital</li>
+              <li><strong>Experiential:</strong> decisions and outcomes, edge cases, failures and what they taught</li>
+            </ul>
+          </div>
+          <div class="map-col">
+            <h4>How the old model failed</h4>
+            <p>It lived in people's heads. Some of it got written down, usually in documents nobody updated. Most of it moved through conversation and quiet transfer. When people left, they took the knowledge with them. Every organisation I have worked inside at scale was fundamentally leaking knowledge all the time. It was the cost of doing business.</p>
+          </div>
+        </div>
+        <div class="map-cols">
+          <div class="map-col">
+            <h4>What a capability looks like now</h4>
+            <ul>
+              <li>Canonical knowledge in structured, versioned markdown files</li>
+              <li>Operational knowledge in live systems reading state in real time</li>
+              <li>Domain knowledge in playbooks agents can reference as context</li>
+              <li>Experiential knowledge in a growing archive of decisions and lessons</li>
+              <li>Operator agents maintaining the knowledge continuously</li>
+              <li>The knowledge compounds every week without additional training</li>
+            </ul>
+          </div>
+          <div class="map-col">
+            <h4>Why this is the moat</h4>
+            <p>You cannot buy this layer. You can only build it over time. Every engagement adds to it. Every decision encoded deepens it. The competitors who start building six months from now will be six months behind on the only asset in this architecture that does not commoditise. Competitors can access the same models. They cannot access your knowledge.</p>
+          </div>
+        </div>
+        <div class="failure-box" style="background:#eaf0fb;border-left-color:#1a4a8a;">
+          <h4 style="color:#1a4a8a;">The failure mode</h4>
+          <p style="color:var(--ink-2);">Companies confuse storage with organisation. They dump documents into a shared drive and call it a knowledge layer. What they have is a landfill. Agents cannot find what they need. Context arrives stale. The experiential layer never gets captured because there is no routine practice for writing down what was learned. The capability looks like it exists but it does not compound.</p>
+        </div>
+        <div class="question-box">
+          <h4>The question for your company</h4>
+          <p>If your best people left tomorrow, what percentage of what they know would survive? And if you had to get an agent productive in your business this week, could you hand it a knowledge base and trust what it read?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-connector"><div class="map-connector-line"></div><div class="map-connector-label">knowledge feeds every layer above · lessons flow back down</div><div class="map-connector-line"></div></div>
+
+    <!-- LAYER 1: FOUNDATION -->
+    <div class="map-layer-row">
+      <div class="map-num">01</div>
+      <div class="map-layer" id="ml1" style="background:#eaf5ee;border-left-color:#1a7a52;border-bottom:3px solid #1a7a52;" onclick="toggleMap('ml1','mb1')">
+        <div class="map-layer-inner">
+          <div class="map-layer-text">
+            <div class="map-layer-name" style="color:#04342C;">Foundation</div>
+            <div class="map-layer-sub" style="color:#1a7a52;">What the company is — legal, structural, positional, intellectual property</div>
+          </div>
+          <div class="map-layer-right">
+            <div class="map-layer-tag" style="color:#1a7a52;border-color:#5DCAA5;background:#fff;">Built first</div>
+            <span class="map-layer-chevron" style="color:#1a7a52;">▾</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="map-body" id="mb1">
+      <div class="map-body-inner">
+        <div class="map-cols">
+          <div class="map-col">
+            <h4>What it contains</h4>
+            <ul>
+              <li>Entity formation and legal structure</li>
+              <li>Equity structure and cap table</li>
+              <li>Governance: board, decision rights, accountability</li>
+              <li>Intellectual property: registration, ownership, defence</li>
+              <li>Positioning: the story the company tells the market</li>
+            </ul>
+          </div>
+          <div class="map-col">
+            <h4>What a capability looks like now</h4>
+            <p>Templates for every standard entity type in every standard jurisdiction. Equity structures drawn from proven patterns with tax, vesting, and founder-protection implications already modelled. Governance frameworks installed with standing agendas and decision rights. IP registration and monitoring running as a continuous background process. Positioning refined against live market signal, not set once and forgotten.</p>
+          </div>
+        </div>
+        <div class="failure-box" style="background:#eaf5ee;border-left-color:#1a7a52;">
+          <h4 style="color:#1a7a52;">The failure mode</h4>
+          <p style="color:var(--ink-2);">Founders treat foundation as sunk cost and stop paying attention. The articles do not match the current reality. The cap table has undocumented side letters. Governance is a calendar invite that never quite lands. Then something happens, a raise, an acquisition offer, a dispute, and the foundation layer turns out to be weaker than anyone realised.</p>
+        </div>
+        <div class="question-box">
+          <h4>The question for your company</h4>
+          <p>What would it take to turn your foundation layer from a one-time setup into a living capability that maintains itself and surfaces issues before they become crises?</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Foundation note -->
+    <div style="margin-top:12px;display:flex;gap:10px;align-items:flex-start;padding:12px 16px;background:#fff;border:1px solid var(--rule);border-radius:6px;margin-left:36px;">
+      <div style="width:8px;height:8px;border-radius:2px;background:var(--ink);margin-top:4px;flex-shrink:0;"></div>
+      <p style="font-size:12px;color:var(--ink-2);line-height:1.6;font-family:var(--mono);">The org chart draws reporting lines across layer four only. The company map shows all five. The companies redesigning around this shape are the ones thinking in all five dimensions at once.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- CONNECTIVE TISSUE -->
+<div class="part" id="tissue">
+  <p class="part-label">Section III</p>
+  <h2 class="part-title">The connective tissue</h2>
+  <p class="part-desc">Four disciplines run through every layer. A capability built without any of the four is incomplete. Most organisations are underinvested in at least two of them and do not know it.</p>
+
+  <div class="tissue-grid">
+    <div class="tissue-card" style="border-top:3px solid var(--blue);">
+      <h3 style="color:var(--blue);">Context engineering</h3>
+      <p>The discipline of deciding what agents see, what they remember, how knowledge is structured, and how it flows between layers. Not prompt engineering. Information architecture for agents. The companies furthest along treat this as a dedicated practice. The companies that skip it produce agents that are technically capable and contextually useless.</p>
+    </div>
+    <div class="tissue-card" style="border-top:3px solid var(--green);">
+      <h3 style="color:var(--green);">Evaluation infrastructure</h3>
+      <p>The scoring, regression testing, and feedback loops that tell you whether capabilities are working. Without evaluation, capabilities drift. Memory that is not measured decays. You are not running a capability. You are hoping. This is the discipline with the highest return in the new stack and the one most companies skip entirely.</p>
+    </div>
+    <div class="tissue-card" style="border-top:3px solid var(--amber);">
+      <h3 style="color:var(--amber);">Orchestration</h3>
+      <p>How capabilities coordinate across layers. The sales capability needing brand context from marketing. The support capability needing product data from operations. The leadership capability pulling ground truth from every layer at once. Orchestration is what turns five separate capabilities into a coherent organisation rather than five expensive silos.</p>
+    </div>
+    <div class="tissue-card" style="border-top:3px solid var(--purple);">
+      <h3 style="color:var(--purple);">Governance</h3>
+      <p>The policies, permissions, and safeguards that determine what capabilities are allowed to do on their own, what requires human review, and what is off-limits entirely. Governance done well is invisible. Governance done badly is the story that ends up on the front page. The layer most companies are underinvested in and the one regulators are about to look at hardest.</p>
+    </div>
+  </div>
+
+  <div class="insight">
+    <p>These four run through every layer. If any one of them is missing or weak, the layer built on top of it cannot hold. The companies redesigning around the new shape are thinking in both dimensions at once: five layers and four disciplines. Eleven cells on the map. Most companies have work to do in at least seven of them.</p>
+  </div>
+</div>
+
+<!-- DIAGNOSTIC -->
+<div class="part" id="diagnostic">
+  <p class="part-label">Section IV</p>
+  <h2 class="part-title">Where is your company on the map?</h2>
+  <p class="part-desc">For each of the five layers, how would you honestly describe where your company currently sits? Select the description that is closest to your current reality. No right answers. The output is a starting point.</p>
+
+  <p class="subsec">Choose your current state across all five layers</p>
+
+  <div style="margin-bottom:1.5rem;">
+    <p style="font-family:var(--mono);font-size:10px;letter-spacing:0.08em;color:var(--ink-3);text-transform:uppercase;margin-bottom:10px;">Layer 01 · Foundation</p>
+    <div class="diag-grid" id="dg1">
+      <div class="diag-card" onclick="selectDiag('dg1',0,this)"><h4>Set and forgotten</h4><p>Legal structure exists. Nobody has looked at it since incorporation. Governance is informal at best.</p></div>
+      <div class="diag-card" onclick="selectDiag('dg1',1,this)"><h4>Maintained reactively</h4><p>Revisited when something breaks. Generally current but not actively managed or monitored.</p></div>
+      <div class="diag-card" onclick="selectDiag('dg1',2,this)"><h4>Living capability</h4><p>Continuously maintained. Issues surface before they become crises. Governance runs on a defined cadence.</p></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <p style="font-family:var(--mono);font-size:10px;letter-spacing:0.08em;color:var(--ink-3);text-transform:uppercase;margin-bottom:10px;">Layer 02 · Knowledge</p>
+    <div class="diag-grid" id="dg2">
+      <div class="diag-card" onclick="selectDiag('dg2',0,this)"><h4>Lives in heads</h4><p>Knowledge is in people. Fragmented in email and chat. Would leave with the team if they left.</p></div>
+      <div class="diag-card" onclick="selectDiag('dg2',1,this)"><h4>Stored but not structured</h4><p>Documents exist. Wikis exist. Most of it is out of date and hard for agents to use directly.</p></div>
+      <div class="diag-card" onclick="selectDiag('dg2',2,this)"><h4>Structured and compounding</h4><p>Plain text files. Maintained by agents. Grows with every engagement. Portable across models.</p></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <p style="font-family:var(--mono);font-size:10px;letter-spacing:0.08em;color:var(--ink-3);text-transform:uppercase;margin-bottom:10px;">Layer 03 · Infrastructure</p>
+    <div class="diag-grid" id="dg3">
+      <div class="diag-card" onclick="selectDiag('dg3',0,this)"><h4>Periodic and manual</h4><p>Finance closes monthly. Compliance reviewed annually. Legal brought in when needed. All reactive.</p></div>
+      <div class="diag-card" onclick="selectDiag('dg3',1,this)"><h4>Tools in place</h4><p>Accounting software, contract management, compliance tools deployed. Still requires significant human time.</p></div>
+      <div class="diag-card" onclick="selectDiag('dg3',2,this)"><h4>Continuous capability</h4><p>Books reconcile in real time. Obligations surface automatically. Contracts generate and monitor themselves.</p></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <p style="font-family:var(--mono);font-size:10px;letter-spacing:0.08em;color:var(--ink-3);text-transform:uppercase;margin-bottom:10px;">Layer 04 · Functions</p>
+    <div class="diag-grid" id="dg4">
+      <div class="diag-card" onclick="selectDiag('dg4',0,this)"><h4>Teams with tools</h4><p>Functions are people plus software. AI assists individuals but the function shape has not changed.</p></div>
+      <div class="diag-card" onclick="selectDiag('dg4',1,this)"><h4>Partial capabilities</h4><p>Some workflows are agent-run. Humans still own most execution. Hybrid and slightly uncomfortable.</p></div>
+      <div class="diag-card" onclick="selectDiag('dg4',2,this)"><h4>Capability-led</h4><p>Functions redesigned around agents. Humans build, manage, and teach. One person does what a team once did.</p></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <p style="font-family:var(--mono);font-size:10px;letter-spacing:0.08em;color:var(--ink-3);text-transform:uppercase;margin-bottom:10px;">Layer 05 · Leadership</p>
+    <div class="diag-grid" id="dg5">
+      <div class="diag-card" onclick="selectDiag('dg5',0,this)"><h4>Working on filtered information</h4><p>Decisions made on what reaches the table. Ground truth rarely makes it up without distortion.</p></div>
+      <div class="diag-card" onclick="selectDiag('dg5',1,this)"><h4>Better dashboards</h4><p>More data available. Still making sense of it manually. Decisions improved but not transformed.</p></div>
+      <div class="diag-card" onclick="selectDiag('dg5',2,this)"><h4>Ground truth accessible</h4><p>Advisor capabilities synthesise what is happening. Scenario analysis runs before decisions. Decision log compounds.</p></div>
+    </div>
+  </div>
+
+  <button onclick="showMapResult()" style="font-family:var(--sans);font-size:13px;font-weight:500;padding:10px 20px;border-radius:4px;border:1px solid var(--rule);background:var(--ink);color:var(--paper);cursor:pointer;margin-top:0.5rem;">Show me where I am →</button>
+
+  <div class="diag-result" id="map-result" style="margin-top:1.5rem;">
+    <h3 id="result-title">Your map</h3>
+    <p id="result-body"></p>
+    <div id="result-steps" style="margin-top:0.75rem;display:flex;flex-direction:column;gap:6px;"></div>
+  </div>
+</div>
+
+<div class="part" style="border-top:2px solid var(--ink);padding-top:3rem;margin-top:4rem;margin-bottom:4rem;">
+  <p class="part-label">What next</p>
+  <h2 class="part-title" style="font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem);">The map is not the terrain</h2>
+  <p class="part-desc">Drawing the map is where the redesign starts. The companies that do this exercise honestly in the next six months will be operating in the new shape before the companies still arguing about reporting lines even notice the ground has moved.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1.5rem;">
+    <a href="https://agentnetwork.ai/groundwork.html" style="font-family:var(--sans);font-size:13px;font-weight:500;padding:10px 20px;border-radius:4px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">Build the foundation with Groundwork →</a>
+    <a href="https://agentnetwork.ai/agentmapper.html" style="font-family:var(--sans);font-size:13px;font-weight:500;padding:10px 20px;border-radius:4px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">Take the Agent Mapper</a>
+    <a href="https://craighepburn.substack.com" target="_blank" rel="noopener" style="font-family:var(--sans);font-size:13px;font-weight:500;padding:10px 20px;border-radius:4px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">Read the full essay on Ground Truth ↗</a>
+  </div>
+</div>
+
+</div>
+</main>
+
+<footer>
+  <div class="inner">
+    <span>The Company Map · agentnetwork.ai · April 2026 · Craig Hepburn</span>
+    <span>
+      <a href="https://agentnetwork.ai">Landscape</a> &nbsp;·&nbsp;
+      <a href="https://agentnetwork.ai/agentmapper.html">Agent Mapper</a> &nbsp;·&nbsp;
+      <a href="https://agentnetwork.ai/attention-audit.html">Attention Audit</a> &nbsp;·&nbsp;
+      <a href="https://agentnetwork.ai/groundwork.html">Groundwork</a> &nbsp;·&nbsp;
+      <a href="https://craighepburn.substack.com" target="_blank" rel="noopener">Ground Truth</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+function toggleMap(layerId, bodyId) {
+  const layer = document.getElementById(layerId);
+  const body = document.getElementById(bodyId);
+  layer.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+function selectDiag(groupId, score, el) {
+  document.querySelectorAll('#' + groupId + ' .diag-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  el.dataset.score = score;
+}
+
+function showMapResult() {
+  const groups = ['dg1','dg2','dg3','dg4','dg5'];
+  let total = 0;
+  let answered = 0;
+  groups.forEach(g => {
+    const sel = document.querySelector('#' + g + ' .diag-card.selected');
+    if (sel) { total += parseInt(sel.dataset.score || 0); answered++; }
+  });
+  if (answered < 3) { alert('Please answer at least three layers for a useful result.'); return; }
+  const avg = total / answered;
+  let title, body, steps;
+  if (avg < 0.7) {
+    title = 'You are in the old shape';
+    body = 'Most of your layers are still staffed by humans operating the same way they have for decades. The knowledge lives in heads. The functions are teams with tools. The infrastructure is periodic and reactive. This is the starting point for most organisations right now. The advantage of starting here is that you are not carrying the technical debt of half-built capabilities.';
+    steps = ['Start with the knowledge layer — two hours, one encoding session, the first three files','Take the Attention Audit to understand where your execution overhead actually sits','Read Groundwork before buying any more tooling or deploying any more agents'];
+  } else if (avg < 1.4) {
+    title = 'You are in transition';
+    body = 'Some layers are beginning to shift. You have tools deployed, some automation running, some knowledge documented. But the shape has not fundamentally changed. You are in the most common position and the most dangerous: enough progress to feel like it is happening, not enough to change the output. The risk is that transition becomes permanent rather than a stage.';
+    steps = ['Identify which layer is closest to a real capability and finish it properly','Stop deploying new tools until the evaluation infrastructure exists for the ones you have','The functions layer is where the biggest leverage sits — redesign one function properly before expanding'];
+  } else {
+    title = 'You are in the new shape';
+    body = 'Capabilities are running across most or all layers. Knowledge compounds. Functions are being redesigned rather than augmented. Ground truth is becoming accessible at the leadership layer. The work now is deepening rather than building: richer knowledge, better evaluation, stronger governance, and expanding the connective tissue between layers.';
+    steps = ['Focus on evaluation infrastructure — the capabilities that are not being measured are drifting','Map the connective tissue gaps: which layers are not talking to each other that should be','The full essay on Ground Truth unpacks what comes next for organisations at this stage'];
+  }
+  const result = document.getElementById('map-result');
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-body').textContent = body;
+  document.getElementById('result-steps').innerHTML = steps.map(s => '<div class="next">' + s + '</div>').join('');
+  result.classList.add('show');
+  setTimeout(() => result.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+const sections = document.querySelectorAll('.part[id]');
+const navLinks = document.querySelectorAll('.sitenav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+  navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+});
+</script>
+</body>
+</html>
